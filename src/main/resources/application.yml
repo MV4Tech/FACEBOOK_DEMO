@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/facebook_db
+    username: root
+    password: 1234321aia
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+
+
+server:
+  port: 8080
