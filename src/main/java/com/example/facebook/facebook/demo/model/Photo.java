@@ -1,10 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -12,26 +9,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Company {
-
+public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private LocalDateTime startedDate;
-
-    @Column
-    private LocalDateTime endDate;
+    @ManyToOne
+    @JoinColumn(name = "page_id", nullable = false)
+    private Page page;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 
-
+    @Lob
+    @Column(name = "photo_data", nullable = false)
+    private byte[] photoData;
 }

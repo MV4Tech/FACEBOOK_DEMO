@@ -1,10 +1,8 @@
 package com.example.facebook.facebook.demo.model;
 
-
+import com.example.facebook.facebook.demo.enums.TypeReaction;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -12,26 +10,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Company {
-
+public class Reaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private TypeReaction react;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private LocalDateTime startedDate;
-
-    @Column
-    private LocalDateTime endDate;
+    private User user_id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-
-
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 }

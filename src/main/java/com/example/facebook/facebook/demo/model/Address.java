@@ -4,34 +4,33 @@ package com.example.facebook.facebook.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Company {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private LocalDateTime startedDate;
+    private String country;
 
     @Column
-    private LocalDateTime endDate;
+    private String municipality;
+
+    @Column(nullable = false)
+    private String city;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-
+    @ManyToOne
+    @JoinColumn(name = "page_id")
+    private Page page;
 
 }

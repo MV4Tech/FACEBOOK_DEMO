@@ -4,13 +4,10 @@ import com.example.facebook.facebook.demo.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.annotation.processing.Generated;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
@@ -33,15 +30,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-
     @Column(nullable = false)
     private boolean isVerified = false;
-
 
     @Column(nullable = false)
     private String firstName;
@@ -49,6 +43,8 @@ public class User implements UserDetails {
     @Column
     private String lastName;
 
+    @Column
+    private LocalDateTime dateOfCreation;
 
     @Column
     private char gender;
@@ -62,7 +58,7 @@ public class User implements UserDetails {
 
     @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
-    private Set<Adress> adresses;
+    private Set<Address> addresses;
 
     @OneToMany(mappedBy="user",fetch = FetchType.EAGER)
     private Set<Education> educations;
@@ -71,11 +67,31 @@ public class User implements UserDetails {
     @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
     private byte[] profilePicture;
 
+    @Lob
+    @Column(name = "cover_picture", columnDefinition = "LONGBLOB")
+    private byte[] coverPhoto;
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<Company> companies;
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    private Set<Post> feed;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserPageRelation> userPageRelations;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+     private Set<Photo> photos;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+     private Set<Video> videos;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Notification> notifications;
+
+   // private Set<Message> messages;
+
+   // private Set<Group> groups;
 
 
 

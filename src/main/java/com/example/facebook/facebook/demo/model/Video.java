@@ -1,8 +1,6 @@
 package com.example.facebook.facebook.demo.model;
 
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -11,23 +9,21 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Adress {
-
+public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String country;
-
-    @Column
-    private String municipality;
-
-    @Column(nullable = false)
-    private String city;
+    @ManyToOne
+    @JoinColumn(name = "page_id", nullable = false)
+    private Page page;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Lob
+    @Column(name = "video_data", nullable = false)
+    private byte[] videoData;
 
 }
