@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Share {
+public class Share{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
