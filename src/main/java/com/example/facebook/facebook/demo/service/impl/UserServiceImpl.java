@@ -3,11 +3,11 @@ package com.example.facebook.facebook.demo.service.impl;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.UserRepository;
 import com.example.facebook.facebook.demo.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 

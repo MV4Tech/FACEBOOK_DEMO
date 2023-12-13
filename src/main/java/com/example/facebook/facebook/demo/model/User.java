@@ -61,6 +61,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<Address> addresses;
 
+    @Column
     @OneToMany(mappedBy="user",fetch = FetchType.EAGER)
     private Set<Education> educations;
 
@@ -72,21 +73,27 @@ public class User implements UserDetails {
     @Column(name = "cover_picture", columnDefinition = "LONGBLOB")
     private byte[] coverPhoto;
 
+    @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<Company> companies;
 
+    @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<Post> feed;
 
+    @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserPageRelation> userPageRelations;
 
+    @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
      private Set<Photo> photos;
 
+    @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
      private Set<Video> videos;
 
+    @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Notification> notifications;
 
@@ -101,7 +108,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
 
 

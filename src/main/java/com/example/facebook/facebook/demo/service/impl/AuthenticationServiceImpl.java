@@ -1,10 +1,10 @@
 package com.example.facebook.facebook.demo.service.impl;
 
 import com.example.facebook.facebook.demo.service.AuthenticationService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 }
