@@ -1,7 +1,6 @@
 package com.example.facebook.facebook.demo.service.impl;
 
-import com.example.facebook.facebook.demo.service.JWTService;
-import io.jsonwebtoken.JwtBuilder;
+import com.example.facebook.facebook.demo.service.JwtService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -18,7 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JWTServiceImpl implements JWTService{
+public class JwtServiceImpl implements JwtService {
 
     /*
     Values are injected from the application.properties file

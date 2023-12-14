@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Map;
 import java.util.function.Function;
 
-public interface JWTService {
+public interface JwtService {
 
     public String extractUsername(String token);
 

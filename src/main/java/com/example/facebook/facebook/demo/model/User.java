@@ -15,10 +15,10 @@ import java.util.Set;
 
 @Entity
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,9 +100,6 @@ public class User implements UserDetails {
    // private Set<Message> messages;
 
    // private Set<Group> groups;
-
-
-
 
 
 
