@@ -44,7 +44,7 @@ public class AuthenticationService  {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .dateOfCreation(LocalDateTime.now())
                 .isVerified(false)
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
 
         var savedUser = userService.saveUser(user);

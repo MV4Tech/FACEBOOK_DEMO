@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.dto.UserProfileDto;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.UserRepository;
@@ -42,4 +43,40 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
+
+    @Override
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new UserNotFoundException("No user found with id: "+id+"!");
+        }
+        return user.get();
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new UserNotFoundException("No user found with id: "+id+"!");
+        }
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto, Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(!optionalUser.isPresent()){
+            throw new UserNotFoundException("No user found with id: "+id+"!");
+        }
+        User user = optionalUser.get();
+        user.setFirstName(userProfileDto.getFirstName());
+        user.setLastName(userProfileDto.getLastName());
+        user.setGender(userProfileDto.getGender());
+        user.setDateOfBirth(userProfileDto.getDateOfBirth());
+        user.setPhoneNumber(userProfileDto.getPhoneNumber());
+        userRepository.save(user);
+        return userProfileDto;
+
+    }
+
 }
