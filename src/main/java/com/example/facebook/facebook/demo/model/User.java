@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 import java.util.List;
 import com.example.facebook.facebook.demo.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
@@ -25,7 +26,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -38,18 +39,20 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isVerified = false;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
     @Column
     private String lastName;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column
     private LocalDateTime dateOfCreation;
 
     @Column
     private char gender;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column
     private LocalDateTime dateOfBirth;
 

@@ -18,7 +18,6 @@ public enum Role {
 
     USER(
             Set.of(
-                    USER_READ,
                     USER_WRITE,
                     USER_DELETE,
                     USER_UPDATE
