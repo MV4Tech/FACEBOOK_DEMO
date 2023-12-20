@@ -1,7 +1,12 @@
 package com.example.facebook.facebook.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -16,7 +21,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
+    @NotNull(message = "Please enter your country")
+    @NotBlank(message = "Invalid Name: Empty name")
     private String country;
 
     @Column
@@ -26,6 +33,7 @@ public class Address {
     private String city;
 
     @ManyToOne
+    @JsonIgnoreProperties({"addresses"})
     @JoinColumn(name = "user_id")
     private User user;
 

@@ -1,7 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 import java.util.List;
 import com.example.facebook.facebook.demo.enums.Role;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
@@ -62,10 +62,14 @@ public class User implements UserDetails {
 
     @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("user")
+    @EqualsAndHashCode.Exclude
     private Set<Address> addresses;
 
     @Column
     @OneToMany(mappedBy="user",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("user")
+    @EqualsAndHashCode.Exclude
     private Set<Education> educations;
 
     @Lob
@@ -78,26 +82,33 @@ public class User implements UserDetails {
 
     @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("user")
+    @EqualsAndHashCode.Exclude
     private Set<Company> companies;
 
     @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+  //  @JsonManagedReference
     private Set<Post> feed;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  //  @JsonManagedReference
     private Set<UserPageRelation> userPageRelations;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  //  @JsonManagedReference
      private Set<Photo> photos;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+   // @JsonManagedReference
      private Set<Video> videos;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+   // @JsonManagedReference
     private Set<Notification> notifications;
 
    // private Set<Message> messages;

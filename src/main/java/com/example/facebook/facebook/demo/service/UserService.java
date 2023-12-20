@@ -2,8 +2,13 @@ package com.example.facebook.facebook.demo.service;
 
 
 import com.example.facebook.facebook.demo.dto.UserProfileDto;
+import com.example.facebook.facebook.demo.model.Address;
+import com.example.facebook.facebook.demo.model.Company;
+import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +26,18 @@ public interface UserService {
 
 
     UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto, Long id);
+
+    Address addAddress(Address address, Long id);
+
+    Company addCompany(Company company, Long id);
+
+    Education addEducation(Education education, Long id);
+
+    String setProfileImage(MultipartFile file, long id) throws IOException;
+
+    byte[] displayProfileImage(long id);
+
+    String setCoverImage(MultipartFile file, long id) throws IOException;
+
+    byte[] displayCoverImage(long id);
 }
