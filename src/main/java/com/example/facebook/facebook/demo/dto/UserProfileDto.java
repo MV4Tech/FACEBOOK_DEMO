@@ -8,13 +8,13 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class UserProfileDto {
+
     @NotBlank(message = "Invalid Name: Empty name")
     @NotNull(message = "Invalid Name: Name is NULL")
     @Size(min = 3, max = 30, message = "Invalid Name: Must be of 3 - 30 characters")

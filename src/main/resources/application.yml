@@ -1,15 +1,24 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   datasource:
     url: jdbc:mysql://localhost:3306/facebook_db
     username: root
-    password: 1234321aia
+    password: 1234321
     driver-class-name: com.mysql.cj.jdbc.Driver
   properties:
     hibernate:
       dialect: org.hibernate.dialect.MySQL8Dialect
+
+  flyway:
+   # baseline-on-migrate: true
+    enabled: true
+    user: root
+    password: 1234321
+    baseline-description: "init"
+    baseline-version: 0
+
 
 
 server:

@@ -1,7 +1,10 @@
 package com.example.facebook.facebook.demo.model;
 
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,28 +13,28 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(nullable = false)
+    @NotNull(message = "Please company name")
+    @NotBlank(message = "Invalid Name: Empty name")
+    @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startedDate;
 
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDate;
 
     @ManyToOne
+    @JsonIgnoreProperties({"companies"})
     @JoinColumn(name = "user_id")
     private User user;
-
-
 
 }
