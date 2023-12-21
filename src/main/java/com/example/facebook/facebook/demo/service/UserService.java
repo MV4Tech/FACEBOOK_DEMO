@@ -18,20 +18,16 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
+    Optional<User> findById(Long id);
+
     List<User> getAllUsers();
 
     User getUserById(Long id);
 
     void deleteUserById(Long id);
 
-
     UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto, Long id);
 
-    Address addAddress(Address address, Long id);
-
-    Company addCompany(Company company, Long id);
-
-    Education addEducation(Education education, Long id);
 
     String setProfileImage(MultipartFile file, long id) throws IOException;
 

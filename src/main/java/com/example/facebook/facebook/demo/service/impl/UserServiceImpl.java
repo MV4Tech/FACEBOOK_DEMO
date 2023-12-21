@@ -24,9 +24,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final AddressService addressService;
-    private final CompanyService companyService;
-    private final EducationService educationService;
+
 
     // save user w
     @Override
@@ -45,6 +43,16 @@ public class UserServiceImpl implements UserService {
         }
        return user;
     }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new UserNotFoundException("No user found with id: "+id+"!");
+        }
+        return user;
+    }
+
 
     // get all users
     @Override
@@ -91,54 +99,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public Address addAddress(Address address, Long id) {
-        Address newAddress = new Address();
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
-        }
 
-        newAddress.setCity(address.getCity());
-        newAddress.setCountry(address.getCountry());
-        newAddress.setMunicipality(address.getMunicipality());
-        newAddress.setUser(optionalUser.get());
-        addressService.save(newAddress);
-        return newAddress;
-    }
-
-    @Override
-    public Company addCompany(Company company, Long id) {
-        Company newCompany = new Company();
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
-        }
-
-        newCompany.setName(company.getName());
-        newCompany.setStartedDate(company.getStartedDate());
-        newCompany.setEndDate(company.getEndDate());
-        newCompany.setUser(optionalUser.get());
-        companyService.save(newCompany);
-
-        return newCompany;
-    }
-
-    @Override
-    public Education addEducation(Education education, Long id) {
-        Education newEducation = new Education();
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
-        }
-        newEducation.setName(education.getName());
-        newEducation.setTypeOfSchool(education.getTypeOfSchool());
-        newEducation.setStartedDate(education.getStartedDate());
-        newEducation.setGraduationDate(education.getGraduationDate());
-        newEducation.setUser(optionalUser.get());
-        educationService.saveEducation(newEducation);
-        return newEducation;
-    }
 
     @Override
     public String setProfileImage(MultipartFile file, long id) throws IOException {
