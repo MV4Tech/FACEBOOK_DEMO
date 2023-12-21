@@ -1,7 +1,7 @@
 package com.example.facebook.facebook.demo.config;
 
-import com.example.facebook.facebook.demo.exception.InvalidCredentialsException;
-import com.example.facebook.facebook.demo.exception.UserNotFoundException;
+import com.example.facebook.facebook.demo.exception.*;
+import com.example.facebook.facebook.demo.model.Address;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +37,28 @@ public class GlobalExceptionHandler {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
+
+    // This method is used to handle the AddressNotFoundException
+    @ExceptionHandler(AddressNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handleAddressNotFoundException(AddressNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+    // This method is used to handle the CompanyNotFoundException
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handleCompanyNotFoundException(CompanyNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    // This method is used to handle the EducationNotFoundException
+    @ExceptionHandler(EducationNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handleEducationNotFoundException(EducationNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String,List<String>>> handleInvalidCredentialsException(InvalidCredentialsException ex){

@@ -48,24 +48,6 @@ public class UserController {
         return ResponseEntity.ok(userService.setUserProfileInfo(userProfileDto,id));
     }
 
-    // set User address controller
-    @PostMapping("/add-address/{id}")
-    public ResponseEntity<Address> addAddress(@RequestBody @Valid Address address, @PathVariable Long id){
-        return ResponseEntity.ok(userService.addAddress(address,id));
-    }
-
-    // set User company controller
-    @PostMapping("/add-company/{id}")
-    public ResponseEntity<Company> addCompany(@RequestBody @Valid Company company, @PathVariable Long id){
-        return ResponseEntity.ok(userService.addCompany(company,id));
-    }
-
-    // set User education controller
-    @PostMapping("/add-education/{id}")
-    public ResponseEntity<Education> addEducation(@RequestBody @Valid Education education, @PathVariable Long id){
-        return ResponseEntity.ok(userService.addEducation(education,id));
-    }
-
     // add profile picture controller
     @PostMapping("/add-profile-picture/{id}")
     public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file,@PathVariable long id) throws IOException {

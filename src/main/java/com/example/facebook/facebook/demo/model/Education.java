@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
 public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
