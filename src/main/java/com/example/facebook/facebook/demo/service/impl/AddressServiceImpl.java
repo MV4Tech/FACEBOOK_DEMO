@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.dto.AddressDto;
 import com.example.facebook.facebook.demo.exception.AddressNotFoundException;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.Address;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,7 +32,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address addAddress(Address address, Long id) {
+    public void addAddress(Address address, Long id) {
         Address newAddress = new Address();
         Optional<User> optionalUser = userService.findById(id);
         newAddress.setCity(address.getCity());
@@ -39,19 +41,28 @@ public class AddressServiceImpl implements AddressService {
         newAddress.setUser(optionalUser.get());
         addressRepository.save(newAddress);
         logger.info("Address added successfully to user - " + optionalUser.get().getEmail());
-        return newAddress;
     }
 
     @Override
-    public List<Address> getAddressesByUserId(Long id) {
-        Optional<User> optionalUser = userService.findById(id);
+    public List<AddressDto> getAddressesByUserId(Long id) {
         List<Address> addresses = addressRepository.findAllByUserId(id);
-        logger.info("Addresses fetched successfully for user - " + optionalUser.get().getEmail());
-        return addresses;
+        if(!(addresses.size() > 0)){
+            throw new AddressNotFoundException("Address not found");
+        }
+        List<AddressDto> addressDtos = addresses.stream().map(address-> {
+            AddressDto addressDto = new AddressDto();
+            addressDto.setId(address.getId());
+            addressDto.setCountry(address.getCountry());
+            addressDto.setMunicipality(address.getMunicipality());
+            addressDto.setCity(address.getCity());
+            return addressDto;
+        }).collect(Collectors.toList());
+        logger.info("Addresses fetched successfully for user");
+        return addressDtos;
     }
 
     @Override
-    public Address updateAddress(Address address, Long id) {
+    public void updateAddress(Address address, Long id) {
         Optional<Address> optionalAddress = addressRepository.findById(id);
         if(!optionalAddress.isPresent()){
             throw new AddressNotFoundException("Address not found");
@@ -62,6 +73,15 @@ public class AddressServiceImpl implements AddressService {
         updatedAddress.setMunicipality(address.getMunicipality());
         addressRepository.save(updatedAddress);
         logger.info("Address updated successfully to user - " + optionalAddress.get().getUser().getEmail());
-        return updatedAddress;
+    }
+
+    @Override
+    public void deleteAddress(Long id) {
+        Optional<Address> optionalAddress = addressRepository.findById(id);
+        if(!optionalAddress.isPresent()){
+            throw new AddressNotFoundException("Address not found");
+        }
+        addressRepository.deleteById(id);
+        logger.info("Address deleted successfully to user - " + optionalAddress.get().getUser().getEmail());
     }
 }

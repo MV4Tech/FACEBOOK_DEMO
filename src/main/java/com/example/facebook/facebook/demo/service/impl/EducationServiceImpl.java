@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.dto.EducationDto;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class EducationServiceImpl implements EducationService{
     }
 
     @Override
-    public Education addEducation(Education education, Long id) {
+    public void addEducation(Education education, Long id) {
         Education newEducation = new Education();
         Optional<User> optionalUser = userService.findById(id);
         if(!optionalUser.isPresent()){
@@ -41,6 +43,49 @@ public class EducationServiceImpl implements EducationService{
         newEducation.setUser(optionalUser.get());
         educationRepository.save(newEducation);
         logger.info("Education added successfully to user - " + optionalUser.get().getEmail());
-        return newEducation;
+    }
+
+    @Override
+    public List<EducationDto> getEducationsByUserId(Long id) {
+        List<Education> educations = educationRepository.findAllByUserId(id);
+        if(!(educations.size() > 0)){
+            throw new UserNotFoundException("Education not found");
+        }
+        List<EducationDto> educationDtos = educations.stream().map(education -> {
+            EducationDto educationDto = new EducationDto();
+            educationDto.setId(education.getId());
+            educationDto.setName(education.getName());
+            educationDto.setTypeOfSchool(education.getTypeOfSchool());
+            educationDto.setStartedDate(education.getStartedDate());
+            educationDto.setGraduationDate(education.getGraduationDate());
+            return educationDto;
+        }).collect(java.util.stream.Collectors.toList());
+        logger.info("Education fetched successfully for user");
+        return educationDtos;
+    }
+
+    @Override
+    public void deleteEducation(Long id) {
+        Optional<Education> optionalEducation = educationRepository.findById(id);
+        if(!optionalEducation.isPresent()){
+            throw new UserNotFoundException("Education not found");
+        }
+        educationRepository.deleteById(id);
+        logger.info("Education deleted successfully");
+    }
+
+    @Override
+    public void updateEducation(Education education, Long id) {
+        Optional<Education> optionalEducation = educationRepository.findById(id);
+        if(!optionalEducation.isPresent()){
+            throw new UserNotFoundException("Education not found");
+        }
+        Education updatedEducation = optionalEducation.get();
+        updatedEducation.setName(education.getName());
+        updatedEducation.setTypeOfSchool(education.getTypeOfSchool());
+        updatedEducation.setStartedDate(education.getStartedDate());
+        updatedEducation.setGraduationDate(education.getGraduationDate());
+        educationRepository.save(updatedEducation);
+        logger.info("Education updated successfully to user - " + optionalEducation.get().getUser().getEmail());
     }
 }

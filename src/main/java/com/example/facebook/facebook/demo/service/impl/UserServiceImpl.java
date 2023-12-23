@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.service.impl;
 
 import com.example.facebook.facebook.demo.dto.UserProfileDto;
+import com.example.facebook.facebook.demo.exception.UniqueConstraintException;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.Address;
 import com.example.facebook.facebook.demo.model.Company;
@@ -88,12 +89,19 @@ public class UserServiceImpl implements UserService {
         if(!optionalUser.isPresent()){
             throw new UserNotFoundException("No user found with id: "+id+"!");
         }
+        List<User> users = userRepository.findAll();
+        for(User user : users){
+            if(userProfileDto.getPhoneNumber().equals(user.getPhoneNumber())){
+                throw new UniqueConstraintException("Phone number already exists!");
+            }
+        }
         User user = optionalUser.get();
         user.setFirstName(userProfileDto.getFirstName());
         user.setLastName(userProfileDto.getLastName());
         user.setGender(userProfileDto.getGender());
-        user.setDateOfBirth(userProfileDto.getDateOfBirth());
         user.setPhoneNumber(userProfileDto.getPhoneNumber());
+        user.setDateOfBirth(userProfileDto.getDateOfBirth());
+
         userRepository.save(user);
         return userProfileDto;
 

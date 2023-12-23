@@ -15,11 +15,11 @@ public class Reaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    //@Enumerated(EnumType.STRING)
     private TypeReaction react;
 
-    @Column(nullable = false)
-    private User user_id;
+    @Column
+    private String username;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

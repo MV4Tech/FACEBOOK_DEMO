@@ -1,5 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,13 +20,14 @@ public class Post {
     private Long id;
 
     @Column
-    private User sender;
-
-    @Column
     private String postHead;
 
+    @Column(name = "description")
+    private String description;
+
     @Column
-    private LocalDateTime dateOfPosting;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateOfPosting = LocalDateTime.now();
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
     private Set<Reaction> likes;
@@ -43,6 +46,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"feed"})
     private User user;
 
     @ManyToOne

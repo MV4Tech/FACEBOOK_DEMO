@@ -65,6 +65,17 @@ public class GlobalExceptionHandler {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UniqueConstraintException.class)
+    public ResponseEntity<Map<String,List<String>>> handleUniqueConstraintException(UniqueConstraintException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handlePostNotFoundException(PostNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
 /*
     // This method is used to handle the general exceptions
     @ExceptionHandler(Exception.class)
