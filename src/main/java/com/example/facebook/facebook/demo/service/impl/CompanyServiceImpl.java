@@ -1,5 +1,7 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.dto.CompanyDto;
+import com.example.facebook.facebook.demo.exception.CompanyNotFoundException;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.Company;
 import com.example.facebook.facebook.demo.model.User;
@@ -11,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company addCompany(Company company, Long id) {
+    public void addCompany(Company company, Long id) {
         Company newCompany = new Company();
         Optional<User> optionalUser = userService.findById(id);
 
@@ -37,6 +41,49 @@ public class CompanyServiceImpl implements CompanyService {
         newCompany.setUser(optionalUser.get());
         companyRepository.save(newCompany);
         logger.info("Company added successfully to user - " + optionalUser.get().getEmail());
-        return newCompany;
+    }
+
+    @Override
+    public List<CompanyDto> getCompaniesByUserId(Long id) {
+
+        List<Company> companies = companyRepository.findAllByUserId(id);
+        if(!(companies.size() > 0)){
+            throw new CompanyNotFoundException("Company not found");
+        }
+
+        List<CompanyDto> companyDtos = companies.stream().map(company ->{
+            CompanyDto companyDto = new CompanyDto();
+            companyDto.setId(company.getId());
+            companyDto.setName(company.getName());
+            companyDto.setStartedDate(company.getStartedDate());
+            companyDto.setEndDate(company.getEndDate());
+            return companyDto;
+        }).collect(Collectors.toList());
+        logger.info("Companies fetched successfully for user");
+        return companyDtos;
+    }
+
+    @Override
+    public void deleteCompany(Long id) {
+        Optional<Company> optionalCompany = companyRepository.findById(id);
+        if(!optionalCompany.isPresent()){
+            throw new CompanyNotFoundException("Company not found");
+        }
+        companyRepository.deleteById(id);
+        logger.info("Company deleted successfully");
+    }
+
+    @Override
+    public void updateCompany(Company company, Long id) {
+        Optional<Company> optionalCompany = companyRepository.findById(id);
+        if(!optionalCompany.isPresent()){
+            throw new CompanyNotFoundException("Company not found");
+        }
+        Company updatedCompany = optionalCompany.get();
+        updatedCompany.setName(company.getName());
+        updatedCompany.setStartedDate(company.getStartedDate());
+        updatedCompany.setEndDate(company.getEndDate());
+        companyRepository.save(updatedCompany);
+        logger.info("Company updated successfully");
     }
 }

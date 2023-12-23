@@ -88,7 +88,8 @@ public class User implements UserDetails {
 
     @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
-  //  @JsonManagedReference
+    @JsonIgnoreProperties("user")
+    @EqualsAndHashCode.Exclude
     private Set<Post> feed;
 
     @Column
