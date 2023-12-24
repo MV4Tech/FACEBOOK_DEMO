@@ -30,9 +30,12 @@ public class ReactionServiceImpl implements ReactionService {
         if(!OptionalPost.isPresent()){
             throw new PostNotFoundException("Post with id - " + postId + " not found");
         }
+
         User user = userService.getUserById(userId);
         reaction.setUsername(user.getFirstName());
         reaction.setPost(OptionalPost.get());
+
+
 
         reactionRepository.save(reaction);
         logger.info("Reaction added to post with id - "+postId);
