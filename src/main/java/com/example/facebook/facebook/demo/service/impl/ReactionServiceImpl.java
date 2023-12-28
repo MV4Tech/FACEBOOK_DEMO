@@ -31,14 +31,19 @@ public class ReactionServiceImpl implements ReactionService {
             throw new PostNotFoundException("Post with id - " + postId + " not found");
         }
 
-        User user = userService.getUserById(userId);
-        reaction.setUsername(user.getFirstName());
-        reaction.setPost(OptionalPost.get());
+        if(reaction.getFlag()==false){
+            User user = userService.getUserById(userId);
+            reaction.setUsername(user.getFirstName());
+            reaction.setPost(OptionalPost.get());
 
+            reactionRepository.save(reaction);
+            logger.info("Reaction added to post with id - "+postId);
+        }else{
+            reactionRepository.delete(reaction);
+            logger.info("Reaction deleted from post with id - "+postId +"for user with id - " + userId);
+        }
 
-
-        reactionRepository.save(reaction);
-        logger.info("Reaction added to post with id - "+postId);
+     
     }
 
 }
