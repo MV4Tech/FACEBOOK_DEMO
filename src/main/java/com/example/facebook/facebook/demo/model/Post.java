@@ -30,6 +30,8 @@ public class Post {
     private LocalDateTime dateOfPosting = LocalDateTime.now();
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("post")
+    @EqualsAndHashCode.Exclude
     private Set<Reaction> likes;
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)

@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 
 import com.example.facebook.facebook.demo.enums.TypeReaction;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 @Setter
 public class Reaction {
     @Id
@@ -22,10 +24,11 @@ public class Reaction {
     private String username;
 
     @Column(name = "flag")
-    private Boolean flag;
+    private Boolean flag = false;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnoreProperties({"likes"})
     private Post post;
 
     @ManyToOne

@@ -59,23 +59,33 @@ public class GlobalExceptionHandler {
     }
 
 
-
+    // This method is used to handle the InvalidCredentialsException
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String,List<String>>> handleInvalidCredentialsException(InvalidCredentialsException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    // This method is used to handle the Unique Constraint Exception
     @ExceptionHandler(UniqueConstraintException.class)
     public ResponseEntity<Map<String,List<String>>> handleUniqueConstraintException(UniqueConstraintException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
+    // This method is used to handle PostNotFoundException
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<Map<String,List<String>>> handlePostNotFoundException(PostNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
+
+    // This method is used to handle ReactionNotFoundException
+    public ResponseEntity<Map<String,List<String>>> handleReactionNotFoundException(ReactionNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
 /*
     // This method is used to handle the general exceptions
     @ExceptionHandler(Exception.class)
