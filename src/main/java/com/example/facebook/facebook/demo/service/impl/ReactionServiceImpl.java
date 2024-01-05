@@ -1,6 +1,8 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.dto.ReactionDto;
 import com.example.facebook.facebook.demo.exception.PostNotFoundException;
+import com.example.facebook.facebook.demo.exception.ReactionNotFoundException;
 import com.example.facebook.facebook.demo.model.Post;
 import com.example.facebook.facebook.demo.model.Reaction;
 import com.example.facebook.facebook.demo.model.User;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,28 +31,53 @@ public class ReactionServiceImpl implements ReactionService {
     @Override
     public void addReactionToPost(Reaction reaction, Long postId, Long userId) {
         Optional<Post> OptionalPost = postService.getPostById(postId);
-        if(!OptionalPost.isPresent()){
-            throw new PostNotFoundException("Post with id - " + postId + " not found");
-        }
-
-        if(reaction.getFlag()==false){
-            User user = userService.getUserById(userId);
-            reaction.setUsername(user.getFirstName());
-            reaction.setPost(OptionalPost.get());
-
-            reactionRepository.save(reaction);
-            logger.info("Reaction added to post with id - "+postId);
-        }else{
-            reactionRepository.delete(reaction);
-            logger.info("Reaction deleted from post with id - "+postId +"for user with id - " + userId);
-        }
-
-     
+        Optional<User> OptionalUser = userService.findById(userId);
+        reaction.setPost(OptionalPost.get());
+        reaction.setUsername(OptionalUser.get().getFirstName());
+        reaction.setFlag(true);
+        reactionRepository.save(reaction);
+        logger.info("Reaction added successfully to post - " + OptionalPost.get().getId());
     }
 
     @Override
-    public List<Reaction> getReactionsByPostId(Long postId) {
-        return reactionRepository.findAllByPostId(postId);
+    public List<ReactionDto> getReactionsByPostId(Long postId) {
+        Optional<Post> OptionalPost = postService.getPostById(postId);
+            List<Reaction> reactionList = reactionRepository.findAllByPostId(OptionalPost.get().getId());
+            if(reactionList.isEmpty()){
+                throw new ReactionNotFoundException("No reactions found for post with id: "+postId+"!");
+            }
+
+            List<ReactionDto> reactionDto = reactionList.stream()
+                            .map(reaction -> new ReactionDto(
+                                    reaction.getId(),
+                                    reaction.getUsername(),
+                                    reaction.getReact()
+                            )).collect(Collectors.toList());
+
+
+            logger.info("Reactions retrieved successfully from post - " + OptionalPost.get().getId());
+            return reactionDto;
+
+        }
+
+    @Override
+    public void deleteReactionFromPost(Long reactionId) {
+        Optional<Reaction> OptionalReaction = reactionRepository.findById(reactionId);
+        reactionRepository.delete(OptionalReaction.get());
+        logger.info("Reaction deleted successfully from post - " + OptionalReaction.get().getPost().getId());
+    }
+
+
+    @Override
+    public Reaction updateReaction(Reaction reaction, Long id) {
+        Optional<Reaction> OptionalReaction = reactionRepository.findById(id);
+        if(OptionalReaction.isEmpty()){
+            throw new ReactionNotFoundException("Reaction with id: "+id+" not found!");
+        }
+        Reaction updatedReaction = OptionalReaction.get();
+        updatedReaction.setReact(reaction.getReact());
+        logger.info("Reaction updated successfully - " + updatedReaction.getId());
+        return reactionRepository.save(updatedReaction);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.exception.PostNotFoundException;
 import com.example.facebook.facebook.demo.model.Post;
 import com.example.facebook.facebook.demo.repository.PostRepository;
 import com.example.facebook.facebook.demo.service.PostService;
@@ -28,7 +29,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> getPostById(Long postId) {
-        return postRepository.findById(postId);
+         Optional<Post> optioanlPost= postRepository.findById(postId);
+         if(!optioanlPost.isPresent()){
+             throw new PostNotFoundException("Post with id - " + postId + " not found");
+         }
+         return optioanlPost;
     }
 
 }
