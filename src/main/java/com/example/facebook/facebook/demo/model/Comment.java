@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 
 import com.example.facebook.facebook.demo.enums.TypeReaction;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,8 +22,11 @@ public class Comment {
     @Column(columnDefinition = "TEXT",nullable = false)
     private String comment;
 
-    @Column
-    private User sender;
+    @Column(name="sender_id")
+    private Long senderId;
+
+    @Column(name= "username")
+    private String username;
 
     @OneToMany(mappedBy = "comment")
     private Set<Reaction> reactions;
@@ -32,5 +36,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnoreProperties({"comments"})
     private Post post;
 }

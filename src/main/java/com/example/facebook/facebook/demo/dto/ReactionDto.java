@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class ReactionDto {
     private Long id;
     private String username;
+    private Long idUser;
     private TypeReaction react;
 }

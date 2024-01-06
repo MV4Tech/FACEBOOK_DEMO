@@ -81,7 +81,15 @@ public class GlobalExceptionHandler {
     }
 
     // This method is used to handle ReactionNotFoundException
+    @ExceptionHandler(ReactionNotFoundException.class)
     public ResponseEntity<Map<String,List<String>>> handleReactionNotFoundException(ReactionNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    // This method is used to handle CommentNotFoundException
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handleCommentNotFoundException(CommentNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }

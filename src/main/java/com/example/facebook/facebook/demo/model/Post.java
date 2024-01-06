@@ -35,9 +35,13 @@ public class Post {
     private Set<Reaction> likes;
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("post")
+    @EqualsAndHashCode.Exclude
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("post")
+    @EqualsAndHashCode.Exclude
     private Set<Share> shares;
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
