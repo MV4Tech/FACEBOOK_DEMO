@@ -34,6 +34,7 @@ public class ReactionServiceImpl implements ReactionService {
         Optional<User> OptionalUser = userService.findById(userId);
         reaction.setPost(OptionalPost.get());
         reaction.setUsername(OptionalUser.get().getFirstName());
+        reaction.setSenderId(OptionalUser.get().getId());
         reaction.setFlag(true);
         reactionRepository.save(reaction);
         logger.info("Reaction added successfully to post - " + OptionalPost.get().getId());
@@ -51,6 +52,7 @@ public class ReactionServiceImpl implements ReactionService {
                             .map(reaction -> new ReactionDto(
                                     reaction.getId(),
                                     reaction.getUsername(),
+                                    reaction.getSenderId(),
                                     reaction.getReact()
                             )).collect(Collectors.toList());
 

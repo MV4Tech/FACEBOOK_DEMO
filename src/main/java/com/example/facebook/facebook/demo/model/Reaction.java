@@ -26,6 +26,9 @@ public class Reaction {
     @Column(name = "flag")
     private Boolean flag = false;
 
+    @Column(name="sender_id")
+    private long senderId;
+
     @ManyToOne
     @JoinColumn(name = "post_id")
     @JsonIgnoreProperties({"likes"})

@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.controller;
 
+import com.example.facebook.facebook.demo.dto.PostDto;
 import com.example.facebook.facebook.demo.model.Post;
 import com.example.facebook.facebook.demo.service.PostService;
 import jakarta.validation.Valid;
@@ -19,6 +20,12 @@ public class PostController {
     public ResponseEntity<Void> addPost(@RequestBody @Valid Post post, @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    // in progress
+
+//    public ResponseEntity<PostDto> getPostById(@PathVariable Long id){
+//        return ResponseEntity.ok(postService.getPostById(id));
+//    }
 
 
 
