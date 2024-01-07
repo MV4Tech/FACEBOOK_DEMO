@@ -29,11 +29,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> getPostById(Long postId) {
-         Optional<Post> optioanlPost= postRepository.findById(postId);
-         if(!optioanlPost.isPresent()){
+         Optional<Post> optionalPost = postRepository.findById(postId);
+         if(!optionalPost.isPresent()){
              throw new PostNotFoundException("Post with id - " + postId + " not found");
          }
-         return optioanlPost;
+         return optionalPost;
     }
 
 }

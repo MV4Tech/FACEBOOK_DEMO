@@ -27,7 +27,7 @@ public class Reaction {
     private Boolean flag = false;
 
     @Column(name="sender_id")
-    private long senderId;
+    private Long senderId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -36,5 +36,6 @@ public class Reaction {
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
+    @JsonIgnoreProperties({"reactions"})
     private Comment comment;
 }
