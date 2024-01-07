@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 
 import com.example.facebook.facebook.demo.enums.TypeReaction;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,9 +30,12 @@ public class Comment {
     private String username;
 
     @OneToMany(mappedBy = "comment")
+    @JsonIgnoreProperties("comment")
+    @EqualsAndHashCode.Exclude
     private Set<Reaction> reactions;
 
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOfMessaging;
 
     @ManyToOne

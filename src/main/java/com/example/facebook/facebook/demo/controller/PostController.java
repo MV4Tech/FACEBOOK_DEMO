@@ -21,12 +21,6 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // in progress
-
-//    public ResponseEntity<PostDto> getPostById(@PathVariable Long id){
-//        return ResponseEntity.ok(postService.getPostById(id));
-//    }
-
 
 
 }
