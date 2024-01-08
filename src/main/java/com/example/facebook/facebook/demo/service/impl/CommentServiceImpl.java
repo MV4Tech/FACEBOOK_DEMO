@@ -35,4 +35,10 @@ public class CommentServiceImpl implements CommentService {
             logger.info("Comment added successfully to post - " + post.getId() + "by user - " + user.getUsername());
     }
 
+    @Override
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+        logger.info("Comment deleted successfully with id - " + commentId);
+    }
+
 }
