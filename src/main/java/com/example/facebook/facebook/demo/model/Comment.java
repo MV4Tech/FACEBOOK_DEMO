@@ -29,6 +29,9 @@ public class Comment {
     @Column(name= "username")
     private String username;
 
+    @Column
+    private Boolean isEdited;
+
     @OneToMany(mappedBy = "comment")
     @JsonIgnoreProperties("comment")
     @EqualsAndHashCode.Exclude

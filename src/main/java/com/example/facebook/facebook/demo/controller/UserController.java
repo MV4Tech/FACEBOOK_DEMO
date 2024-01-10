@@ -50,7 +50,7 @@ public class UserController {
 
     // add profile picture controller
     @PostMapping("/add-profile-picture/{id}")
-    public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file,@PathVariable long id) throws IOException {
+    public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file,@PathVariable Long id) throws IOException {
         String uploadMessage = userService.setProfileImage(file,id);
 
         return ResponseEntity.status(HttpStatus.OK).body(uploadMessage);

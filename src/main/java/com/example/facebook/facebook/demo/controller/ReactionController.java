@@ -20,9 +20,9 @@ public class ReactionController {
     private final ReactionService reactionService;
 
     // add reaction to post
-    @PostMapping("/add-reaction-to-post/{postId}/{userId}")
-    public ResponseEntity<Void> addReactionToPost(@RequestBody @Valid Reaction reaction, @PathVariable Long postId,@PathVariable Long userId){
-        reactionService.addReactionToPost(reaction,postId,userId);
+    @PostMapping("/add-reaction-to-post")
+    public ResponseEntity<Void> addReactionToPost(@RequestBody @Valid Reaction reaction){
+        reactionService.addReactionToPost(reaction);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
