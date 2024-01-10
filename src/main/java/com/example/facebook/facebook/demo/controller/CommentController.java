@@ -19,9 +19,9 @@ public class CommentController {
     private final CommentService commentService;
 
     // add comment
-    @PostMapping("/add-comment/{postId}/{userId}")
-    public ResponseEntity<Void> addComment(@RequestBody @Valid Comment comment, @PathVariable Long postId, @PathVariable Long userId){
-        commentService.addComment(comment, postId,userId);
+    @PostMapping("/add-comment")
+    public ResponseEntity<Void> addComment(@RequestBody @Valid Comment comment){
+        commentService.addComment(comment);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -34,10 +34,10 @@ public class CommentController {
     }
 
     // edit comment
-    // TODO da ne vrusha comment!
     @PutMapping("/edit-comment/{id}")
-    public ResponseEntity<Comment> editComment(@RequestBody Comment comment, @PathVariable Long id){
-        return ResponseEntity.ok(commentService.editComment(comment,id));
+    public ResponseEntity<Void> editComment(@RequestBody Comment comment, @PathVariable Long id){
+        commentService.editComment(comment, id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // get all comments by post id

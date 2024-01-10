@@ -29,13 +29,14 @@ public class CommentServiceImpl implements CommentService {
    private final CommentRepository commentRepository;
 
     @Override
-    public void addComment(Comment comment, Long postId, Long userId) {
-            Post post = postService.getPostById(postId).get();
-            User user = userService.getUserById(userId);
+    public void addComment(Comment comment) {
+            Post post = postService.getPostById(comment.getPost().getId()).get();
+            User user = userService.getUserById(comment.getSenderId());
             comment.setPost(post);
             comment.setSenderId(user.getId());
             comment.setUsername(user.getFirstName());
             comment.setDateOfMessaging(LocalDateTime.now());
+            comment.setIsEdited(false);
             commentRepository.save(comment);
             logger.info("Comment added successfully to post - " + post.getId() + "by user - " + user.getUsername());
     }
@@ -47,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment editComment(Comment comment, Long id) {
+    public void editComment(Comment comment, Long id) {
         Optional<Comment> OptionalCommentToEdit = commentRepository.findById(id);
 
         if(!OptionalCommentToEdit.isPresent()){
@@ -56,9 +57,9 @@ public class CommentServiceImpl implements CommentService {
         Comment commentToEdit = OptionalCommentToEdit.get();
         commentToEdit.setComment(comment.getComment());
         commentToEdit.setDateOfMessaging(LocalDateTime.now());
+        commentToEdit.setIsEdited(true);
         commentRepository.save(commentToEdit);
         logger.info("Comment edited successfully with id - " + id);
-        return commentToEdit;
     }
 
     @Override
@@ -73,7 +74,8 @@ public class CommentServiceImpl implements CommentService {
                     comment.getComment(),
                     comment.getDateOfMessaging(),
                     comment.getSenderId(),
-                    comment.getUsername()
+                    comment.getUsername(),
+                    comment.getIsEdited()
             )).collect(Collectors.toList());
         logger.info("Comments retrieved successfully from post - " + postId);
         return commentDtoList;

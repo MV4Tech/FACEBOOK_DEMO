@@ -1,7 +1,6 @@
 package com.example.facebook.facebook.demo.service.impl;
 
 import com.example.facebook.facebook.demo.dto.ReactionDto;
-import com.example.facebook.facebook.demo.exception.PostNotFoundException;
 import com.example.facebook.facebook.demo.exception.ReactionNotFoundException;
 import com.example.facebook.facebook.demo.model.Post;
 import com.example.facebook.facebook.demo.model.Reaction;
@@ -29,9 +28,9 @@ public class ReactionServiceImpl implements ReactionService {
     private final UserService userService;
 
     @Override
-    public void addReactionToPost(Reaction reaction, Long postId, Long userId) {
-        Optional<Post> OptionalPost = postService.getPostById(postId);
-        Optional<User> OptionalUser = userService.findById(userId);
+    public void addReactionToPost(Reaction reaction) {
+        Optional<Post> OptionalPost = postService.getPostById(reaction.getPost().getId());
+        Optional<User> OptionalUser = userService.findById(reaction.getSenderId());
         reaction.setPost(OptionalPost.get());
         reaction.setUsername(OptionalUser.get().getFirstName());
         reaction.setSenderId(OptionalUser.get().getId());

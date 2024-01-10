@@ -15,4 +15,5 @@ public class CommentDto {
     private LocalDateTime dateOfComment;
     private Long senderId;
     private String username;
+    private Boolean isEdited;
 }

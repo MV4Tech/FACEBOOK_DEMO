@@ -4,6 +4,6 @@ public enum TypeReaction {
     LIKE,
     SMILEY_FACE,
     LAUGHING,
-    THUMPS_UP,
-    THUMPS_DOWN
+    THUMBS_UP,
+    THUMBS_DOWN
 }
