@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/post-photo")
 @RequiredArgsConstructor
-public class PostPhotoController {
+public class PostPhotoController    {
 
     private final PostPhotoService postPhotoService;
 
@@ -34,4 +34,11 @@ public class PostPhotoController {
         return ResponseEntity.ok(postPhotoService.displayPhoto(postId));
     }
 
+    // delete photo
+    // TODO - TEST
+    @DeleteMapping("/delete-photo/{videoId}")
+    public ResponseEntity<Void> deletePhoto(@PathVariable Long videoId){
+        postPhotoService.deletePhoto(videoId);
+        return ResponseEntity.noContent().build();
+    }
 }

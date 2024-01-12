@@ -14,4 +14,6 @@ public interface PostPhotoService {
     void addPhoto(MultipartFile file, PostPhoto postPhoto) throws IOException;
 
     List<PostPhotoDto> displayPhoto(Long postId);
+
+    void deletePhoto(Long videoId);
 }

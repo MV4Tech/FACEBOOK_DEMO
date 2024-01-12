@@ -20,6 +20,9 @@ public class Page {
     private Long id;
 
     @Column
+    private User user;
+
+    @Column
     private String name;
 
     @Column(columnDefinition = "text")

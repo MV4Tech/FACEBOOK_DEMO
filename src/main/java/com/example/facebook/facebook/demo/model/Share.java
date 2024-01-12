@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +25,10 @@ public class Share{
 
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnoreProperties({"shares"})
     private Post post;
+
+    // todo: add description
+    // todo: add count of shares
+
 }
