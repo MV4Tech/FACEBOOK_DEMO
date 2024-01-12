@@ -45,9 +45,13 @@ public class Post {
     private Set<Share> shares;
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("post")
+    @EqualsAndHashCode.Exclude
     private Set<PostPhoto> photos;
 
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("post")
+    @EqualsAndHashCode.Exclude
     private Set<PostVideo> videos;
 
     @ManyToOne

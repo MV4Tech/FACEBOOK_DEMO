@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class PostVideo {
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnoreProperties({"videos"})
     private Post post;
 
     @Lob
