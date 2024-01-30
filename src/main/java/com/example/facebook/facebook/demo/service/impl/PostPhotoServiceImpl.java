@@ -26,7 +26,9 @@ public class PostPhotoServiceImpl implements PostPhotoService {
     @Override
     public void addPhoto(MultipartFile file, PostPhoto postPhoto) throws IOException {
         byte[] bytes = file.getBytes();
+        postPhoto.setPost(postPhoto.getPost());
         postPhoto.setPhotoData(bytes);
+        postPhotoRepository.save(postPhoto);
         logger.info("Photo added successfully! to post - "+postPhoto.getPost().getId());
     }
 
@@ -47,8 +49,11 @@ public class PostPhotoServiceImpl implements PostPhotoService {
     }
 
     @Override
-    public void deletePhoto(Long videoId) {
-        postPhotoRepository.deleteById(videoId);
-        logger.info("Photo deleted successfully! with id - "+videoId+"!");
+    public void deletePhoto(Long photoId) {
+        if(!postPhotoRepository.existsById(photoId)){
+            throw new RuntimeException("Photo not found!");
+        }
+        postPhotoRepository.deleteById(photoId);
+        logger.info("Photo deleted successfully! with id - "+photoId+"!");
     }
 }

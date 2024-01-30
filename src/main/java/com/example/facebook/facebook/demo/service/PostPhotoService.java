@@ -15,5 +15,5 @@ public interface PostPhotoService {
 
     List<PostPhotoDto> displayPhoto(Long postId);
 
-    void deletePhoto(Long videoId);
+    void deletePhoto(Long photoId);
 }

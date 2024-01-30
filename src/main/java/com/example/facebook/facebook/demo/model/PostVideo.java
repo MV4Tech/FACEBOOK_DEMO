@@ -21,7 +21,7 @@ public class PostVideo {
     private Post post;
 
     @Lob
-    @Column(name = "video_data", nullable = false)
+    @Column(name = "video_data", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] videoData;
 
 
