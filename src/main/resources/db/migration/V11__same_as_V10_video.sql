@@ -1,0 +1,1 @@
+ALTER TABLE post_video MODIFY COLUMN video_data LONGBLOB;

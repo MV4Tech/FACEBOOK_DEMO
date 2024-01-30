@@ -20,25 +20,22 @@ public class PostPhotoController    {
     private final PostPhotoService postPhotoService;
 
     // add photo
-    // TODO - TEST
     @PostMapping("/add-photo")
-    public ResponseEntity<Void> addPhoto(@RequestParam("image") MultipartFile file, @RequestBody PostPhoto postPhoto) throws IOException {
+    public ResponseEntity<Void> addPhoto(@RequestParam("image") MultipartFile file, @RequestPart PostPhoto postPhoto) throws IOException {
        postPhotoService.addPhoto(file,postPhoto);
        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // display photo
-    // TODO - TEST
     @GetMapping("/display-photo/{postId}")
     public ResponseEntity<List<PostPhotoDto>> displayPhoto(@PathVariable Long postId){
         return ResponseEntity.ok(postPhotoService.displayPhoto(postId));
     }
 
     // delete photo
-    // TODO - TEST
-    @DeleteMapping("/delete-photo/{videoId}")
-    public ResponseEntity<Void> deletePhoto(@PathVariable Long videoId){
-        postPhotoService.deletePhoto(videoId);
+    @DeleteMapping("/delete-photo/{photoId}")
+    public ResponseEntity<Void> deletePhoto(@PathVariable Long photoId){
+        postPhotoService.deletePhoto(photoId);
         return ResponseEntity.noContent().build();
     }
 }

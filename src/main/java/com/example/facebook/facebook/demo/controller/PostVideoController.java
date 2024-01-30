@@ -22,15 +22,14 @@ public class PostVideoController {
     private final PostVideoService postVideoService;
 
     // add photo
-    // TODO - TEST
+    // max file size 4MB can be configured in application.yml
     @PostMapping("/add-video")
-    public ResponseEntity<Void> addPhoto(@RequestParam("video") MultipartFile file, @RequestBody PostVideo postVideo) throws IOException {
+    public ResponseEntity<Void> addPhoto(@RequestParam("video") MultipartFile file, @RequestPart PostVideo postVideo) throws IOException {
         postVideoService.addVideo(file,postVideo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // display photo
-    // TODO - TEST
     @GetMapping("/display-video/{postId}")
     public ResponseEntity<List<PostVideoDto>> displayPhoto(@PathVariable Long postId){
         return ResponseEntity.ok(postVideoService.displayVideo(postId));

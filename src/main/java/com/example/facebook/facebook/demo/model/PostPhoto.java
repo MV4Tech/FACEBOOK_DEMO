@@ -22,7 +22,7 @@ public class PostPhoto {
     private Post post;
 
     @Lob
-    @Column(name = "photo_data", nullable = false)
+    @Column(name = "photo_data", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] photoData;
 
 

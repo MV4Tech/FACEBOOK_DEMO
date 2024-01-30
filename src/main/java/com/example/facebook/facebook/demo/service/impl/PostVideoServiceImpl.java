@@ -26,6 +26,8 @@ public class PostVideoServiceImpl implements PostVideoService {
     public void addVideo(MultipartFile file, PostVideo postVideo) throws IOException {
         byte[] bytes = file.getBytes();
         postVideo.setVideoData(bytes);
+        postVideo.setPost(postVideo.getPost());
+        postVideoRepository.save(postVideo);
         logger.info("Video added successfully! to post - "+postVideo.getPost().getId());
     }
 

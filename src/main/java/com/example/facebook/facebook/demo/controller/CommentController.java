@@ -26,7 +26,6 @@ public class CommentController {
     }
 
     // delete comment
-    // TODO - TEST
     @DeleteMapping("/delete-comment/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId){
         commentService.deleteComment(commentId);
