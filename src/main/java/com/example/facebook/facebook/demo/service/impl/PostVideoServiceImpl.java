@@ -49,6 +49,9 @@ public class PostVideoServiceImpl implements PostVideoService {
 
     @Override
     public void deleteVideo(Long videoId) {
+        if(!postVideoRepository.existsById(videoId)){
+            throw new PostVideoNotFoundException("Video with id - "+videoId+" not found!");
+        }
         postVideoRepository.deleteById(videoId);
         logger.info("Video deleted successfully! with id - "+videoId+"!");
     }
