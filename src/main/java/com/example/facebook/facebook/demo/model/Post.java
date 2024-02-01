@@ -49,6 +49,8 @@ public class Post {
     @EqualsAndHashCode.Exclude
     private Set<PostPhoto> photos;
 
+
+
     @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
     @JsonIgnoreProperties("post")
     @EqualsAndHashCode.Exclude

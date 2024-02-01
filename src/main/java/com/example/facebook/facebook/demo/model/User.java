@@ -86,31 +86,26 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     private Set<Company> companies;
 
-    @Column
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("user")
-    @EqualsAndHashCode.Exclude
-    private Set<Post> feed;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  //  @JsonManagedReference
     private Set<UserPageRelation> userPageRelations;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  //  @JsonManagedReference
      private Set<Photo> photos;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-   // @JsonManagedReference
      private Set<Video> videos;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-   // @JsonManagedReference
     private Set<Notification> notifications;
+
+    @Column
+    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
+    private Set<Notification> sentNotifications;
 
    // private Set<Message> messages;
 
