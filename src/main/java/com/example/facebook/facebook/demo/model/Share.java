@@ -28,7 +28,10 @@ public class Share{
     @JsonIgnoreProperties({"shares"})
     private Post post;
 
-    // todo: add description
-    // todo: add count of shares
+    @Column
+    private String description;
+
+    @Column
+    private int shareCount;
 
 }
