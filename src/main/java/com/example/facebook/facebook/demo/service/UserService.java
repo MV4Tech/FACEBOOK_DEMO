@@ -36,4 +36,5 @@ public interface UserService {
     String setCoverImage(MultipartFile file, long id) throws IOException;
 
     byte[] displayCoverImage(long id);
+
 }
