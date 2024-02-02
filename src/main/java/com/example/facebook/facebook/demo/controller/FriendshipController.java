@@ -5,10 +5,7 @@ import com.example.facebook.facebook.demo.service.FriendshipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/friendship")
@@ -29,5 +26,30 @@ public class FriendshipController {
         friendshipService.sendFriendRequest(friendship);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @PutMapping("/accept-friendship/{friendshipId}")
+    public ResponseEntity<String> acceptFriendRequest(@PathVariable Long friendshipId){
+        friendshipService.acceptFriendRequest(friendshipId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    // deny friendship
+    // TODO: test this
+    @PutMapping("/deny-friendship/{friendshipId}")
+    public ResponseEntity<Void> denyFriendRequest(@PathVariable Long friendshipId){
+       // friendshipService.denyFriendRequest(friendshipId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
+    // block friendship
+    /*
+    @PutMapping("/block-friendship/{friendshipId}")
+    public ResponseEntity<Void> removeFriendship(@PathVariable Long friendshipId){
+        friendshipService.removeFriendship(friendshipId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+    */
+
 
 }

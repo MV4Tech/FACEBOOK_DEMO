@@ -20,17 +20,18 @@ public class Friendship {
     private Long friendshipID;
 
     @ManyToOne
-    @JoinColumn(name = "UserID1", referencedColumnName = "id")
-    private User user1;
+    @JoinColumn(name = "sender")
+    private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "UserID2", referencedColumnName = "id")
-    private User user2;
+    @JoinColumn(name = "receiver")
+    private User receiver;
 
     @Column(name = "Status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column(nullable = false)
-    private LocalDateTime dateOfBecomingFriends;
+    private LocalDateTime dateOfBecomingFriends = LocalDateTime.now();
 
 }

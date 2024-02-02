@@ -100,11 +100,15 @@ public class User implements UserDetails {
      private Set<Video> videos;
 
     @Column
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("receiver")
+    @EqualsAndHashCode.Exclude
     private Set<Notification> notifications;
 
     @Column
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("sender")
+    @EqualsAndHashCode.Exclude
     private Set<Notification> sentNotifications;
 
    // private Set<Message> messages;

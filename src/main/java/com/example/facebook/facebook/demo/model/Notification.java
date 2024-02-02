@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,6 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +20,17 @@ public class Notification {
     private String message;
 
     @Column(name = "sent_time")
-    private LocalDateTime sentTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime sentTime = LocalDateTime.now();
 
     @ManyToOne
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JoinColumn(name = "sender_id", nullable = false)
+    @JsonIgnoreProperties({"sentNotifications"})
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "receiver_id", nullable = false)
+    @JsonIgnoreProperties({"notifications"})
+    private User receiver;
 
 }
