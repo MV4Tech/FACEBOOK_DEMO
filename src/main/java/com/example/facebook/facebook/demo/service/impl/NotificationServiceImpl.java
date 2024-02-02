@@ -1,22 +1,57 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.dto.NotificationDto;
+import com.example.facebook.facebook.demo.exception.NotificationsNotFoundException;
 import com.example.facebook.facebook.demo.model.Notification;
+import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.NotificationRepository;
 import com.example.facebook.facebook.demo.service.NotificationService;
+import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
+
     private final NotificationRepository notificationRepository;
+    private final UserService userService;
+
     private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
     @Override
     public void sendNotification(Notification notification) {
+        logger.info(notification.getMessage());
+        User receiver = userService.findById(notification.getReceiver().getId()).get();
+        User sender = userService.findById(notification.getSender().getId()).get();
         notificationRepository.save(notification);
-        logger.info("Notification sent successfully from " + notification.getSender().getEmail() + " to " + notification.getUser().getEmail());
+        logger.info("Notification sent to " + receiver.getFirstName() + " " + receiver.getLastName() + " from " + sender.getFirstName() + " " + sender.getLastName() + " at " + notification.getSentTime());
 
+    }
+
+    @Override
+    public List<NotificationDto> getAllNotifications(Long userId) {
+
+        List<Notification> notifications = notificationRepository.findAllByReceiverId(userId);
+        if(notifications.isEmpty()){
+            throw new NotificationsNotFoundException("No notifications found for user with id " + userId);
+        }
+
+        List<NotificationDto> notificationDtos = notifications.stream().map(notification ->{
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setId(notification.getId());
+            notificationDto.setMessage(notification.getMessage());
+            notificationDto.setSentTime(notification.getSentTime());
+            notificationDto.setReceiver(notification.getReceiver().getFirstName() + " " + notification.getReceiver().getLastName());
+            notificationDto.setSender(notification.getSender().getFirstName() + " " + notification.getSender().getLastName());
+            return notificationDto;
+        }).collect(Collectors.toList());
+
+
+        return notificationDtos;
     }
 }
