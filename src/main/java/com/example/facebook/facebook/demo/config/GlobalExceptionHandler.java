@@ -115,6 +115,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
+    // This method is used to handle FriendshipNotFoundException
+    @ExceptionHandler(FriendshipNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handleCommentNotFoundException(FriendshipNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+
 
 
 /*
