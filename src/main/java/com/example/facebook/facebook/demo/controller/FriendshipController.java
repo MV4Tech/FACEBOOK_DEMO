@@ -52,6 +52,7 @@ public class FriendshipController {
 
 
     // block friendship
+    // is yet to be implemented in near future
     /*
     @PutMapping("/block-friendship/{friendshipId}")
     public ResponseEntity<Void> removeFriendship(@PathVariable Long friendshipId){
