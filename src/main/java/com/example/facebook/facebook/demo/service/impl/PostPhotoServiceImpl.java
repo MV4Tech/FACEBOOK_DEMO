@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostPhotoServiceImpl implements PostPhotoService {
 
-    private final PostService postService;
+    //private final PostService postService;
     private final PostPhotoRepository postPhotoRepository;
     private static final Logger logger = LoggerFactory.getLogger(PostPhotoServiceImpl.class);
     @Override

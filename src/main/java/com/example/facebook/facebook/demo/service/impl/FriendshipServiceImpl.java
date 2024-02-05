@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +48,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 
         Notification notification = new Notification();
         notification.setMessage("You have a new friend request from " + sender.getFirstName() + " " + sender.getLastName());
+        logger.info(receiver.getFirstName());
         notification.setReceiver(receiver);
         notification.setSender(sender);
 
@@ -113,21 +115,34 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public List<FriendshipDto> getAllFriendsByUserId(Long userId) {
-        List<Friendship> friendships = friendshipRepository.findAllByReceiverIdAndStatus(userId, Status.ACCEPTED);
+        List<Friendship> receivedFriendships = friendshipRepository.findAllByReceiverIdAndStatus(userId, Status.ACCEPTED);
+        List<Friendship> sentFriendships = friendshipRepository.findAllBySenderIdAndStatus(userId, Status.ACCEPTED);
 
-        if(friendships.isEmpty()){
-            throw new FriendshipNotFoundException("No friend found for user with id " + userId);
+        if(receivedFriendships.isEmpty() && sentFriendships.isEmpty()){
+            throw new FriendshipNotFoundException("No friends found for user with id " + userId);
         }
-        List<FriendshipDto> friendshipDtos = friendships.stream().map(friendship ->{
-            FriendshipDto friendshipDto = new FriendshipDto();
-            friendshipDto.setFriendshipID(friendship.getFriendshipID());
-            friendshipDto.setSender(friendship.getSender().getFirstName() + " " + friendship.getSender().getLastName());
-            friendshipDto.setReceiver(friendship.getReceiver().getFirstName() + " " + friendship.getReceiver().getLastName());
-            friendshipDto.setDateOfBecomingFriends(friendship.getDateOfBecomingFriends());
-            friendshipDto.setStatus(friendship.getStatus().toString());
-            return friendshipDto;
-        }).collect(Collectors.toList());
+
+        List<FriendshipDto> friendshipDtos = Stream.concat(
+                        receivedFriendships.stream(),
+                        sentFriendships.stream())
+                .map(friendship -> {
+                    FriendshipDto friendshipDto = new FriendshipDto();
+                    friendshipDto.setFriendshipID(friendship.getFriendshipID());
+                    friendshipDto.setSender(friendship.getSender().getFirstName() + " " + friendship.getSender().getLastName());
+                    friendshipDto.setReceiver(friendship.getReceiver().getFirstName() + " " + friendship.getReceiver().getLastName());
+                    friendshipDto.setDateOfBecomingFriends(friendship.getDateOfBecomingFriends());
+                    friendshipDto.setStatus(friendship.getStatus().toString());
+                    return friendshipDto;
+                })
+                .collect(Collectors.toList());
 
         return friendshipDtos;
     }
+
+    @Override
+    public List<Friendship> findAllBySenderIdAndStatusOrReceiverIdAndStatus(Long senderId, Status status1, Long receiverId, Status status2) {
+        return friendshipRepository.findAllBySenderIdAndStatusOrReceiverIdAndStatus(senderId, status1, receiverId, status2);
+    }
+
+
 }

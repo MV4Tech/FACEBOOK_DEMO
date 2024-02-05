@@ -18,6 +18,7 @@ public class Share{
     private Long id;
 
     @Column
+    @ManyToOne
     private User sharer;
 
     @Column
@@ -33,5 +34,8 @@ public class Share{
 
     @Column
     private int shareCount;
+
+    // TODO: remove shareCount from here and add it to the Post class
+    // TODO: further develop this class
 
 }

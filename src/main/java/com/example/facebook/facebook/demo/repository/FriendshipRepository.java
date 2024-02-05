@@ -11,4 +11,8 @@ import java.util.List;
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     List<Friendship> findAllByReceiverIdAndStatus(Long userId, Status status);
+
+    List<Friendship> findAllBySenderIdAndStatus(Long userId, Status status);
+
+    List<Friendship> findAllBySenderIdAndStatusOrReceiverIdAndStatus(Long senderId, Status status1, Long receiverId, Status status2);
 }

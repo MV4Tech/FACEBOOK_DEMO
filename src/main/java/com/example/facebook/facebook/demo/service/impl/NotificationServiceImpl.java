@@ -45,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
             NotificationDto notificationDto = new NotificationDto();
             notificationDto.setId(notification.getId());
             notificationDto.setMessage(notification.getMessage());
-            notificationDto.setSentTime(notification.getSentTime());
+            notificationDto.setSentTime(notification.getSentTime());// aqui
             notificationDto.setReceiver(notification.getReceiver().getFirstName() + " " + notification.getReceiver().getLastName());
             notificationDto.setSender(notification.getSender().getFirstName() + " " + notification.getSender().getLastName());
             return notificationDto;
