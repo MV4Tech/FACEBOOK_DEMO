@@ -23,8 +23,9 @@ public class Comment {
     @Column(columnDefinition = "TEXT",nullable = false)
     private String comment;
 
-    @Column(name="sender_id")
-    private Long senderId;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User senderId;
 
     @Column(name= "username")
     private String username;

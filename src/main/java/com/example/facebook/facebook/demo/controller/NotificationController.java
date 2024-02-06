@@ -30,6 +30,6 @@ public class NotificationController {
         return ResponseEntity.ok(notificationService.getAllNotifications(userId));
     }
 
-
+// TODO: add notification to comment,reaction
 
 }

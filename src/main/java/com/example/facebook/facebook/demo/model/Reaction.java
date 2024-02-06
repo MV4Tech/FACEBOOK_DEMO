@@ -26,8 +26,9 @@ public class Reaction {
     @Column(name = "flag")
     private Boolean flag = false;
 
-    @Column(name="sender_id")
-    private Long senderId;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User senderId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

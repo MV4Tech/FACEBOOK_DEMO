@@ -13,4 +13,12 @@ public interface ReactionService {
     void deleteReactionFromPost(Long reactionId);
 
     Reaction updateReaction(Reaction reaction, Long id);
+
+    void addReactionToComment(Reaction reaction);
+
+    void deleteReactionFromComment(Long reactionId);
+
+    void updateReactionForComment(Reaction reaction, Long reactionId);
+
+    List<ReactionDto> getReactionsByCommentId(Long commentId);
 }

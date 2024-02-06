@@ -4,6 +4,7 @@ import com.example.facebook.facebook.demo.dto.CommentDto;
 import com.example.facebook.facebook.demo.model.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentService {
     void addComment(Comment comment);
@@ -14,4 +15,6 @@ public interface CommentService {
 
 
     List<CommentDto> getCommentsByPostId(Long postId);
+
+    Optional<Comment> getCommentById(Long id);
 }

@@ -1,6 +1,7 @@
 package com.example.facebook.facebook.demo.repository;
 
 import com.example.facebook.facebook.demo.dto.ReactionDto;
+import com.example.facebook.facebook.demo.model.Comment;
 import com.example.facebook.facebook.demo.model.Post;
 import com.example.facebook.facebook.demo.model.Reaction;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface ReactionRepository extends JpaRepository<Reaction,Long> {
     List<Reaction> findAllByPostId(Long postId);
 
     Optional<Reaction> findByPost(Post post);
+
+    List<Reaction> findAllByCommentId(Long commentId);
 }
