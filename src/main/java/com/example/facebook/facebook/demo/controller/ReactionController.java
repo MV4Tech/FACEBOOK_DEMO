@@ -19,6 +19,8 @@ public class ReactionController {
 
     private final ReactionService reactionService;
 
+    // ----- reaction to post part-----
+
     // add reaction to post
     @PostMapping("/add-reaction-to-post")
     public ResponseEntity<Void> addReactionToPost(@RequestBody @Valid Reaction reaction){
@@ -46,6 +48,35 @@ public class ReactionController {
        return ResponseEntity.ok(reactionService.updateReaction(reaction,id));
     }
 
+    // ---- reactions to comment part -----
+
+    // add reaction to comment
+    @PostMapping("/add-reaction-to-comment")
+    public ResponseEntity<Void> addReactionToComment(@RequestBody @Valid Reaction reaction){
+        reactionService.addReactionToComment(reaction);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
+    // delete reaction from comment
+    @DeleteMapping("/delete-reaction-from-comment/{reactionId}")
+    public ResponseEntity<Void> deleteReactionFromComment(@PathVariable Long reactionId){
+        reactionService.deleteReactionFromComment(reactionId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // update reaction for comment
+    @PutMapping("/update-reaction-for-comment/{reactionId}")
+    public ResponseEntity<Void> updateReactionForComment(@RequestBody Reaction reaction, @PathVariable Long reactionId){
+        reactionService.updateReactionForComment(reaction, reactionId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // get all reactions by comment id
+    @GetMapping("/get-reactions-by-comment-id/{commentId}")
+    public ResponseEntity<List<ReactionDto>> getReactionsByCommentId(@PathVariable Long commentId){
+        return ResponseEntity.ok(reactionService.getReactionsByCommentId(commentId));
+    }
 
 
 

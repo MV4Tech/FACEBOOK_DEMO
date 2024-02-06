@@ -17,12 +17,12 @@ public class Share{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     @ManyToOne
+    @JoinColumn(name = "sharer")
     private User sharer;
 
     @Column
-    private LocalDateTime dateOfSharing;
+    private LocalDateTime dateOfSharing = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -35,7 +35,6 @@ public class Share{
     @Column
     private int shareCount;
 
-    // TODO: remove shareCount from here and add it to the Post class
-    // TODO: further develop this class
+
 
 }

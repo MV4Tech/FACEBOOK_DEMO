@@ -44,7 +44,6 @@ public class FriendshipController {
         return ResponseEntity.ok(friendshipService.getAllFriendshipRequests(userId));
     }
 
-    // TODO with one user id fetch all friends of receivers and senders
     @GetMapping("/all-friends/{userId}")
     public ResponseEntity<List<FriendshipDto>> getAllFriendsByUserId(@PathVariable Long userId){
         return ResponseEntity.ok(friendshipService.getAllFriendsByUserId(userId));
