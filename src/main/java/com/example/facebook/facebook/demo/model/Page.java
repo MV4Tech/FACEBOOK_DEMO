@@ -25,6 +25,10 @@ public class Page {
     @Column(columnDefinition = "text")
     private String about;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @Lob
     @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
     private byte[] profilePicture;
