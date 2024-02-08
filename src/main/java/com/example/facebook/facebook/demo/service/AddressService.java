@@ -15,4 +15,6 @@ public interface AddressService {
     void updateAddress(Address address, Long id);
 
     void deleteAddress(Long id);
+
+    void addAddressPage(Address address);
 }

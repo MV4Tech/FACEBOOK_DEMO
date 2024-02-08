@@ -48,6 +48,15 @@ public class PostController {
     }
 
 
+    // ---- page part ----
+    // add new post page controller
+    @PostMapping("/add-post-page")
+    public ResponseEntity<Void> addPostPage(@RequestBody Post post){
+        postService.addPostPage(post);
+        return ResponseEntity.ok().build();
+    }
+
+    // get all posts by page id controller
 
 
 

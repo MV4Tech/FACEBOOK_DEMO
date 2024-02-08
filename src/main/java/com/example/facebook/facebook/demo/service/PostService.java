@@ -17,4 +17,8 @@ public interface PostService {
     void deletePost(Long postId);
 
     void editPost(Post post, Long postId);
+
+    void addPostPage(Post post);
+
+    Set<Post> getAllPostsByPageId(Long pageId);
 }

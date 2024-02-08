@@ -38,6 +38,7 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "page_id")
+    @JsonIgnoreProperties({"addresses"})
     private Page page;
 
 }
