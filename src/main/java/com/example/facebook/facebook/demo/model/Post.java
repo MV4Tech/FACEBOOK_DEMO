@@ -63,6 +63,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "page_id")
+    @JsonIgnoreProperties({"posts"})
     private Page page;
 
 }

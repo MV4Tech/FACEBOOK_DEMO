@@ -47,4 +47,25 @@ public class AddressController {
 
     // TODO: Add a new endpoint to set,update,delete address for a page
 
+    // set Page address controller
+    @PostMapping("/add-address-page")
+    public ResponseEntity<Void> addAddressPage(@RequestBody @Valid Address address) {
+        addressService.addAddressPage(address);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    // update Page address controller
+    @PutMapping("/update-address-page/{id}")
+    public ResponseEntity<Void> updateAddressPage(@RequestBody @Valid Address address,@PathVariable Long id){
+        addressService.updateAddress(address,id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    // delete Page address controller
+    @DeleteMapping("/delete-address-page/{id}")
+    public ResponseEntity<Void> deleteAddressPage(@PathVariable Long id){
+        addressService.deleteAddress(id);
+        return  ResponseEntity.noContent().build();
+    }
+
 }

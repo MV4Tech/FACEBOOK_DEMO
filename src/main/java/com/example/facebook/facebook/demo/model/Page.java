@@ -1,5 +1,6 @@
 package com.example.facebook.facebook.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import lombok.*;
@@ -42,12 +43,16 @@ public class Page {
     private String phoneNumber;
 
     @Column
-    private LocalDateTime dateOfCreation;
+    private LocalDateTime dateOfCreation = LocalDateTime.now();
 
     @OneToMany(mappedBy = "page",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("page")
+    @EqualsAndHashCode.Exclude
     private Set<Address> addresses;
 
     @OneToMany(mappedBy = "page",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("page")
+    @EqualsAndHashCode.Exclude
     private Set<Post> posts;
 
     @Column
@@ -60,6 +65,8 @@ public class Page {
     private Set<Video> videos;
 
     @OneToMany(mappedBy = "page", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("page")
+    @EqualsAndHashCode.Exclude
     private Set<UserPageRelation> userPageRelations;
 
    // private Set<Event> events;

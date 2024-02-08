@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     // This method is used to handle the UserNotFoundException
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Map<String, List<String>>> handleNotFoundException(UserNotFoundException ex){
+    public ResponseEntity<Map<String, List<String>>> handleUserNotFoundException(UserNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
@@ -96,33 +96,46 @@ public class GlobalExceptionHandler {
 
     // This method is used to handle PostPhotoNotFoundException
     @ExceptionHandler(PostPhotoNotFoundException.class)
-    public ResponseEntity<Map<String,List<String>>> handleCommentNotFoundException(PostPhotoNotFoundException ex){
+    public ResponseEntity<Map<String,List<String>>> handlePostPhotoNotFoundException(PostPhotoNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     // This method is used to handle PostVideoNotFoundException
     @ExceptionHandler(PostVideoNotFoundException.class)
-    public ResponseEntity<Map<String,List<String>>> handleCommentNotFoundException(PostVideoNotFoundException ex){
+    public ResponseEntity<Map<String,List<String>>> handlePostVideoNotFoundException(PostVideoNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     // This method is used to handle NotificationsNotFoundException
     @ExceptionHandler(NotificationsNotFoundException.class)
-    public ResponseEntity<Map<String,List<String>>> handleCommentNotFoundException(NotificationsNotFoundException ex){
+    public ResponseEntity<Map<String,List<String>>> handleNotificationNotFoundException(NotificationsNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     // This method is used to handle FriendshipNotFoundException
     @ExceptionHandler(FriendshipNotFoundException.class)
-    public ResponseEntity<Map<String,List<String>>> handleCommentNotFoundException(FriendshipNotFoundException ex){
+    public ResponseEntity<Map<String,List<String>>> handleFriendshipNotFoundException(FriendshipNotFoundException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
 
+    // This method is used to handle PageNotFoundException
+    @ExceptionHandler(PageNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handlePageNotFoundException(PageNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(UserPageRelationNotFoundException.class)
+    public ResponseEntity<Map<String,List<String>>> handleUserPageRelationNotFoundException(UserPageRelationNotFoundException ex){
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
 
 
 /*
@@ -134,14 +147,14 @@ public class GlobalExceptionHandler {
     }
     */
 
-
+/*
     // This method is used to handle the runtime exceptions
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String,List<String>>> handleRunetimeException(RuntimeException ex){
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+*/
     // This method is used to create the error response in the form of a map
     private Map<String,List<String>> getErrorsMap(List<String> errors) {
         Map<String,List<String>> errorResponse = new HashMap<>();

@@ -72,8 +72,8 @@ public class AddressServiceImpl implements AddressService {
         updatedAddress.setCountry(address.getCountry());
         updatedAddress.setMunicipality(address.getMunicipality());
         addressRepository.save(updatedAddress);
-        logger.info("Address updated successfully to user - " + optionalAddress.get().getUser().getEmail());
-    }
+        logger.info("Address updated successfully to user - " + optionalAddress.get().getUser().getEmail() + "or page - " + optionalAddress.get().getPage().getId());
+        }
 
     @Override
     public void deleteAddress(Long id) {
@@ -82,6 +82,12 @@ public class AddressServiceImpl implements AddressService {
             throw new AddressNotFoundException("Address not found");
         }
         addressRepository.deleteById(id);
-        logger.info("Address deleted successfully to user - " + optionalAddress.get().getUser().getEmail());
+        logger.info("Address deleted successfully to user - " + optionalAddress.get().getUser().getEmail() + " or page - " + optionalAddress.get().getPage().getId());
+    }
+
+    @Override
+    public void addAddressPage(Address address) {
+        addressRepository.save(address);
+        logger.info("Address added successfully to page - " + address.getPage().getId());
     }
 }
