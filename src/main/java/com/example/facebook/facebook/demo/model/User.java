@@ -113,11 +113,6 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     private Set<Notification> sentNotifications;
 
-   // private Set<Message> messages;
-
-   // private Set<Group> groups;
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
