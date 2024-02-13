@@ -1,4 +1,8 @@
 spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://root:root@fbdemo.oc9zuks.mongodb.net/?retryWrites=true&w=majority
+      database: fbdemo
   servlet:
     multipart:
       max-file-size: 4MB
@@ -14,6 +18,8 @@ spring:
   properties:
     hibernate:
       dialect: org.hibernate.dialect.MySQL8Dialect
+
+
 
   flyway:
    # baseline-on-migrate: true
@@ -37,3 +43,4 @@ application:
       # expiration: 300000  # 5 minutes in milliseconds
       refresh-token:
         expiration: 604800000 # 7 days
+
