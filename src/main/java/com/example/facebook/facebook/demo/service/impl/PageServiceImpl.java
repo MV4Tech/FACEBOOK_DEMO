@@ -1,7 +1,9 @@
 package com.example.facebook.facebook.demo.service.impl;
 
 import com.example.facebook.facebook.demo.exception.PageNotFoundException;
+import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.Page;
+import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.model.UserPageRelation;
 import com.example.facebook.facebook.demo.repository.PageRepository;
 import com.example.facebook.facebook.demo.service.PageService;
@@ -10,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -45,6 +49,40 @@ public class PageServiceImpl implements PageService {
         Page page = getPageById(id);
         pageRepository.delete(page);
         logger.info("Page deleted successfully with id" + id);
+    }
+
+    @Override
+    public String setProfileImage(MultipartFile file, Long id) throws IOException {
+
+        byte[] bytes = file.getBytes();
+       Page page = getPageById(id);
+        page.setProfilePicture(bytes);
+        pageRepository.save(page);
+        return "Profile picture uploaded successfully!";
+
+    }
+
+    @Override
+    public byte[] displayProfileImage(long id) {
+        Page page = getPageById(id);
+        byte[] image = page.getProfilePicture();
+        return image;
+    }
+
+    @Override
+    public String setCoverImage(MultipartFile file, long id) throws IOException {
+        byte[] bytes = file.getBytes();
+        Page page = getPageById(id);
+        page.setCoverPhoto(bytes);
+        pageRepository.save(page);
+        return "Cover picture uploaded successfully!";
+    }
+
+    @Override
+    public byte[] displayCoverImage(long id) {
+        Page page = getPageById(id);
+        byte[] image = page.getCoverPhoto();
+        return image;
     }
 
 
