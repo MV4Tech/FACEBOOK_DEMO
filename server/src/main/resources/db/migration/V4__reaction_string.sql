@@ -1,0 +1,2 @@
+ALTER TABLE reaction
+ADD COLUMN username VARCHAR(80);
