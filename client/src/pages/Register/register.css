@@ -1,0 +1,164 @@
+body{
+    margin: 0px;
+}
+.register{
+    height: 100vh;
+    width: 100%;
+    background-color: #F0F2F5;
+  }
+  
+  .registerWrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+    .registerLeft{
+        height: 300px;
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+    }
+    .facebookLogo img {
+        margin-left: -32px;
+        width: 320px;
+        height: 106px;
+      }
+    .registerLeftDesc{
+      font-size: 30px;
+      color: #1C1E21;
+      font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
+      width:90%;
+    }
+    .registerRight{
+        height: 600px;
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
+    }
+    .registerBox{
+      background-color: white;
+      height: 500px;
+      width: 496px;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    .registerForm{
+      margin-top: 10px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .registerInput{
+      height: 9px;
+      width: 364px;
+      border-radius: 5px;
+      border: none;
+      border: 1.5px solid rgb(238, 219, 219);
+      font-size: 16px;
+      padding: 20px;
+    }
+    .registerInput:focus{
+      outline: none;
+      border: 1.5px solid rgb(80, 80, 212);
+    }
+    #registerBtn{
+      height: 50px;
+      width: 405px;
+      background-color: #42B72A;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      color: aliceblue;
+      font-size: 20px;
+    }
+    .alrdyhaveAc{
+        font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
+        font-size: 15px;
+    }
+    #registerBtn:hover{
+      cursor: pointer;
+      background-color: #42b72ae4;
+    }
+    .alreadyAc{
+      text-decoration: none;
+    }
+    .registerHr{
+      width: 300px;
+      color: rgb(240, 216, 216);
+    }
+    
+    .registerLoginAc{
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .registerLoginBtn{
+      height: 50px;
+      width: 200px;
+      background-color: rgb(15, 141, 67);
+      border: none;
+      border-radius: 5px;
+      color: aliceblue;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .registerLoginBtn:hover{
+      cursor: pointer;
+      background-color: rgb(18, 126, 54);
+    }
+
+    .registerUsername{
+      margin-top: 20px;
+    }
+
+
+    @media only screen and (max-width: 1550px){
+
+      .registerWrapper{
+        flex-direction:column;
+      }
+      .registerLeft{
+        height:80px;
+        width:100%;
+        margin-bottom: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .facebookLogo img {
+        margin-top: 30px;
+        
+      }
+      
+      }
+
+    @media only screen and (max-height: 100px){
+           
+        .loginWrapper{
+          flex-direction:column;
+        }
+        .loginLeft{
+          height:80px;
+          width:100%;
+          margin-bottom: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .facebookLogo img {
+          margin-top: 30px;
+        }
+    
+    }
