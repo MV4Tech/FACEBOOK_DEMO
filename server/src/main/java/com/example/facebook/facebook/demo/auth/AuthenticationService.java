@@ -38,9 +38,16 @@ public class AuthenticationService  {
             throw new InvalidCredentialsException("Passwords do not match!");
         }
 
+        String email = request.getEmail();
+        if(userService.findByEmail(email).isPresent()){
+            throw new InvalidCredentialsException("This email is already connected to an account!");
+        }
+
 
         var user = User.builder()
                 .email(request.getEmail())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .dateOfCreation(LocalDateTime.now())
                 .isVerified(false)

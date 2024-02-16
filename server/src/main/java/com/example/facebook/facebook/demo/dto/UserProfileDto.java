@@ -17,15 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserProfileDto {
 
-    @NotBlank(message = "Invalid Name: Empty name")
-    @NotNull(message = "Invalid Name: Name is NULL")
-    @Size(min = 3, max = 30, message = "Invalid Name: Must be of 3 - 30 characters")
-    private String firstName;
-
-
-    private String lastName;
-
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOfBirth;
 

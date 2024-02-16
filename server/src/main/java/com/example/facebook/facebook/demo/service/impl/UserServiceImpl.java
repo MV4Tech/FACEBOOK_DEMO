@@ -96,8 +96,6 @@ public class UserServiceImpl implements UserService {
             }
         }
         User user = optionalUser.get();
-        user.setFirstName(userProfileDto.getFirstName());
-        user.setLastName(userProfileDto.getLastName());
         user.setGender(userProfileDto.getGender());
         user.setPhoneNumber(userProfileDto.getPhoneNumber());
         user.setDateOfBirth(userProfileDto.getDateOfBirth());

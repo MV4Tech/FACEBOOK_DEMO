@@ -1,10 +1,12 @@
 body{
     margin: 0px;
+    padding: 0px;
+    background-color: #F0F2F5;
 }
 .register{
     height: 100vh;
     width: 100%;
-    background-color: #F0F2F5;
+    
   }
   
   .registerWrapper{
@@ -17,7 +19,7 @@ body{
   }
     .registerLeft{
         height: 300px;
-        width: 40%;
+        width: 30%;
         display: flex;
         flex-direction: column;
     }
@@ -27,10 +29,10 @@ body{
         height: 106px;
       }
     .registerLeftDesc{
-      font-size: 30px;
+      font-size: 28px;
       color: #1C1E21;
       font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
-      width:90%;
+      width:500px;
     }
     .registerRight{
         height: 600px;
@@ -45,7 +47,7 @@ body{
     .registerBox{
       background-color: white;
       height: 500px;
-      width: 496px;
+      width: 455px;
       border-radius: 10px;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
@@ -60,7 +62,7 @@ body{
     }
     .registerInput{
       height: 9px;
-      width: 364px;
+      width: 405px;
       border-radius: 5px;
       border: none;
       border: 1.5px solid rgb(238, 219, 219);
@@ -93,8 +95,9 @@ body{
       text-decoration: none;
     }
     .registerHr{
-      width: 300px;
-      color: rgb(240, 216, 216);
+      width: 400px;
+      color: rgb(98, 59, 59);
+      margin-bottom: 1px;
     }
     
     .registerLoginAc{
@@ -125,20 +128,22 @@ body{
 
     @media only screen and (max-width: 1550px){
 
-      .registerWrapper{
-        flex-direction:column;
-      }
+
       .registerLeft{
         height:80px;
         width:100%;
-        margin-bottom: 45px;
+        margin-bottom: 74px;
         display: flex;
         align-items: center;
         justify-content: center;
+
+      }
+      .registerLeftDesc{
+        margin-left: 50px;
       }
       
       .facebookLogo img {
-        margin-top: 30px;
+        margin-top: 70px;
         
       }
       
@@ -158,7 +163,7 @@ body{
           justify-content: center;
         }
         .facebookLogo img {
-          margin-top: 30px;
+          margin-top: 60px;
         }
     
     }
