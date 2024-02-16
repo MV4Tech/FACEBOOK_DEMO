@@ -1,10 +1,13 @@
 body{
     margin: 0px;
+    padding: 0px;
+    background-color: #F0F2F5;
 }
+
 .login{
     height: 100vh;
     width: 100%;
-    background-color: #F0F2F5;
+   
   }
   
   .loginWrapper{
@@ -53,7 +56,7 @@ body{
     .loginBox{
       background-color: white;
       height: 396px;
-      width: 496px;
+      width: 455px;
       border-radius: 10px;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
@@ -68,7 +71,7 @@ body{
     }
     .loginInput{
       height: 9px;
-      width: 364px;
+      width: 405px;
       border-radius: 5px;
       border: none;
       border: 1.5px solid rgb(238, 219, 219);
@@ -80,8 +83,8 @@ body{
       border: 1.5px solid rgb(80, 80, 212);
     }
     #loginBtn{
-      height: 48px;
-      width: 405px;
+      height: 50px;
+      width: 403px;
       background-color: #0866FF;
       border: none;
       border-radius: 5px;
@@ -98,8 +101,9 @@ body{
       font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
     }
     .loginHr{
-      width: 300px;
-      color: rgb(240, 216, 216);
+      width: 400px;
+      color: rgb(98, 59, 59);
+      margin-bottom: 1px;
     }
     
     .loginCreateAc{
@@ -109,13 +113,14 @@ body{
       justify-content: center;
     }
     .loginCreateBtn{
+      font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
       height: 50px;
       width: 200px;
       background-color: #42B72A;
       border: none;
       border-radius: 5px;
       color: aliceblue;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
     }
     .loginCreateBtn:hover{
@@ -126,20 +131,19 @@ body{
     
     @media only screen and (max-width: 1550px){
        
-    .loginWrapper{
-      flex-direction:column;
-    }
+
     .loginLeft{
       height:80px;
       width:100%;
-      margin-bottom: 45px;
+      margin-bottom: 74px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .facebookLogo img {
-      margin-top: 30px;
+    .loginLeftDesc{
+      margin-left: 50px;
     }
+    
 
 }
 @media only screen and (max-height: 100px){
@@ -158,5 +162,6 @@ body{
     .facebookLogo img {
       margin-top: 30px;
     }
+    
 
 }

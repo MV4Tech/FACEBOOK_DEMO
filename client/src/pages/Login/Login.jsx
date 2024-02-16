@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 function Login() {
  
 
+
+
   return (
   
 <>
@@ -12,7 +14,7 @@ function Login() {
       <div className="loginWrapper">
         <div className="loginLeft">
           <div className="facebookLogo">
-            <img class="fb_logo _8ilh img" src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Facebook"></img>
+            <img className="fb_logo _8ilh img" src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Facebook"></img>
           </div>
           <div className="loginLeftDesc">
           Facebook helps you connect and share with the people in your life. <br />
@@ -21,7 +23,7 @@ function Login() {
         <div className="loginRight">
           <div className="loginBox">
             <form action="#" className="loginForm">
-              <div class="loginUsername">
+              <div className="loginUsername">
                 <input
                   className="loginInput"
                   placeholder="Email"
@@ -29,7 +31,7 @@ function Login() {
                   id="username-l"
                 />
               </div>
-              <div class="loginPassword">
+              <div className="loginPassword">
                 <input
                   className="loginInput"
                   placeholder="Password"
