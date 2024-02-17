@@ -126,6 +126,14 @@ body{
     }
 
 
+    /* Add styles for error message */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px; /* Adjust as needed */
+}
+
+
     @media only screen and (max-width: 1550px){
 
 

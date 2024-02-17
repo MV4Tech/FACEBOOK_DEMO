@@ -17,10 +17,22 @@ const Register = () => {
     role:"USER"
 })
 
+const [inputErrors, setInputErrors] = useState({
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+});
+
 const handleChange = (e) => {
   const value = e.target.value;
   setUser({...user,[e.target.name]:value})
+  setInputErrors({})
 }
+
+// const [errors, setErrors] = useState([]);
+
 
 
 let navigate = useNavigate();
@@ -30,18 +42,30 @@ const saveUser = async (e) => {
   try {
     await authService.makeRegisterRequest(user);
     navigate("/login");
-  } catch (error) {
-    if (error.response && error.response.data && error.response.data.errors) {
-      // If the errors array is available from the backend
-      const errorMessage = error.response.data.errors[0]; // Assuming there's only one error returned
-      alert(errorMessage);
-    } else if (error.message.includes('Duplicate entry')) {
-      // If it's a duplicate entry error
-      alert('Email already exists. Please use a different email.');
-    } else {
-      // For other types of errors
-      alert('An error occurred. Please try again later.');
+  } catch (error) { 
+    const errorMessage = error.response.data.errors[error.response.data.errors.length - 1];
+    
+    console.log(errorMessage);
+     if (errorMessage === 'Invalid Name: Must be of 3 - 30 characters') {
+      setInputErrors({ ...inputErrors, firstName: 'Invalid Name: Must be of 3 - 30 characters' });
+      setUser(prevUser => ({ ...prevUser, firstName: '' })); 
+     }
+    else if (errorMessage === 'This email is already connected to an account!') {
+      setInputErrors({ ...inputErrors, email: 'Email already exists. Please use a different email.' });
+      setUser(prevUser => ({ ...prevUser, email: '' })); 
+     
+    } else if (errorMessage === 'Invalid Name: Must be of 3 - 30 characters') {
+      setInputErrors({ ...inputErrors, firstName: 'Invalid Name: Must be of 3 - 30 characters' });
+      setUser(prevUser => ({ ...prevUser, firstName: '' })); 
+    }else if(errorMessage === 'Password must be at least 6 characters long!'){
+      setInputErrors({ ...inputErrors, password: 'Invalid password: Must be of 6 - 30 characters' });
+      setUser(prevUser => ({ ...prevUser, password: '' })); 
+    }else if(errorMessage === 'Passwords do not match!'){
+      setInputErrors({ ...inputErrors, confirmPassword: 'Passwords do not match!' });
+      setUser(prevUser => ({ ...prevUser, confirmPassword: '' }));
     }
+    
+  
   }
 }
 
@@ -75,7 +99,7 @@ const saveUser = async (e) => {
                          id="firstName"
                          onChange={(e)=>handleChange(e)}
                          />
-                         
+                          <span className="error-message"><br/>{inputErrors.firstName}</span>
                 </div>
 
                 <div className="registerSurname">
@@ -88,11 +112,12 @@ const saveUser = async (e) => {
                          id="surname"
                          onChange={(e)=>handleChange(e)}
                          />
+                         <span className="error-message"><br/>{inputErrors.lastName}</span>
                          
                 </div>
         
                 <div className="registerEmail">
-                    <input className='registerInput'
+                    <input className={`registerInput ${inputErrors.email && 'error'}`}
                     required
                      name="email"
                       value={user.email}
@@ -101,6 +126,7 @@ const saveUser = async (e) => {
                         id="email"
                         onChange={(e)=>handleChange(e)}
                         />
+                         <span className="error-message"><br/>{inputErrors.email}</span>
                         
                 </div>
                 
@@ -114,7 +140,7 @@ const saveUser = async (e) => {
                          id="password"
                          onChange={(e)=>handleChange(e)}
                          />
-                         
+                         <span className="error-message"><br/>{inputErrors.password}</span>
                 </div>
 
                 <div className="registerPassword">
@@ -126,7 +152,7 @@ const saveUser = async (e) => {
                          id="re-Password"
                          onChange={(e)=>handleChange(e)}
                          />
-                        
+                         <span className="error-message"><br/>{inputErrors.confirmPassword}</span>
                 </div>
 
                 <div className="registerSubmit">
@@ -134,6 +160,12 @@ const saveUser = async (e) => {
                     <input id='registerBtn' type="submit" value="Sign Up"/>
                    
                 </div>
+                
+                {/* <div className="error-messages">
+                  {errors.map((error, index) => (
+                <p key={index} style={{ color: 'red' }}>{error}</p>
+                    ))}
+                </div> */}
                 
                 <hr className="registerHr" />
                 <div className="registerLoginAc">

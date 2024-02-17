@@ -18,6 +18,8 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
+    Optional<User> FindByEmailNotOptional(String email);
+
     Optional<User> findById(Long id);
 
     List<User> getAllUsers();

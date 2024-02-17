@@ -17,9 +17,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.regex.Pattern;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.regex.Matcher;
 
 @Service
 @RequiredArgsConstructor
@@ -30,18 +32,25 @@ public class AuthenticationService  {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+
     // register user service
     public AuthenticationResponse register(RegisterRequest request) {
 
+        String email = request.getEmail();
+        if(userService.FindByEmailNotOptional(email).isPresent()){
+            throw new InvalidCredentialsException("This email is already connected to an account!");
+        }
         // check if passwords match
         if(!(request.getPassword().equals(request.getConfirmPassword()))){
             throw new InvalidCredentialsException("Passwords do not match!");
         }
-
-        String email = request.getEmail();
-        if(userService.findByEmail(email).isPresent()){
-            throw new InvalidCredentialsException("This email is already connected to an account!");
+        
+        if(request.getPassword().length()< 6 ){
+            throw new InvalidCredentialsException("Password must be at least 6 characters long!");
         }
+
+
+
 
 
         var user = User.builder()
