@@ -8,11 +8,9 @@ import com.example.facebook.facebook.demo.model.Company;
 import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.UserRepository;
-import com.example.facebook.facebook.demo.service.AddressService;
-import com.example.facebook.facebook.demo.service.CompanyService;
-import com.example.facebook.facebook.demo.service.EducationService;
-import com.example.facebook.facebook.demo.service.UserService;
+import com.example.facebook.facebook.demo.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +23,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Override
+    public Long findUserIdByAuthentication(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
+    }
 
 
     // save user w
@@ -89,7 +93,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto, Long id) {
+    public UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto, Authentication authentication) {
+        Long id = findUserIdByAuthentication(authentication);
+        
         Optional<User> optionalUser = userRepository.findById(id);
         if(!optionalUser.isPresent()){
             throw new UserNotFoundException("No user found with id: "+id+"!");

@@ -1,11 +1,13 @@
 package com.example.facebook.facebook.demo.service;
 
 import com.example.facebook.facebook.demo.model.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public interface PageService {
+    Long findPageIdByAuthentication(Authentication authentication);
     void addPage(Page page);
 
     Page getPageById(Long id);

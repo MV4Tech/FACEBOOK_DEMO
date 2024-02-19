@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +20,16 @@ public class AddressController {
     private final AddressService addressService;
 
     // set User address controller
-    @PostMapping("/add-address/{id}")
-    public ResponseEntity<Void> addAddress(@RequestBody @Valid Address address, @PathVariable Long id) {
-           addressService.addAddress(address, id);
+    @PostMapping("/add-address")
+    public ResponseEntity<Void> addAddress(@RequestBody @Valid Address address,Authentication authentication) {
+           addressService.addAddress(address, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // get all addresses from user controller
-    @GetMapping("/get-addresses/{id}")
-    public ResponseEntity<List<AddressDto>> getAddressesByUserId(@PathVariable Long id){
-        return ResponseEntity.ok(addressService.getAddressesByUserId(id));
+    @GetMapping("/get-addresses")
+    public ResponseEntity<List<AddressDto>> getAddressesByUserId(Authentication authentication){
+        return ResponseEntity.ok(addressService.getAddressesByUserId(authentication));
     }
 
     // update address controller
@@ -46,12 +47,16 @@ public class AddressController {
     }
 
 
+    // TODO: test after make post
+
     // set Page address controller
     @PostMapping("/add-address-page")
-    public ResponseEntity<Void> addAddressPage(@RequestBody @Valid Address address) {
-        addressService.addAddressPage(address);
+    public ResponseEntity<Void> addAddressPage(@RequestBody @Valid Address address, Authentication authentication){
+        addressService.addAddressPage(authentication,address);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+
 
     // update Page address controller
     @PutMapping("/update-address-page/{id}")

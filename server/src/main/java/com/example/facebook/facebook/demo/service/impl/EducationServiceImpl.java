@@ -11,6 +11,7 @@ import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +31,9 @@ public class EducationServiceImpl implements EducationService{
     }
 
     @Override
-    public void addEducation(Education education, Long id) {
+    public void addEducation(Education education, Authentication authentication) {
         Education newEducation = new Education();
+        Long id = userService.findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userService.findById(id);
         if(!optionalUser.isPresent()){
             throw new UserNotFoundException("No user found with id: "+id+"!");
@@ -46,7 +48,8 @@ public class EducationServiceImpl implements EducationService{
     }
 
     @Override
-    public List<EducationDto> getEducationsByUserId(Long id) {
+    public List<EducationDto> getEducationsByUserId(Authentication authentication) {
+        Long id = userService.findUserIdByAuthentication(authentication);
         List<Education> educations = educationRepository.findAllByUserId(id);
         if(!(educations.size() > 0)){
             throw new UserNotFoundException("Education not found");

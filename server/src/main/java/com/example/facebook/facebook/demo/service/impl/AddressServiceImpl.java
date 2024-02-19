@@ -4,13 +4,17 @@ import com.example.facebook.facebook.demo.dto.AddressDto;
 import com.example.facebook.facebook.demo.exception.AddressNotFoundException;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.Address;
+import com.example.facebook.facebook.demo.model.Page;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.AddressRepository;
 import com.example.facebook.facebook.demo.service.AddressService;
+import com.example.facebook.facebook.demo.service.JwtService;
+import com.example.facebook.facebook.demo.service.PageService;
 import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +29,7 @@ public class AddressServiceImpl implements AddressService {
     private static final Logger logger = LoggerFactory.getLogger(AddressServiceImpl.class);
     private final AddressRepository addressRepository;
     private final UserService userService;
+    private final PageService pageService;
 
     @Override
     public void save(Address address) {
@@ -32,8 +37,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void addAddress(Address address, Long id) {
+    public void addAddress(Address address, Authentication authentication) {
         Address newAddress = new Address();
+        Long id = userService.findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userService.findById(id);
         newAddress.setCity(address.getCity());
         newAddress.setCountry(address.getCountry());
@@ -43,8 +49,12 @@ public class AddressServiceImpl implements AddressService {
         logger.info("Address added successfully to user - " + optionalUser.get().getEmail());
     }
 
+
+
+
     @Override
-    public List<AddressDto> getAddressesByUserId(Long id) {
+    public List<AddressDto> getAddressesByUserId(Authentication authentication) {
+        Long id = userService.findUserIdByAuthentication(authentication);
         List<Address> addresses = addressRepository.findAllByUserId(id);
         if(!(addresses.size() > 0)){
             throw new AddressNotFoundException("Address not found");
@@ -63,6 +73,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void updateAddress(Address address, Long id) {
+
+
         Optional<Address> optionalAddress = addressRepository.findById(id);
         if(!optionalAddress.isPresent()){
             throw new AddressNotFoundException("Address not found");
@@ -86,8 +98,15 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void addAddressPage(Address address) {
-        addressRepository.save(address);
+    public void addAddressPage(Authentication authentication, Address address) {
+        Address newAddress = new Address();
+        Long pageId = pageService.findPageIdByAuthentication(authentication);
+        Page optionalPage = pageService.getPageById(pageId);
+        newAddress.setCity(address.getCity());
+        newAddress.setCountry(address.getCountry());
+        newAddress.setMunicipality(address.getMunicipality());
+        newAddress.setPage(optionalPage);
+        addressRepository.save(newAddress);
         logger.info("Address added successfully to page - " + address.getPage().getId());
     }
 }

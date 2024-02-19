@@ -1,11 +1,15 @@
 package com.example.facebook.facebook.demo.service.impl;
 
+import com.example.facebook.facebook.demo.repository.UserRepository;
 import com.example.facebook.facebook.demo.service.JwtService;
+import com.example.facebook.facebook.demo.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
@@ -17,7 +21,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
+
+    private final UserService userService;
 
     /*
     Values are injected from the application.properties file
@@ -45,7 +52,12 @@ public class JwtServiceImpl implements JwtService {
     * @return - returns the token
      */
     public String generateToken(Map<String,Object> extraClaims, UserDetails userDetails){
+        extraClaims.put("id",findUserByUsername(userDetails.getUsername()));
         return buildToken(extraClaims, userDetails, jwtExpiration);
+    }
+
+    private Object findUserByUsername(String username) {
+       return userService.findByEmail(username).get().getId();
     }
 
 
@@ -55,8 +67,9 @@ public class JwtServiceImpl implements JwtService {
     * @return - returns the refresh token
      */
     public String generateRefreshToken(UserDetails userDetails){
-
-        return buildToken(new HashMap<>(), userDetails,refreshExpiration);
+        HashMap<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("id",findUserByUsername(userDetails.getUsername()));
+        return buildToken(extraClaims, userDetails,refreshExpiration);
     }
 
 
@@ -81,10 +94,14 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
+
+
+
+
     /*
-    This method is used to extract
-     the username from the token
-     */
+        This method is used to extract
+         the username from the token
+         */
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
@@ -102,7 +119,6 @@ public class JwtServiceImpl implements JwtService {
      *  This method is used to extract all the claims
      *      from the token and store it in the claims object
      * @param token- token to be validated
-     * @param userDetails- user details
      * @return - returns true if the token is valid
      */
     private Claims extractAllClaims(String token) {
@@ -128,7 +144,6 @@ public class JwtServiceImpl implements JwtService {
      * This method is used to check if expiration
      * of the token is before the current date
      * @param token
-     * @param userDetails
      * @return
      */
     private boolean isTokenExpired(String token) {

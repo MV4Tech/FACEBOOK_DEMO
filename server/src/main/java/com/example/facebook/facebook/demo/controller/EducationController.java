@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,15 +20,15 @@ public class EducationController {
     private final EducationService educationService;
 
     // set User education controller
-    @PostMapping("/add-education/{id}")
-    public ResponseEntity<Void> addEducation(@RequestBody @Valid Education education, @PathVariable Long id){
-        educationService.addEducation(education, id);
+    @PostMapping("/add-education")
+    public ResponseEntity<Void> addEducation(@RequestBody @Valid Education education, Authentication authentication){
+        educationService.addEducation(education, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/get-educations/{id}")
-    public ResponseEntity<List<EducationDto>> getEducationsByUserId(@PathVariable Long id){
-        return ResponseEntity.ok(educationService.getEducationsByUserId(id));
+    @GetMapping("/get-educations")
+    public ResponseEntity<List<EducationDto>> getEducationsByUserId(Authentication authentication){
+        return ResponseEntity.ok(educationService.getEducationsByUserId(authentication));
     }
 
     @DeleteMapping("/delete-education/{id}")
