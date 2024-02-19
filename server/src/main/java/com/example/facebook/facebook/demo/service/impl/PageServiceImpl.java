@@ -11,6 +11,7 @@ import com.example.facebook.facebook.demo.service.UserPageRelationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +24,13 @@ public class PageServiceImpl implements PageService {
     private final PageRepository pageRepository;
     private final UserPageRelationService userPageRelationService;
     private static final Logger logger = LoggerFactory.getLogger(PageServiceImpl.class);
+
+    @Override
+    public Long findPageIdByAuthentication(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
+    }
+
     @Override
     public void addPage(Page page) {
         pageRepository.save(page);

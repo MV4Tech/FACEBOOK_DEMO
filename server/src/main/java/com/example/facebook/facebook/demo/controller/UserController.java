@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,9 +45,9 @@ public class UserController {
     }
 
     // set User profile info controller
-    @PostMapping("/profile-info/{id}")
-    public ResponseEntity<UserProfileDto> setUserProfileInfo(@RequestBody @Valid UserProfileDto userProfileDto, @PathVariable Long id){
-        return ResponseEntity.ok(userService.setUserProfileInfo(userProfileDto,id));
+    @PostMapping("/profile-info")
+    public ResponseEntity<UserProfileDto> setUserProfileInfo(@RequestBody @Valid UserProfileDto userProfileDto, Authentication authentication){
+        return ResponseEntity.ok(userService.setUserProfileInfo(userProfileDto,authentication));
     }
 
     // add profile picture controller

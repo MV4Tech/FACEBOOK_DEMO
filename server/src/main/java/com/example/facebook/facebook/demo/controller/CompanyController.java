@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +20,16 @@ public class CompanyController {
     private final CompanyService companyService;
 
     // set User company controller
-    @PostMapping("/add-company/{id}")
-    public ResponseEntity<Void> addCompany(@RequestBody @Valid Company company, @PathVariable Long id){
-        companyService.addCompany(company, id);
+    @PostMapping("/add-company")
+    public ResponseEntity<Void> addCompany(@RequestBody @Valid Company company, Authentication authentication){
+        companyService.addCompany(company, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // get all companies from user controller
-    @GetMapping("/get-companies/{id}")
-    public ResponseEntity<List<CompanyDto>> getCompaniesByUserId(@PathVariable Long id){
-        return ResponseEntity.ok(companyService.getCompaniesByUserId(id));
+    @GetMapping("/get-companies")
+    public ResponseEntity<List<CompanyDto>> getCompaniesByUserId(Authentication authentication){
+        return ResponseEntity.ok(companyService.getCompaniesByUserId(authentication));
     }
 
     @DeleteMapping("/delete-company/{id}")

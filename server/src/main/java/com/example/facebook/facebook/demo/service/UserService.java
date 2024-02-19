@@ -6,6 +6,7 @@ import com.example.facebook.facebook.demo.model.Address;
 import com.example.facebook.facebook.demo.model.Company;
 import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.util.Optional;
 
 public interface UserService {
 
+    
+    
     User saveUser(User user);
 
     Optional<User> findByEmail(String email);
@@ -28,7 +31,7 @@ public interface UserService {
 
     void deleteUserById(Long id);
 
-    UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto, Long id);
+    UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto,Authentication authentication);
 
 
     String setProfileImage(MultipartFile file, long id) throws IOException;
@@ -39,4 +42,5 @@ public interface UserService {
 
     byte[] displayCoverImage(long id);
 
+    Long findUserIdByAuthentication(Authentication authentication);
 }

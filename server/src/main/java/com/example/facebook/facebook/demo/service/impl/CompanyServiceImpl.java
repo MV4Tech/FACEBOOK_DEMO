@@ -11,6 +11,7 @@ import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +32,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void addCompany(Company company, Long id) {
+    public void addCompany(Company company, Authentication authentication) {
         Company newCompany = new Company();
+
+        Long id = userService.findUserIdByAuthentication(authentication);
+
         Optional<User> optionalUser = userService.findById(id);
 
         newCompany.setName(company.getName());
@@ -44,8 +48,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<CompanyDto> getCompaniesByUserId(Long id) {
-
+    public List<CompanyDto> getCompaniesByUserId(Authentication authentication) {
+        Long id = userService.findUserIdByAuthentication(authentication);
         List<Company> companies = companyRepository.findAllByUserId(id);
         if(!(companies.size() > 0)){
             throw new CompanyNotFoundException("Company not found");
