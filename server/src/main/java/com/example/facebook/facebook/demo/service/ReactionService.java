@@ -2,11 +2,12 @@ package com.example.facebook.facebook.demo.service;
 
 import com.example.facebook.facebook.demo.dto.ReactionDto;
 import com.example.facebook.facebook.demo.model.Reaction;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
 public interface ReactionService {
-    void addReactionToPost(Reaction reaction);
+    void addReactionToPost(Reaction reaction, Authentication authentication);
 
     List<ReactionDto> getReactionsByPostId(Long postId);
 
@@ -14,7 +15,7 @@ public interface ReactionService {
 
     Reaction updateReaction(Reaction reaction, Long id);
 
-    void addReactionToComment(Reaction reaction);
+    void addReactionToComment(Reaction reaction,Authentication authentication);
 
     void deleteReactionFromComment(Long reactionId);
 

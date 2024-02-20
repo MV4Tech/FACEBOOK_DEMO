@@ -15,6 +15,7 @@ import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -42,8 +43,9 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public void sendFriendRequest(Friendship friendship) {
-        User sender = userService.findById(friendship.getSender().getId()).get();
+    public void sendFriendRequest(Friendship friendship, Authentication authentication) {
+        long senderId = userService.findUserIdByAuthentication(authentication);
+        User sender = userService.findById(senderId).get();
         User receiver = userService.findById(friendship.getReceiver().getId()).get();
 
         Notification notification = new Notification();
@@ -51,23 +53,25 @@ public class FriendshipServiceImpl implements FriendshipService {
         logger.info(receiver.getFirstName());
         notification.setReceiver(receiver);
         notification.setSender(sender);
-
-        notificationService.sendNotification(notification);
+        friendship.setStatus(Status.PENDING);
+        friendship.setSender(sender);
+        notificationService.sendNotification(notification,authentication);
         friendshipRepository.save(friendship);
         logger.info("Friend Request pending from " + sender.getFirstName() + " " + sender.getLastName() + " to " + receiver.getFirstName() + " " + receiver.getLastName());
     }
 
     @Override
-    public void acceptFriendRequest(Long friendshipId) {
+    public void acceptFriendRequest(Long friendshipId,Authentication authentication) {
         Friendship friendship = getFriendship(friendshipId);
-        User sender = userService.findById(friendship.getSender().getId()).get();
-        User receiver = userService.findById(friendship.getReceiver().getId()).get();
-
+        long senderId = userService.findUserIdByAuthentication(authentication);
+        User sender = userService.findById(senderId).get();
+        User receiver = userService.findById(friendship.getSender().getId()).get();
+        logger.info(sender.getFirstName()+ " " + receiver.getFirstName());
         Notification notification = new Notification();
-        notification.setMessage(receiver.getFirstName() + " " + receiver.getLastName() + " has accepted your friend request");
-        notification.setReceiver(sender);
-        notification.setSender(receiver);
-        notificationService.sendNotification(notification);
+        notification.setMessage(sender.getFirstName() + " " + sender.getLastName() + " has accepted your friend request");
+        notification.setReceiver(receiver);
+        notification.setSender(sender);
+        notificationService.sendNotification(notification,authentication);
 
         friendship.setStatus(Status.ACCEPTED);
         friendship.setDateOfBecomingFriends(LocalDateTime.now());
@@ -76,16 +80,17 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public void denyFriendRequest(Long friendshipId) {
+    public void denyFriendRequest(Long friendshipId, Authentication authentication) {
+        long senderId = userService.findUserIdByAuthentication(authentication);
         Friendship friendship = getFriendship(friendshipId);
-        User sender = userService.findById(friendship.getSender().getId()).get();
-        User receiver = userService.findById(friendship.getReceiver().getId()).get();
+        User sender = userService.findById(senderId).get();
+        User receiver = userService.findById(friendship.getSender().getId()).get();
 
         Notification notification = new Notification();
-        notification.setMessage(receiver.getFirstName() + " " + receiver.getLastName() + " has denied your friend request");
-        notification.setReceiver(sender);
-        notification.setSender(receiver);
-        notificationService.sendNotification(notification);
+        notification.setMessage(sender.getFirstName() + " " + sender.getLastName() + " has denied your friend request");
+        notification.setReceiver(receiver);
+        notification.setSender(sender);
+        notificationService.sendNotification(notification,authentication);
 
         friendship.setStatus(Status.DENIED);
         friendship.setDateOfBecomingFriends(LocalDateTime.now());
@@ -94,7 +99,8 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public List<FriendshipDto> getAllFriendshipRequests(Long userId) {
+    public List<FriendshipDto> getAllFriendshipRequests(Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
         List<Friendship> friendships = friendshipRepository.findAllByReceiverIdAndStatus(userId, Status.PENDING);
 
         if(friendships.isEmpty()){
@@ -114,7 +120,8 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public List<FriendshipDto> getAllFriendsByUserId(Long userId) {
+    public List<FriendshipDto> getAllFriendsByUserId(Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
         List<Friendship> receivedFriendships = friendshipRepository.findAllByReceiverIdAndStatus(userId, Status.ACCEPTED);
         List<Friendship> sentFriendships = friendshipRepository.findAllBySenderIdAndStatus(userId, Status.ACCEPTED);
 

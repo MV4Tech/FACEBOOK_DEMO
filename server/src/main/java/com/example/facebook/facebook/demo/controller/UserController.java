@@ -51,32 +51,32 @@ public class UserController {
     }
 
     // add profile picture controller
-    @PostMapping("/add-profile-picture/{id}")
-    public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file,@PathVariable Long id) throws IOException {
-        String uploadMessage = userService.setProfileImage(file,id);
+    @PostMapping("/add-profile-picture")
+    public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file,Authentication authentication) throws IOException {
+        String uploadMessage = userService.setProfileImage(file,authentication);
 
         return ResponseEntity.status(HttpStatus.OK).body(uploadMessage);
     }
 
     // display profile picture controller
     @GetMapping("/display-profile-picture/{id}")
-    public ResponseEntity<byte[]> displayProfileImage(@PathVariable("id") long id) {
-        byte[] imageBytes = userService.displayProfileImage(id);
+    public ResponseEntity<byte[]> displayProfileImage(Authentication authentication) {
+        byte[] imageBytes = userService.displayProfileImage(authentication);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 
     // add cover picture controller
-    @PostMapping("/add-cover-picture/{id}")
-    public ResponseEntity<?> addCoverImage(@RequestParam("image") MultipartFile file,@PathVariable long id) throws IOException {
-        String uploadMessage = userService.setCoverImage(file,id);
+    @PostMapping("/add-cover-picture")
+    public ResponseEntity<?> addCoverImage(@RequestParam("image") MultipartFile file,Authentication authentication) throws IOException {
+        String uploadMessage = userService.setCoverImage(file,authentication);
 
         return ResponseEntity.status(HttpStatus.OK).body(uploadMessage);
     }
 
     // display cover picture controller
-    @GetMapping("/display-cover-picture/{id}")
-    public ResponseEntity<byte[]> displayCover(@PathVariable("id") long id) {
-        byte[] imageBytes = userService.displayCoverImage(id);
+    @GetMapping("/display-cover-picture")
+    public ResponseEntity<byte[]> displayCover(Authentication authentication) {
+        byte[] imageBytes = userService.displayCoverImage(authentication);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 

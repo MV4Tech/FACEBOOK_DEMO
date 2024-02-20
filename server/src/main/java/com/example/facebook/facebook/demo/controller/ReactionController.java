@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class ReactionController {
 
     // add reaction to post
     @PostMapping("/add-reaction-to-post")
-    public ResponseEntity<Void> addReactionToPost(@RequestBody @Valid Reaction reaction){
-        reactionService.addReactionToPost(reaction);
+    public ResponseEntity<Void> addReactionToPost(@RequestBody @Valid Reaction reaction, Authentication authentication){
+        reactionService.addReactionToPost(reaction,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -52,8 +53,8 @@ public class ReactionController {
 
     // add reaction to comment
     @PostMapping("/add-reaction-to-comment")
-    public ResponseEntity<Void> addReactionToComment(@RequestBody @Valid Reaction reaction){
-        reactionService.addReactionToComment(reaction);
+    public ResponseEntity<Void> addReactionToComment(@RequestBody @Valid Reaction reaction,Authentication authentication){
+        reactionService.addReactionToComment(reaction,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

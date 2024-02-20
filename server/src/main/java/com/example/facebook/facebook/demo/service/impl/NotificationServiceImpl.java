@@ -10,6 +10,7 @@ import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,18 +25,19 @@ public class NotificationServiceImpl implements NotificationService {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
     @Override
-    public void sendNotification(Notification notification) {
+    public void sendNotification(Notification notification, Authentication authentication) {
         logger.info(notification.getMessage());
-        User receiver = userService.findById(notification.getReceiver().getId()).get();
-        User sender = userService.findById(notification.getSender().getId()).get();
+        //long id = userService.findUserIdByAuthentication(authentication);
+        //User receiver = userService.findById(notification.getReceiver().getId()).get();
+       //User sender = userService.findById(id).get();
         notificationRepository.save(notification);
-        logger.info("Notification sent to " + receiver.getFirstName() + " " + receiver.getLastName() + " from " + sender.getFirstName() + " " + sender.getLastName() + " at " + notification.getSentTime());
+        //logger.info("Notification sent to " + receiver.getFirstName() + " " + receiver.getLastName() + " from " + sender.getFirstName() + " " + sender.getLastName() + " at " + notification.getSentTime());
 
     }
 
     @Override
-    public List<NotificationDto> getAllNotifications(Long userId) {
-
+    public List<NotificationDto> getAllNotifications(Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
         List<Notification> notifications = notificationRepository.findAllByReceiverId(userId);
         if(notifications.isEmpty()){
             throw new NotificationsNotFoundException("No notifications found for user with id " + userId);

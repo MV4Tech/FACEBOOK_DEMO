@@ -24,7 +24,7 @@ public class UserPageRelation {
     @JsonIgnoreProperties({"userPageRelations"})
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "page_id")
     @JsonIgnoreProperties({"userPageRelations"})
     private Page page;

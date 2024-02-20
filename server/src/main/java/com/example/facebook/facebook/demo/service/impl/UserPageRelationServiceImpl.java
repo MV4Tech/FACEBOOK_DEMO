@@ -3,14 +3,19 @@ package com.example.facebook.facebook.demo.service.impl;
 import com.example.facebook.facebook.demo.dto.UserPageRelationDto;
 import com.example.facebook.facebook.demo.exception.UserPageRelationNotFoundException;
 import com.example.facebook.facebook.demo.model.Page;
+import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.model.UserPageRelation;
 import com.example.facebook.facebook.demo.repository.UserPageRelationRepository;
+import com.example.facebook.facebook.demo.service.PageService;
 import com.example.facebook.facebook.demo.service.UserPageRelationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cglib.core.Local;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,9 +28,11 @@ public class UserPageRelationServiceImpl implements UserPageRelationService {
     private static final Logger logger = LoggerFactory.getLogger(UserPageRelationServiceImpl.class);
 
     @Override
-    public void addUserPageRelation(UserPageRelation userPageRelation) {
+    public void addUserPageRelation(UserPageRelation userPageRelation, Authentication authentication) {
+
+        userPageRelation.setUser((User) authentication.getPrincipal());
         userPageRelationRepository.save(userPageRelation);
-        logger.info("User page relation added successfully" + userPageRelation.getUser().getId()
+        logger.info("User page relation added successfully" + ((User) authentication.getPrincipal()).getId()
                 + " liked,followed or subscribed to "
                 + userPageRelation.getPage().getId() + " page");
     }
@@ -46,8 +53,8 @@ public class UserPageRelationServiceImpl implements UserPageRelationService {
     }
 
     @Override
-    public List<UserPageRelationDto> getAllUserRelationsByUserId(Long userId) {
-
+    public List<UserPageRelationDto> getAllUserRelationsByUserId(Authentication authentication) {
+        Long userId = ((User)authentication.getPrincipal()).getId();
         List<UserPageRelation> userPageRelations = userPageRelationRepository.findAllByUserId(userId);
         if(userPageRelations.isEmpty()){
             throw new UserPageRelationNotFoundException("No user page relations found for user with id - " + userId);
@@ -90,7 +97,8 @@ public class UserPageRelationServiceImpl implements UserPageRelationService {
     }
 
     @Override
-    public Long getLikedPageCount(Long userId) {
+    public Long getLikedPageCount(Authentication authentication) {
+        Long userId = ((User)authentication.getPrincipal()).getId();
         Long likedPageCount = userPageRelationRepository.countAllByUserId(userId);
         logger.info("Liked page count fetched successfully for user with id - " + userId);
         return likedPageCount;
@@ -98,6 +106,7 @@ public class UserPageRelationServiceImpl implements UserPageRelationService {
 
     @Override
     public List<Page> getAllPagesByUserId(Long userId) {
+
         List<UserPageRelation> userPageRelations = userPageRelationRepository.findAllByUserId(userId);
         List<Page> pages = userPageRelations.stream().map(UserPageRelation::getPage).collect(Collectors.toList());
         logger.info("Pages fetched successfully for user with id - " + userId + " pages - ");

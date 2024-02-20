@@ -6,6 +6,7 @@ import com.example.facebook.facebook.demo.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,8 +17,8 @@ public class ShareController {
 
     // share post
     @PostMapping("/share-post")
-    public ResponseEntity<Void> sharePost(@RequestBody Share share){
-        shareService.sharePost(share);
+    public ResponseEntity<Void> sharePost(@RequestBody Share share, Authentication authentication){
+        shareService.sharePost(share,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

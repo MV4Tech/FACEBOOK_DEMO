@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -32,14 +33,25 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public void addPage(Page page) {
-        pageRepository.save(page);
-        UserPageRelation userPageRelation = UserPageRelation.builder()
-                .page(page)
-                .user(page.getOwner())
+    public void addPage(Page page, Authentication authentication) {
+
+        Page newPage = Page.builder()
+                .name(page.getName())
+                .about(page.getAbout())
+                .phoneNumber(page.getPhoneNumber())
+                .dateOfCreation(LocalDateTime.now())
+                .owner((User)authentication.getPrincipal())
                 .build();
-        userPageRelationService.addUserPageRelation(userPageRelation);
-        logger.info("Page added successfully with id" + page.getId());
+        logger.info("Page created successfully " + newPage.getOwner().getId());
+        pageRepository.save(newPage);
+        UserPageRelation userPageRelation = UserPageRelation.builder()
+                .page(newPage)
+                .user((User)authentication.getPrincipal())
+                .dateStartedFollowing(LocalDateTime.now())
+                .build();
+
+        userPageRelationService.addUserPageRelation(userPageRelation,authentication);
+        logger.info("Page added successfully with id" + newPage.getId());
     }
 
     @Override
@@ -91,6 +103,15 @@ public class PageServiceImpl implements PageService {
         Page page = getPageById(id);
         byte[] image = page.getCoverPhoto();
         return image;
+    }
+
+    @Override
+    public Page getPageByOwnerId(Long id) {
+        Optional<Page> page = pageRepository.findByOwnerId(id);
+        if(!page.isPresent()){
+            throw new PageNotFoundException("Page not found with owner id " + id);
+        }
+        return page.get();
     }
 
 
