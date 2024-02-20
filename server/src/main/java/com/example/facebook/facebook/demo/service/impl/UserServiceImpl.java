@@ -3,9 +3,6 @@ package com.example.facebook.facebook.demo.service.impl;
 import com.example.facebook.facebook.demo.dto.UserProfileDto;
 import com.example.facebook.facebook.demo.exception.UniqueConstraintException;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
-import com.example.facebook.facebook.demo.model.Address;
-import com.example.facebook.facebook.demo.model.Company;
-import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.UserRepository;
 import com.example.facebook.facebook.demo.service.*;
@@ -119,11 +116,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String setProfileImage(MultipartFile file, long id) throws IOException {
+    public String setProfileImage(MultipartFile file, Authentication authentication) throws IOException {
         byte[] bytes = file.getBytes();
+        Long id = findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userRepository.findById(id);
         if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
+            throw new UserNotFoundException("No user found with id: "+ id +"!");
         }
         User user = optionalUser.get();
         user.setProfilePicture(bytes);
@@ -132,7 +130,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public byte[] displayProfileImage(long id) {
+    public byte[] displayProfileImage(Authentication authentication) {
+        Long id = findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userRepository.findById(id);
         if(!optionalUser.isPresent()){
             throw new UserNotFoundException("No user found with id: "+id+"!");
@@ -143,7 +142,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String setCoverImage(MultipartFile file, long id) throws IOException {
+    public String setCoverImage(MultipartFile file,Authentication authentication) throws IOException {
+        Long id = findUserIdByAuthentication(authentication);
         byte[] bytes = file.getBytes();
         Optional<User> optionalUser = userRepository.findById(id);
         if(!optionalUser.isPresent()){
@@ -156,7 +156,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public byte[] displayCoverImage(long id) {
+    public byte[] displayCoverImage(Authentication authentication) {
+        Long id = findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userRepository.findById(id);
         if(!optionalUser.isPresent()){
             throw new UserNotFoundException("No user found with id: "+id+"!");

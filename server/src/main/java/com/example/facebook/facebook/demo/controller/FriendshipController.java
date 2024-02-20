@@ -6,6 +6,7 @@ import com.example.facebook.facebook.demo.service.FriendshipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,34 +20,34 @@ public class FriendshipController {
 
     // send friendship request
     @PostMapping("/request-friendship")
-    public ResponseEntity<Void> sendFriendRequest( @RequestBody Friendship friendship){
-        friendshipService.sendFriendRequest(friendship);
+    public ResponseEntity<Void> sendFriendRequest(@RequestBody Friendship friendship, Authentication authentication){
+        friendshipService.sendFriendRequest(friendship, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // accept friendship
     @PutMapping("/accept-friendship/{friendshipId}")
-    public ResponseEntity<String> acceptFriendRequest(@PathVariable Long friendshipId){
-        friendshipService.acceptFriendRequest(friendshipId);
+    public ResponseEntity<String> acceptFriendRequest(@PathVariable Long friendshipId, Authentication authentication){
+        friendshipService.acceptFriendRequest(friendshipId,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // deny friendship
     @PutMapping("/deny-friendship/{friendshipId}")
-    public ResponseEntity<Void> denyFriendRequest(@PathVariable Long friendshipId){
-        friendshipService.denyFriendRequest(friendshipId);
+    public ResponseEntity<Void> denyFriendRequest(@PathVariable Long friendshipId, Authentication authentication){
+        friendshipService.denyFriendRequest(friendshipId, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // get all friendship requests
-    @GetMapping("/all-friendship-requests/{userId}")
-    public ResponseEntity<List<FriendshipDto>> getAllFriendshipsRequests(@PathVariable Long userId){
-        return ResponseEntity.ok(friendshipService.getAllFriendshipRequests(userId));
+    @GetMapping("/all-friendship-requests")
+    public ResponseEntity<List<FriendshipDto>> getAllFriendshipsRequests(Authentication authentication){
+        return ResponseEntity.ok(friendshipService.getAllFriendshipRequests(authentication));
     }
 
-    @GetMapping("/all-friends/{userId}")
-    public ResponseEntity<List<FriendshipDto>> getAllFriendsByUserId(@PathVariable Long userId){
-        return ResponseEntity.ok(friendshipService.getAllFriendsByUserId(userId));
+    @GetMapping("/all-friends")
+    public ResponseEntity<List<FriendshipDto>> getAllFriendsByUserId(Authentication authentication){
+        return ResponseEntity.ok(friendshipService.getAllFriendsByUserId(authentication));
     }
 
 

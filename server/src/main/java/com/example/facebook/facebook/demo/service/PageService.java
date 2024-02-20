@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface PageService {
     Long findPageIdByAuthentication(Authentication authentication);
-    void addPage(Page page);
+    void addPage(Page page, Authentication authentication);
 
     Page getPageById(Long id);
 
@@ -21,4 +21,6 @@ public interface PageService {
     String setCoverImage(MultipartFile file, long id) throws IOException;
 
     byte[] displayCoverImage(long id);
+
+    Page getPageByOwnerId(Long id);
 }

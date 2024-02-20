@@ -2,9 +2,6 @@ package com.example.facebook.facebook.demo.service;
 
 
 import com.example.facebook.facebook.demo.dto.UserProfileDto;
-import com.example.facebook.facebook.demo.model.Address;
-import com.example.facebook.facebook.demo.model.Company;
-import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,13 +31,13 @@ public interface UserService {
     UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto,Authentication authentication);
 
 
-    String setProfileImage(MultipartFile file, long id) throws IOException;
+    String setProfileImage(MultipartFile file, Authentication authentication) throws IOException;
 
-    byte[] displayProfileImage(long id);
+    byte[] displayProfileImage(Authentication authentication);
 
-    String setCoverImage(MultipartFile file, long id) throws IOException;
+    String setCoverImage(MultipartFile file,Authentication authentication) throws IOException;
 
-    byte[] displayCoverImage(long id);
+    byte[] displayCoverImage(Authentication authentication);
 
     Long findUserIdByAuthentication(Authentication authentication);
 }

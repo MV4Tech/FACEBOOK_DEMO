@@ -8,6 +8,7 @@ import com.example.facebook.facebook.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,9 +28,10 @@ public class ReactionServiceImpl implements ReactionService {
     private final CommentService commentService;
 
     @Override
-    public void addReactionToPost(Reaction reaction) {
+    public void addReactionToPost(Reaction reaction, Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
         Optional<Post> OptionalPost = postService.getPostById(reaction.getPost().getId());
-        Optional<User> OptionalUser = userService.findById(reaction.getSenderId().getId());
+        Optional<User> OptionalUser = userService.findById(userId);
         reaction.setPost(OptionalPost.get());
         reaction.setUsername(OptionalUser.get().getFirstName());
         reaction.setSenderId(OptionalUser.get());
@@ -38,10 +40,10 @@ public class ReactionServiceImpl implements ReactionService {
         Notification notification = Notification.builder()
                 .sender(OptionalUser.get())
                 .receiver(OptionalPost.get().getUser())
-                .message(OptionalUser.get().getFirstName() + " " + OptionalUser.get().getLastName() + " reacted to your post " + OptionalPost.get().getPostHead())
+                .message(OptionalUser.get().getFirstName() + " " + OptionalUser.get().getLastName() + " reacted with "+  reaction.getReact() + " to your post with " + OptionalPost.get().getPostHead())
                 .sentTime(LocalDateTime.now())
                 .build();
-        notificationService.sendNotification(notification);
+        notificationService.sendNotification(notification,authentication);
         logger.info("Reaction added successfully to post - " + OptionalPost.get().getId());
     }
 
@@ -89,9 +91,10 @@ public class ReactionServiceImpl implements ReactionService {
 
      // ---- comment part ----
     @Override
-    public void addReactionToComment(Reaction reaction) {
+    public void addReactionToComment(Reaction reaction,Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
         Optional<Comment> OptionalComment = commentService.getCommentById(reaction.getComment().getId());
-        Optional<User> OptionalUser = userService.findById(reaction.getSenderId().getId());
+        Optional<User> OptionalUser = userService.findById(userId);
         reaction.setComment(OptionalComment.get());
         reaction.setUsername(OptionalUser.get().getFirstName());
         reaction.setSenderId(OptionalUser.get());
@@ -103,7 +106,7 @@ public class ReactionServiceImpl implements ReactionService {
                 .message(OptionalUser.get().getFirstName() + " " + OptionalUser.get().getLastName() + " reacted with " + reaction.getReact() + " to your comment " + OptionalComment.get().getComment())
                 .sentTime(LocalDateTime.now())
                 .build();
-        notificationService.sendNotification(notification);
+        notificationService.sendNotification(notification,authentication);
         logger.info("Reaction added successfully to comment - " + OptionalComment.get().getId());
     }
 

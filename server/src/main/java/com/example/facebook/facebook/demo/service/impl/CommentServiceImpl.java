@@ -14,6 +14,7 @@ import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,9 +33,10 @@ public class CommentServiceImpl implements CommentService {
    private final NotificationService notificationService;
 
     @Override
-    public void addComment(Comment comment) {
+    public void addComment(Comment comment, Authentication authentication) {
+            long userId = userService.findUserIdByAuthentication(authentication);
             Post post = postService.getPostById(comment.getPost().getId()).get();
-            User user = userService.findById(comment.getSenderId().getId()).get();
+            User user = userService.findById(userId).get();
             comment.setPost(post);
             comment.setSenderId(user);
             comment.setUsername(user.getFirstName());
@@ -48,7 +50,8 @@ public class CommentServiceImpl implements CommentService {
                 .message(user.getFirstName() + " " + user.getLastName() + " commented on your post " + post.getPostHead())
                 .sentTime(comment.getDateOfMessaging())
                 .build();
-            notificationService.sendNotification(notification);
+        // TODO: kogato e edin i susht user da ne se izprati notifikaciq
+            notificationService.sendNotification(notification,authentication);
             logger.info("Comment added successfully to post - " + post.getId() + "by user - " + user.getUsername());
     }
 

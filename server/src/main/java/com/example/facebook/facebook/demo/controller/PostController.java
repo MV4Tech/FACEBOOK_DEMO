@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/add-post")
-    public ResponseEntity<Void> addPost(@RequestBody @Valid Post post){
-        postService.addPost(post);
+    public ResponseEntity<Void> addPost(@RequestBody @Valid Post post, Authentication authentication){
+        postService.addPost(post,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -42,17 +44,18 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/get-all-post-by-user-id/{userId}")
-    public ResponseEntity<Set<PostDto>> getAllPostsByUserId(@PathVariable Long userId){
-        return ResponseEntity.ok(postService.getAllPostsByUserId(userId));
+
+    @GetMapping("/get-all-post-by-user-id")
+    public ResponseEntity<Set<PostDto>> getAllPostsByUserId(Authentication authentication){
+        return ResponseEntity.ok(postService.getAllPostsByUserId(authentication));
     }
 
 
     // ---- page part ----
     // add new post page controller
     @PostMapping("/add-post-page")
-    public ResponseEntity<Void> addPostPage(@RequestBody Post post){
-        postService.addPostPage(post);
+    public ResponseEntity<Void> addPostPage(@RequestBody Post post, Authentication authentication){
+        postService.addPostPage(post,authentication);
         return ResponseEntity.ok().build();
     }
 

@@ -13,6 +13,7 @@ import com.example.facebook.facebook.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,12 +28,15 @@ public class ShareServiceImpl implements ShareService {
     private final NotificationService notificationService;
 
     @Override
-    public void sharePost(Share share) {
+    public void sharePost(Share share, Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
         int shareCount = share.getShareCount()+1;
         Post post = postService.getPostById(share.getPost().getId()).get();
+        User sender = userService.getUserById(userId);
         share.setShareCount(shareCount);
+        share.setSharer(sender);
         shareRepository.save(share);
-        User sender = userService.getUserById(share.getSharer().getId());
+
         User receiver = userService.getUserById(post.getUser().getId());
         Notification notification = Notification.builder()
                 .sender(sender)
@@ -41,7 +45,7 @@ public class ShareServiceImpl implements ShareService {
                 .sentTime(share.getDateOfSharing())
                 .build();
 
-        notificationService.sendNotification(notification);
+        notificationService.sendNotification(notification,authentication);
         logger.info("Post shared successfully");
     }
 

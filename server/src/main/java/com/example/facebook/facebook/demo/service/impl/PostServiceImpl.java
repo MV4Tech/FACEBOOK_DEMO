@@ -6,11 +6,13 @@ import com.example.facebook.facebook.demo.exception.PostNotFoundException;
 import com.example.facebook.facebook.demo.model.Friendship;
 import com.example.facebook.facebook.demo.model.Page;
 import com.example.facebook.facebook.demo.model.Post;
+import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.PostRepository;
 import com.example.facebook.facebook.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,6 +27,8 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final FriendshipService friendshipService;
     private final UserPageRelationService userPageRelationService;
+    private final UserService userService;
+    private final PageService pageService;
 
 
     @Override
@@ -39,14 +43,24 @@ public class PostServiceImpl implements PostService {
 
     // add post method
     @Override
-    public void addPost(Post post) {
-        postRepository.save(post);
-        logger.info("Post added successfully with id - " + post.getId() + " by user id - " + post.getUser().getId());
+    public void addPost(Post post, Authentication authentication) {
+        long userId = userService.findUserIdByAuthentication(authentication);
+        User user = userService.getUserById(userId);
+        Post newPost = Post.builder()
+                        .postHead(post.getPostHead())
+                        .dateOfPosting(post.getDateOfPosting())
+                        .description(post.getDescription())
+                        .user(user)
+                        .build();
+        postRepository.save(newPost);
+        logger.info("Post added successfully with id - " + post.getId() + " by user id - "+ userId);
     }
 
 
     @Override
-    public Set <PostDto> getAllPostsByUserId(Long userId) {
+    public Set <PostDto> getAllPostsByUserId(Authentication authentication) {
+        User currUser = (User) authentication.getPrincipal();
+        long userId = currUser.getId();
         // Step 1: Fetch posts from the user
         List<Post> userPosts = postRepository.findAllByUserId(userId);
 
@@ -110,7 +124,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void addPostPage(Post post) {
+    public void addPostPage(Post post, Authentication authentication) {
+
+        User pageOwner = (User) authentication.getPrincipal();
+        Page page = pageService.getPageByOwnerId(pageOwner.getId());
+        post.setPage(page);
         postRepository.save(post);
         logger.info("Post added successfully with id - " + post.getId() + " by page id - " + post.getPage().getId());
     }

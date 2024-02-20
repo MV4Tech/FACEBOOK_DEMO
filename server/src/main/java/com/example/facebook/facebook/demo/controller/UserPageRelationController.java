@@ -5,6 +5,7 @@ import com.example.facebook.facebook.demo.model.UserPageRelation;
 import com.example.facebook.facebook.demo.service.UserPageRelationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,8 @@ public class UserPageRelationController {
 
     // add new user page relation controller
     @PostMapping("/add-new-relation")
-    public ResponseEntity<Void> addUserPageRelation(@RequestBody UserPageRelation userPageRelation){
-        userPageRelationService.addUserPageRelation(userPageRelation);
+    public ResponseEntity<Void> addUserPageRelation(@RequestBody UserPageRelation userPageRelation, Authentication authentication){
+        userPageRelationService.addUserPageRelation(userPageRelation, authentication);
         return ResponseEntity.ok().build();
     }
 
@@ -30,9 +31,9 @@ public class UserPageRelationController {
     }
 
     // get all user pages by given user id controller
-    @GetMapping("/get-all-user-relations-by-user-id/{userId}")
-    public ResponseEntity<List<UserPageRelationDto>> getAllUserRelationsByUserId(@PathVariable Long userId){
-        return ResponseEntity.ok(userPageRelationService.getAllUserRelationsByUserId(userId));
+    @GetMapping("/get-all-user-relations-by-user-id")
+    public ResponseEntity<List<UserPageRelationDto>> getAllUserRelationsByUserId(Authentication authentication){
+        return ResponseEntity.ok(userPageRelationService.getAllUserRelationsByUserId(authentication));
     }
 
     // get all page users by given page id controller
@@ -49,9 +50,11 @@ public class UserPageRelationController {
     }
 
     // get the number of liked page by a user id
-    @GetMapping("/get-liked-page-count/{userId}")
-    public ResponseEntity<Long> getLikedPageCount(@PathVariable Long userId){
-        return ResponseEntity.ok(userPageRelationService.getLikedPageCount(userId));
+    @GetMapping("/get-liked-page-count")
+    public ResponseEntity<Long> getLikedPageCount(Authentication authentication){
+        return ResponseEntity.ok(userPageRelationService.getLikedPageCount(authentication));
     }
+
+
 
 }
