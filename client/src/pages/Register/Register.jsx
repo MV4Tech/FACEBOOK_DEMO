@@ -165,8 +165,7 @@ const saveUser = async (e) => {
                   {errors.map((error, index) => (
                 <p key={index} style={{ color: 'red' }}>{error}</p>
                     ))}
-                </div> */}
-                
+                </div> */}                
                 <hr className="registerHr" />
                 <div className="registerLoginAc">
                 

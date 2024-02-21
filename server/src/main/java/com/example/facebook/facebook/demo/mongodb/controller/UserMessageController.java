@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class UserMessageController {
+    /*
     private final UserMessageService userMessageService;
 
 
@@ -38,4 +39,6 @@ public class UserMessageController {
     public ResponseEntity<List<UserMessage>> findConnectedUsers() {
         return ResponseEntity.ok(userMessageService.findConnectedUsers());
     }
+
+     */
 }

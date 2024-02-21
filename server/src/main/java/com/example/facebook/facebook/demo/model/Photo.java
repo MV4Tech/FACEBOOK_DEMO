@@ -22,8 +22,7 @@ public class Photo {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "file_path", nullable = false)
+    private String filePath;
 
-    @Lob
-    @Column(name = "photo_data", nullable = false)
-    private byte[] photoData;
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserMessageServiceImpl implements UserMessageService {
-
+/*
     private final UserMessageRepository userMessageRepository;
 
     public void saveUserMessage(UserMessage userMessage) {
@@ -34,4 +34,6 @@ public class UserMessageServiceImpl implements UserMessageService {
 
         return userMessageRepository.findAllByStatus(Status.ONLINE);
     }
+    */
+
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ChatMessageServiceImpl implements ChatMessageService {
+    /*
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomService chatRoomService;
 
@@ -30,5 +31,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false);
         return chatId.map(chatMessageRepository::findByChatId).orElse(new ArrayList<>());
     }
+
+     */
 
 }
