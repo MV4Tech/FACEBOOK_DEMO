@@ -33,11 +33,13 @@ public interface UserService {
 
     String setProfileImage(MultipartFile file, Authentication authentication) throws IOException;
 
-    byte[] displayProfileImage(Authentication authentication);
-
+    byte[] displayProfileImage(Authentication authentication) throws IOException;
+/*
     String setCoverImage(MultipartFile file,Authentication authentication) throws IOException;
 
     byte[] displayCoverImage(Authentication authentication);
+
+ */
 
     Long findUserIdByAuthentication(Authentication authentication);
 }

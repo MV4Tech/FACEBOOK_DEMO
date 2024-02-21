@@ -11,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final String FOLDER_PATH = "D:\\facebook\\images";
 
     @Override
     public Long findUserIdByAuthentication(Authentication authentication) {
@@ -117,30 +120,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String setProfileImage(MultipartFile file, Authentication authentication) throws IOException {
-        byte[] bytes = file.getBytes();
+
+        String filePaths = FOLDER_PATH + "\\" + file.getOriginalFilename();
+        file.transferTo(new File(filePaths));
         Long id = findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+ id +"!");
-        }
+
         User user = optionalUser.get();
-        user.setProfilePicture(bytes);
+        user.setProfilePicturePath(filePaths);
         userRepository.save(user);
         return "Profile picture uploaded successfully!";
     }
 
     @Override
-    public byte[] displayProfileImage(Authentication authentication) {
+    public byte[] displayProfileImage(Authentication authentication) throws IOException {
         Long id = findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
-        }
         User user = optionalUser.get();
-        byte[] image = user.getProfilePicture();
+        String filePath = user.getProfilePicturePath();
+
+        byte[] image = Files.readAllBytes(new File(filePath).toPath());
         return image;
     }
-
+/*
     @Override
     public String setCoverImage(MultipartFile file,Authentication authentication) throws IOException {
         Long id = findUserIdByAuthentication(authentication);
@@ -166,5 +168,7 @@ public class UserServiceImpl implements UserService {
         byte[] image = user.getCoverPhoto();
         return image;
     }
+
+ */
 
 }

@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ChatMessageController {
+    /*
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageService chatMessageService;
 
@@ -46,4 +47,6 @@ public class ChatMessageController {
         return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
     }
 
+
+     */
 }

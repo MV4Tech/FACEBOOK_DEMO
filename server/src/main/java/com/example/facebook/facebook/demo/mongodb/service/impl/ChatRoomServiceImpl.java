@@ -1,7 +1,7 @@
 package com.example.facebook.facebook.demo.mongodb.service.impl;
 
 import com.example.facebook.facebook.demo.mongodb.model.ChatRoom;
-import com.example.facebook.facebook.demo.mongodb.repository.ChatRoomRepository;
+
 import com.example.facebook.facebook.demo.mongodb.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChatRoomServiceImpl implements ChatRoomService {
 
-   private final ChatRoomRepository chatRoomRepository;
-
+   //private final ChatRoomRepository chatRoomRepository;
+/*
     public Optional<String> getChatRoomId(
             String senderId,
             String recipientId,
@@ -45,4 +45,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         chatRoomRepository.save(recipientSender);
         return chatId;
     }
+    */
+
 }

@@ -72,13 +72,13 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     private Set<Education> educations;
 
-    @Lob
-    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
-    private byte[] profilePicture;
 
-    @Lob
-    @Column(name = "cover_picture", columnDefinition = "LONGBLOB")
-    private byte[] coverPhoto;
+    @Column(name = "profile_picture_file_path", nullable = false)
+    private String profilePicturePath;
+
+
+    @Column(name = "cover_picture_file_path", nullable = false)
+    private String coverPicturePath;
 
     @Column
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
