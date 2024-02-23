@@ -1,10 +1,49 @@
 import React from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { useState } from 'react'
+import { Link,useNavigate } from "react-router-dom";
+import authService from '../../services/auth-service'
+
 
 function Login() {
  
+  const navigate = useNavigate();
 
+  const [loginRequest, setLoginRequest] = useState(
+    {
+      email: "",
+      password: ""
+    }
+  )
+
+
+  const [invalidCredentialsMessage, setInvalidCredentialsMessage] = useState(null);
+  const [notEnabledAcc, setNotEnabledAcc] = useState(null);
+
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setLoginRequest({...loginRequest,[e.target.name]: value})
+    setInvalidCredentialsMessage(null);
+  
+}
+
+
+const submit = async (e) => {
+  e.preventDefault();
+  try {
+      await authService.makeLoginRequest(loginRequest);
+     
+      navigate("/");
+  } catch (error) {
+    console.log(error.response.data.errors);
+     const errorMessage = error.response.data.errors[0];
+  if(errorMessage === "Invalid email or password!"){
+    setInvalidCredentialsMessage("Invalid email or password!");
+    setLoginRequest(prevLoginRequest => ({ ...prevLoginRequest, password: '' , email: ''}));
+  }
+  }
+};
 
 
   return (
@@ -22,27 +61,38 @@ function Login() {
         </div>
         <div className="loginRight">
           <div className="loginBox">
-            <form action="#" className="loginForm">
+            <form onSubmit={submit} className="loginForm">
               <div className="loginUsername">
                 <input
+                  required
+                  name="email"
+                  value={loginRequest.email}
                   className="loginInput"
                   placeholder="Email"
-                  type="text"
-                  id="username-l"
+                  type="email"
+                  id="email-l"
+                  onChange={(e)=>handleChange(e)}
                 />
               </div>
               <div className="loginPassword">
                 <input
                   className="loginInput"
+                  required
+                  name="password"
                   placeholder="Password"
                   type="password"
+                  value={loginRequest.password}
                   id="password-l"
+                  onChange={(e)=>handleChange(e)}
                 />
               </div>
+              <div className="errors">
+                  {invalidCredentialsMessage && <p style={{ color: 'red' , marginBottom:'0px'}}>{invalidCredentialsMessage}</p>}
+                  {notEnabledAcc && <p style={{ color: 'red' }}>{notEnabledAcc}</p>}
+              </div>
+             
               <div className="loginSubmit">
-                <Link to="/">
                   <input id="loginBtn" type="submit" value="Log In" />
-                </Link>
               </div>
               <span>
                 <a className="forgetPwd" href="#email?">

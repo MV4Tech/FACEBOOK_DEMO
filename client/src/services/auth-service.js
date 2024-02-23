@@ -4,11 +4,8 @@ import { SERVER_URL } from "../shared/constants";
 import storageService from "./storage-service";
 
 class AuthService extends WebApiService {
-  async makeLoginRequest(email, password) {
-    let response = await axios.post(SERVER_URL + "api/v1/auth/authenticate", {
-      email,
-      password,
-    });
+  async makeLoginRequest(loginRequest) {
+    let response = await axios.post(SERVER_URL + "api/v1/auth/authenticate",loginRequest);
 
     if (response.status != 200) {
       throw "Error: " + response.data.message;

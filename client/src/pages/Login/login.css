@@ -55,7 +55,7 @@ body{
     }
     .loginBox{
       background-color: white;
-      height: 396px;
+      height: 420px;
       width: 455px;
       border-radius: 10px;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -85,12 +85,16 @@ body{
     #loginBtn{
       height: 50px;
       width: 403px;
+     
       background-color: #0866FF;
       border: none;
       border-radius: 5px;
       font-weight: bold;
       color: aliceblue;
       font-size: 20px;
+    }
+    .loginSubmit{
+      margin-top: 1px;
     }
     #loginBtn:hover{
       cursor: pointer;
@@ -128,6 +132,11 @@ body{
       background-color: #42b72ae4;
     }
     
+    .errors{
+      color: red;
+      font-size: 15px;
+      font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
+    }
     
     @media only screen and (max-width: 1550px){
        

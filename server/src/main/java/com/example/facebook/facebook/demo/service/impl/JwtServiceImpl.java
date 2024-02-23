@@ -52,7 +52,6 @@ public class JwtServiceImpl implements JwtService {
     * @return - returns the token
      */
     public String generateToken(Map<String,Object> extraClaims, UserDetails userDetails){
-        extraClaims.put("id",findUserByUsername(userDetails.getUsername()));
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
@@ -67,9 +66,7 @@ public class JwtServiceImpl implements JwtService {
     * @return - returns the refresh token
      */
     public String generateRefreshToken(UserDetails userDetails){
-        HashMap<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("id",findUserByUsername(userDetails.getUsername()));
-        return buildToken(extraClaims, userDetails,refreshExpiration);
+        return buildToken(new HashMap<>(),userDetails,refreshExpiration);
     }
 
 

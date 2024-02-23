@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 
@@ -38,6 +40,20 @@ public class AuthenticationController {
                              HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+
+    @GetMapping(path = "/confirm")
+    public ModelAndView confirm(@RequestParam("token") String token){
+
+        if(authenticationService.confirmToken(token)){
+            // Redirect to the login page
+            return new ModelAndView(new RedirectView("http://localhost:5173/login"));
+        }else{
+            // Handle confirmation failure
+            return new ModelAndView("confirmation-failure-page"); // Example: return a confirmation failure page
+        }
+    }
+
+
 
 
 

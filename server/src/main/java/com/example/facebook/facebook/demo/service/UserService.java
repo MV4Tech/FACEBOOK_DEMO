@@ -34,12 +34,14 @@ public interface UserService {
     String setProfileImage(MultipartFile file, Authentication authentication) throws IOException;
 
     byte[] displayProfileImage(Authentication authentication) throws IOException;
-/*
+
     String setCoverImage(MultipartFile file,Authentication authentication) throws IOException;
 
-    byte[] displayCoverImage(Authentication authentication);
+    byte[] displayCoverImage(Authentication authentication) throws IOException;
 
- */
+
 
     Long findUserIdByAuthentication(Authentication authentication);
+
+    void enableUser(String email);
 }

@@ -20,9 +20,9 @@ public class PostVideo {
     @JsonIgnoreProperties({"videos"})
     private Post post;
 
-    @Lob
-    @Column(name = "video_data", nullable = false, columnDefinition = "LONGBLOB")
-    private byte[] videoData;
+    @Column(name = "video_file_path", nullable = false)
+    private String videoFilePath;
 
-
+    @Column(name = "description")
+    private String description;
 }

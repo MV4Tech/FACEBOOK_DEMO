@@ -64,7 +64,7 @@ public class UserController {
         byte[] imageBytes = userService.displayProfileImage(authentication);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
-/*
+
     // add cover picture controller
     @PostMapping("/add-cover-picture")
     public ResponseEntity<?> addCoverImage(@RequestParam("image") MultipartFile file,Authentication authentication) throws IOException {
@@ -75,12 +75,12 @@ public class UserController {
 
     // display cover picture controller
     @GetMapping("/display-cover-picture")
-    public ResponseEntity<byte[]> displayCover(Authentication authentication) {
+    public ResponseEntity<byte[]> displayCover(Authentication authentication) throws IOException {
         byte[] imageBytes = userService.displayCoverImage(authentication);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 
- */
+
 
     // delete user by id controller
     @DeleteMapping("/delete/{id}")

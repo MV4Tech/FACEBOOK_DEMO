@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +22,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostPhotoServiceImpl implements PostPhotoService {
 
+    private final String FOLDER_PATH = "D:\\facebook\\images";
+
     //private final PostService postService;
     private final PostPhotoRepository postPhotoRepository;
     private static final Logger logger = LoggerFactory.getLogger(PostPhotoServiceImpl.class);
     @Override
     public void addPhoto(MultipartFile file, PostPhoto postPhoto) throws IOException {
-        byte[] bytes = file.getBytes();
+        String filePaths = FOLDER_PATH + "\\" + file.getOriginalFilename();
+        file.transferTo(new File(filePaths));
         postPhoto.setPost(postPhoto.getPost());
-        postPhoto.setPhotoData(bytes);
+        postPhoto.setPhotoFilePath(filePaths);
         postPhotoRepository.save(postPhoto);
         logger.info("Photo added successfully! to post - "+postPhoto.getPost().getId());
     }
@@ -40,8 +45,13 @@ public class PostPhotoServiceImpl implements PostPhotoService {
         }
         List<PostPhotoDto> postPhotoDto = postPhotos.stream().map(postPhoto ->{
             PostPhotoDto postPhotoDto1 = new PostPhotoDto();
+            String filePath = postPhoto.getPhotoFilePath();
             postPhotoDto1.setId(postPhoto.getId());
-            postPhotoDto1.setPhotoData(postPhoto.getPhotoData());
+            try {
+                postPhotoDto1.setPhotoData(Files.readAllBytes(new File(filePath).toPath()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return postPhotoDto1;
         }).collect(Collectors.toList());
         logger.info("Photo/s displayed successfully! with post id - "+postId+"!");
