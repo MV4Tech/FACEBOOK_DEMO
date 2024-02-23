@@ -3,12 +3,13 @@ package com.example.facebook.facebook.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +25,11 @@ public class Photo {
 
     @Column(name = "file_path", nullable = false)
     private String filePath;
+
+    @Column(name = "description")
+    private String description;
+
+    // add date
+
 
 }

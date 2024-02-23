@@ -24,7 +24,7 @@ public class PostVideoController {
     // add video
     // max file size 4MB can be configured in application.yml
     @PostMapping("/add-video")
-    public ResponseEntity<Void> addPhoto(@RequestParam("video") MultipartFile file, @RequestPart PostVideo postVideo) throws IOException {
+    public ResponseEntity<Void> addPhoto(@RequestParam("video") MultipartFile file, @RequestPart("data") PostVideo postVideo) throws IOException {
         postVideoService.addVideo(file,postVideo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

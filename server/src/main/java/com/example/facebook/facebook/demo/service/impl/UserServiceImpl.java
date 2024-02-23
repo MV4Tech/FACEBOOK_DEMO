@@ -30,6 +30,13 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
+    @Override
+    public void enableUser(String email) {
+        User u = userRepository.findByEmail(email).get();
+        u.setVerified(true);
+        userRepository.save(u);
+    }
+
 
     // save user w
     @Override
@@ -142,33 +149,32 @@ public class UserServiceImpl implements UserService {
         byte[] image = Files.readAllBytes(new File(filePath).toPath());
         return image;
     }
-/*
+
     @Override
     public String setCoverImage(MultipartFile file,Authentication authentication) throws IOException {
+        String filePaths = FOLDER_PATH + "\\" + file.getOriginalFilename();
+        file.transferTo(new File(filePaths));
         Long id = findUserIdByAuthentication(authentication);
-        byte[] bytes = file.getBytes();
         Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
-        }
+
         User user = optionalUser.get();
-        user.setCoverPhoto(bytes);
+        user.setCoverPicturePath(filePaths);
         userRepository.save(user);
+
         return "Cover picture uploaded successfully!";
     }
 
     @Override
-    public byte[] displayCoverImage(Authentication authentication) {
+    public byte[] displayCoverImage(Authentication authentication) throws IOException {
         Long id = findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("No user found with id: "+id+"!");
-        }
         User user = optionalUser.get();
-        byte[] image = user.getCoverPhoto();
+        String filePath = user.getCoverPicturePath();
+
+        byte[] image = Files.readAllBytes(new File(filePath).toPath());
         return image;
     }
 
- */
+
 
 }

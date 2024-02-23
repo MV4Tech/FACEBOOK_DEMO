@@ -15,17 +15,17 @@ import Register from './pages/Register/Register';
 const App = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route element={<AuthGuardWhenLogout />}>
+        {/* <Route element={<AuthGuardWhenLogout />}> */}
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
 
-        </Route>
-           <Route element={<AuthGuardWhenLogin />}>
+        {/* </Route> */}
+           {/* <Route element={<AuthGuardWhenLogin />}> */}
           
-        </Route>
+        {/* </Route> */}
     </>
   )
 );

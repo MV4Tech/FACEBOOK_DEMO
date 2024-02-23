@@ -21,9 +21,11 @@ public class PostPhoto {
     @JsonIgnoreProperties({"photos"})
     private Post post;
 
-    @Lob
-    @Column(name = "photo_data", nullable = false, columnDefinition = "LONGBLOB")
-    private byte[] photoData;
 
+    @Column(name = "photo_file_path", nullable = false)
+    private String photoFilePath;
+
+    @Column(name = "description")
+    private String description;
 
 }

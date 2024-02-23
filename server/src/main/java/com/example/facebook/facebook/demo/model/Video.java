@@ -3,6 +3,8 @@ package com.example.facebook.facebook.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -22,8 +24,15 @@ public class Video {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Lob
-    @Column(name = "video_data", nullable = false)
-    private byte[] videoData;
+    @Column(name = "video_file_path", nullable = false)
+    private String videoFilePath;
+
+    @Column(name = "description")
+    private String description;
+
+
+
+
+    // add date
 
 }

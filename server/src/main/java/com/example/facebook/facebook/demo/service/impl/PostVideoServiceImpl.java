@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import static java.util.stream.Collectors.*;
@@ -19,14 +21,16 @@ import static java.util.stream.Collectors.*;
 @Service
 @RequiredArgsConstructor
 public class PostVideoServiceImpl implements PostVideoService {
+    private final String FOLDER_PATH = "D:\\facebook\\images";
 
     private static final Logger logger = LoggerFactory.getLogger(PostVideoServiceImpl.class);
     private final PostVideoRepository postVideoRepository;
     @Override
     public void addVideo(MultipartFile file, PostVideo postVideo) throws IOException {
-        byte[] bytes = file.getBytes();
-        postVideo.setVideoData(bytes);
+        String filePaths = FOLDER_PATH + "\\" + file.getOriginalFilename();
+        file.transferTo(new File(filePaths));
         postVideo.setPost(postVideo.getPost());
+        postVideo.setVideoFilePath(filePaths);
         postVideoRepository.save(postVideo);
         logger.info("Video added successfully! to post - "+postVideo.getPost().getId());
     }
@@ -39,8 +43,13 @@ public class PostVideoServiceImpl implements PostVideoService {
         }
         List<PostVideoDto> postVideoDto = postVideos.stream().map(postVideo ->{
             PostVideoDto postVideoDto1 = new PostVideoDto();
+            String filePath = postVideo.getVideoFilePath();
             postVideoDto1.setId(postVideo.getId());
-            postVideoDto1.setVideoData(postVideo.getVideoData());
+            try {
+                postVideoDto1.setVideoData(Files.readAllBytes(new File(filePath).toPath()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return postVideoDto1;
         }).collect(toList());
         logger.info("Video/s displayed successfully! with post id - "+postId+"!");

@@ -21,7 +21,7 @@ public class PostPhotoController    {
 
     // add photo
     @PostMapping("/add-photo")
-    public ResponseEntity<Void> addPhoto(@RequestParam("image") MultipartFile file, @RequestPart PostPhoto postPhoto) throws IOException {
+    public ResponseEntity<Void> addPhoto(@RequestParam("image") MultipartFile file, @RequestPart("data") PostPhoto postPhoto) throws IOException {
        postPhotoService.addPhoto(file,postPhoto);
        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
