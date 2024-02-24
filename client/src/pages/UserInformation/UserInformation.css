@@ -1,0 +1,179 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: #F0F2F5;
+}
+.information{
+    height: 100vh;
+    width: 100%;
+    
+  }
+
+  .informationLeft {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+    .facebookLogo img {
+        margin-left: 10px;
+        width: 320px;
+        height: 106px;
+      }
+    .informationLeftDesc{
+      font-size: 28px;
+      color: #1C1E21;
+      font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
+      width:500px;
+    }
+    .informationRight {
+        margin-top: -30px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .informationBox{
+      background-color: #ffffff;
+      height: 500px;
+      width: 455px;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    .form{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .informationForm{
+      margin-top: 10px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .informationInput{
+      height: 9px;
+      width: 405px;
+      border-radius: 5px;
+      border: none;
+      border: 1.5px solid rgb(238, 219, 219);
+      font-size: 16px;
+      padding: 20px;
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+    
+    .informationInput:focus{
+      outline: none;
+      border: 1.5px solid rgb(80, 80, 212);
+    }
+    #informationBtn{
+      height: 50px;
+      width: 405px;
+      background-color: #42B72A;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      color: aliceblue;
+      font-size: 20px;
+    }
+    .alrdyhaveAc{
+        font-family: 'SF Pro Display-Regular', 'Helvetica', 'Arial', sans-serif;
+        font-size: 15px;
+    }
+    #informationBtn:hover{
+      cursor: pointer;
+      background-color: #42b72ae4;
+    }
+    .alreadyAc{
+      text-decoration: none;
+    }
+    .informationHr{
+      width: 400px;
+      color: rgb(98, 59, 59);
+      margin-bottom: 1px;
+    }
+    
+    .informationLoginAc{
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .informationLoginBtn{
+      height: 50px;
+      width: 200px;
+      background-color: rgb(15, 141, 67);
+      border: none;
+      border-radius: 5px;
+      color: aliceblue;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .informationLoginBtn:hover{
+      cursor: pointer;
+      background-color: rgb(18, 126, 54);
+    }
+
+    .informationUsername{
+      margin-top: 20px;
+    }
+
+
+    /* Add styles for error message */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px; /* Adjust as needed */
+}
+
+
+    @media only screen and (max-width: 1550px){
+
+
+      .informationLeft{
+        height:80px;
+        width:100%;
+        margin-bottom: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+      }
+      .informationLeftDesc{
+        margin-left: 50px;
+      }
+      
+      .facebookLogo img {
+        margin-top: 70px;
+        
+      }
+      
+      }
+
+    @media only screen and (max-height: 100px){
+           
+        .loginWrapper{
+          flex-direction:column;
+        }
+        .loginLeft{
+          height:80px;
+          width:100%;
+          margin-bottom: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .facebookLogo img {
+          margin-top: 60px;
+        }
+    
+    }
