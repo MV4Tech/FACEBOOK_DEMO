@@ -1,0 +1,58 @@
+/* Custom styles to remove default Bootstrap styling */
+.custom-dropdown.dropdown {
+    /* Add any custom styles for the entire dropdown component here */
+    /* For example, you can remove padding and border */
+    border: none; /* Remove border if necessary */
+    outline: none !important;
+}
+
+.custom-dropdown.dropdown .dropdown-toggle {
+    /* Add any custom styles for the toggle button here */
+    /* For example, you can remove padding and background color */
+
+    background-color: transparent;
+    border: none; /* Remove border if necessary */
+    color: inherit; /* Ensure the color matches the text color */
+    outline: none !important;
+}
+
+.custom-dropdown.dropdown .dropdown-menu {
+    /* Add any custom styles for the dropdown menu here */
+    /* For example, you can remove padding and border */
+  
+    border: none; /* Remove border if necessary */
+    outline: none !important;
+}
+
+.custom-dropdown.dropdown .dropdown-item {
+    /* Add any custom styles for dropdown items here */
+    /* For example, you can set the text color */
+    color: black; /* Ensure the color matches the text color */
+    outline: none !important;
+}
+.custom-dropdown.dropdown .dropdown-toggle::after {
+    /* Hide the caret */
+    display: none;
+    outline: none !important;
+}
+.custom-menu .dropdown-item:focus,
+.custom-menu .dropdown-item.active {
+    background-color: white; /* Change to the desired color */
+    color: white; /* Optionally, change the text color */
+    /* Add any additional styling as needed */
+    outline: none !important;
+}
+
+.btn-close.custom-close {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    width: 12px !important;
+    height: 12px !important;
+    outline: none !important;
+   
+}
+
+
+
