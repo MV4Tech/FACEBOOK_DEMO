@@ -6,6 +6,10 @@ import { Dropdown } from "react-bootstrap";
 import "./AppBar.css";
 import { useState } from "react";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const AppBar = () => {
   return (
@@ -18,11 +22,13 @@ const AppBar = () => {
           {/* Search */}
           <div className="col d-flex align-items-center">
             {/* Logo */}
-            <FontAwesomeIcon
-              className="text-primary"
-              style={{ fontSize: "3rem" }}
-              icon={faFacebook}
-            />
+            <Link style={{ textDecoration: "none" }} to="/feed">
+              <FontAwesomeIcon
+                className="text-primary"
+                style={{ fontSize: "3rem" }}
+                icon={faFacebook}
+              />
+            </Link>
             {/* Search Bar */}
             <div className="input-group ms-2">
               <Dropdown className="custom-dropdown custom-toggle input-group-prepend d-lg-block">
@@ -161,53 +167,93 @@ const AppBar = () => {
               {/* search drop down */}
             </div>
           </div>
-          {/* nav */}
+          {/* Center kyshichka */}
+          <div className="col d-none d-xl-flex justify-content-center">
+            <div className="mx-3 nav__btn nav__btn-active">
+              <Link style={{ textDecoration: "none" }} to="/feed">
+                <FontAwesomeIcon icon={faHouse} />
+              </Link>
+            </div>
+          </div>
+          {/* Right messneger,notifikaciq, snimkata */}
+
+          {/* messengera */}
+
+          <div className="col d-none d-xl-flex justify-content-end">
+            <Dropdown className="custom-dropdown">
+              <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                <div
+                  className="
+                        rounded-circle
+                        p-1
+                        bg-gray
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        mx-2
+                        "
+                  style={{
+                    width: "38px",
+                    height: "38px",
+                    backgroundColor: "#F8F9FA",
+                  }}
+                  type="button"
+                >
+                  <FontAwesomeIcon icon={faFacebookMessenger} />
+                </div>
+              </Dropdown.Toggle >
+
+              <Dropdown.Menu className = "order-0 shadow p-5 mx-1 overflow-auto">
+                {/* Messagges*/}
+                <Dropdown.Item className="p-5">
+                  <div className="d-flex justify-content-between">
+                    <h2>Message</h2>
+                    <div>{/* new message */}
+                      <FontAwesomeIcon icon={faPenToSquare} />
+                    </div>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            {/* notifikaciq */}
+
+            <Dropdown className="custom-dropdown">
+              <Dropdown.Toggle className="" variant="success" id="dropdown-basic">
+                <div
+                  className="
+                  
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-1
+                "
+                  style={{
+                    width: "38px",
+                    height: "38px",
+                    backgroundColor: "#F8F9FA",
+                  }}
+                  type="button"
+                >
+                  <FontAwesomeIcon icon={faBell} />
+                </div>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            {/*choveche */}
+          </div>
         </div>
-        <div className="col d-none d-xl-flex justify-content-center">
-      {/* home */}
-      <div className="mx-4 nav__btn nav__btn-active">
-        <button type="button" className="btn px-4">
-        <FontAwesomeIcon icon={faHouse} />
-        </button>
-      </div>
-      {/* market */}
-      <div className="mx-4 nav__btn">
-        <button type="button" className="btn px-4">
-        <FontAwesomeIcon icon={faHouse} style={{color: "#001eff",}} />
-        </button>
-      </div>
-      {/* group */}
-      <div className="mx-4 nav__btn">
-        <button type="button" className="btn px-4">
-          <i
-            type="button"
-            className="position-relative fas fa-users text-muted fs-4"
-          >
-            <span
-              className="
-                position-absolute
-                top-0
-                start-100
-                translate-middle
-                badge
-                rounded-pill
-                bg-danger
-              "
-              style={{ fontSize: '0.5rem' }}
-            >
-              1
-              <span className="visually-hidden"></span>
-            </span>
-          </i>
-        </button>
-      </div>
-      {/* gaming */}
-      <div className="mx-4 nav__btn">
-        <button type="button" className="btn px-4">
-        <FontAwesomeIcon icon={faHouse} style={{color: "#001eff",}} />
-        </button>
-      </div>
-    </div>
       </div>
     </div>
   );
