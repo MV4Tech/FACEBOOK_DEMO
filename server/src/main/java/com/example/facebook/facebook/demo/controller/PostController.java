@@ -22,9 +22,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/add-post")
-    public ResponseEntity<Void> addPost(@RequestBody @Valid Post post, Authentication authentication){
-        postService.addPost(post,authentication);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<PostDto> addPost(@RequestBody @Valid Post post, Authentication authentication){
+       PostDto postDto = postService.addPost(post,authentication);
+        return ResponseEntity.ok(postDto);
     }
 
     @GetMapping("/get-post-by-id/{postId}")
@@ -33,15 +33,15 @@ public class PostController {
     }
 
     @DeleteMapping("/delete-post/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId){
-        postService.deletePost(postId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<PostDto> deletePost(@PathVariable Long postId, Authentication authentication){
+        PostDto postDto = postService.deletePost(postId,authentication);
+        return ResponseEntity.ok(postDto);
     }
 
     @PutMapping("/edit-post/{postId}")
-    public ResponseEntity<Void> editPost(@RequestBody Post post, @PathVariable Long postId){
-        postService.editPost(post, postId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<PostDto> editPost(@RequestBody Post post, @PathVariable Long postId,Authentication authentication){
+       PostDto postDto = postService.editPost(post, postId, authentication);
+        return ResponseEntity.ok(postDto);
     }
 
 
@@ -53,13 +53,14 @@ public class PostController {
 
     // ---- page part ----
     // add new post page controller
+    // TODO: TEST IT IN POSTMAN VE
     @PostMapping("/add-post-page")
     public ResponseEntity<Void> addPostPage(@RequestBody Post post, Authentication authentication){
         postService.addPostPage(post,authentication);
         return ResponseEntity.ok().build();
     }
 
-    // get all posts by page id controller
+    // TODO: get all posts by page id controller
 
 
 

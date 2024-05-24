@@ -9,11 +9,11 @@ import java.util.List;
 public interface EducationService {
     public void saveEducation(Education education);
 
-    void addEducation(Education education, Authentication authentication);
+    EducationDto addEducation(Education education, Authentication authentication);
 
     List<EducationDto> getEducationsByUserId(Authentication authentication);
 
-    void deleteEducation(Long id);
+    EducationDto deleteEducation(Long id, Authentication authentication);
 
-    void updateEducation(Education education, Long id);
+    EducationDto updateEducation(Education education, Long id, Authentication authentication);
 }

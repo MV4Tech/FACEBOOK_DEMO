@@ -3,6 +3,7 @@ package com.example.facebook.facebook.demo.service.impl;
 import com.example.facebook.facebook.demo.dto.CompanyDto;
 import com.example.facebook.facebook.demo.exception.CompanyNotFoundException;
 import com.example.facebook.facebook.demo.exception.UserNotFoundException;
+import com.example.facebook.facebook.demo.model.Address;
 import com.example.facebook.facebook.demo.model.Company;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.CompanyRepository;
@@ -32,7 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void addCompany(Company company, Authentication authentication) {
+    public CompanyDto addCompany(Company company, Authentication authentication) {
         Company newCompany = new Company();
 
         Long id = userService.findUserIdByAuthentication(authentication);
@@ -45,17 +46,18 @@ public class CompanyServiceImpl implements CompanyService {
         newCompany.setUser(optionalUser.get());
         companyRepository.save(newCompany);
         logger.info("Company added successfully to user - " + optionalUser.get().getEmail());
+        return new CompanyDto(newCompany.getId(), newCompany.getName(), newCompany.getStartedDate(), newCompany.getEndDate());
     }
 
     @Override
     public List<CompanyDto> getCompaniesByUserId(Authentication authentication) {
         Long id = userService.findUserIdByAuthentication(authentication);
         List<Company> companies = companyRepository.findAllByUserId(id);
-        if(!(companies.size() > 0)){
+        if (!(companies.size() > 0)) {
             throw new CompanyNotFoundException("Company not found");
         }
 
-        List<CompanyDto> companyDtos = companies.stream().map(company ->{
+        List<CompanyDto> companyDtos = companies.stream().map(company -> {
             CompanyDto companyDto = new CompanyDto();
             companyDto.setId(company.getId());
             companyDto.setName(company.getName());
@@ -68,19 +70,48 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void deleteCompany(Long id) {
+    public CompanyDto deleteCompany(Long id, Authentication authentication) {
+
+        // check whether user has the company
+
+        Long userId = userService.findUserIdByAuthentication(authentication);
+        Optional<User> optionalUser = userService.findById(userId);
+        List<Long> companiesIds = optionalUser.get().getCompanies().stream()
+                .map(Company::getId)
+                .collect(Collectors.toList());
+        logger.info("Company ID - " + id);
+        logger.info("Company IDs - " + companiesIds);
+
+        if (!companiesIds.contains(id)) {
+            throw new CompanyNotFoundException("Company not found or does not belong to the user");
+        }
+
         Optional<Company> optionalCompany = companyRepository.findById(id);
-        if(!optionalCompany.isPresent()){
+        if (!optionalCompany.isPresent()) {
             throw new CompanyNotFoundException("Company not found");
         }
         companyRepository.deleteById(id);
         logger.info("Company deleted successfully");
+        return new CompanyDto(optionalCompany.get().getId(), optionalCompany.get().getName(), optionalCompany.get().getStartedDate(), optionalCompany.get().getEndDate());
     }
 
     @Override
-    public void updateCompany(Company company, Long id) {
+    public CompanyDto updateCompany(Company company, Long id, Authentication authentication) {
+
+        Long userId = userService.findUserIdByAuthentication(authentication);
+        Optional<User> optionalUser = userService.findById(userId);
+        List<Long> companiesIds = optionalUser.get().getCompanies().stream()
+                .map(Company::getId)
+                .collect(Collectors.toList());
+        logger.info("Company ID - " + id);
+        logger.info("Company IDs - " + companiesIds);
         Optional<Company> optionalCompany = companyRepository.findById(id);
-        if(!optionalCompany.isPresent()){
+
+        if (!companiesIds.contains(id)) {
+            throw new CompanyNotFoundException("Company not found or does not belong to the user");
+        }
+
+        if (!optionalCompany.isPresent()) {
             throw new CompanyNotFoundException("Company not found");
         }
         Company updatedCompany = optionalCompany.get();
@@ -89,5 +120,6 @@ public class CompanyServiceImpl implements CompanyService {
         updatedCompany.setEndDate(company.getEndDate());
         companyRepository.save(updatedCompany);
         logger.info("Company updated successfully");
+        return new CompanyDto(updatedCompany.getId(), updatedCompany.getName(), updatedCompany.getStartedDate(), updatedCompany.getEndDate());
     }
 }

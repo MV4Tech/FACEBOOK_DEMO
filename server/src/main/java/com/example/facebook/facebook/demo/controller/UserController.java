@@ -7,9 +7,13 @@ import com.example.facebook.facebook.demo.model.Company;
 import com.example.facebook.facebook.demo.model.Education;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.service.UserService;
+import com.example.facebook.facebook.demo.service.impl.UserServiceImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +34,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     // save user controller
     @PostMapping("/save")
     public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
@@ -38,9 +42,12 @@ public class UserController {
     }
 
     // get all users controller
+    // TODO: ne bachka
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('user:read')")
+    @JsonIgnore
     public List<User> getAllUsers(){
+        logger.info("fetching ...");
         return userService.getAllUsers();
     }
 
@@ -84,12 +91,10 @@ public class UserController {
 
     // delete user by id controller
     @DeleteMapping("/delete/{id}")
-    public void deleteUserById(@PathVariable("id") Long id) {
-        userService.deleteUserById(id);
+    @PreAuthorize("hasAuthority('user:delete')")
+    public User deleteUserById(@PathVariable("id") Long id) {
+         User user = userService.deleteUserById(id);
+        return user;
     }
-
-
-
-
 
 }

@@ -9,13 +9,13 @@ import java.util.List;
 public interface AddressService {
     public void save(Address address);
 
-    void addAddress(Address address, Authentication authentication);
+    AddressDto addAddress(Address address, Authentication authentication);
 
     List<AddressDto> getAddressesByUserId(Authentication authentication);
 
-    void updateAddress(Address address, Long id);
+    AddressDto updateAddress(Address address, Long id, Authentication authentication);
 
-    void deleteAddress(Long id);
+    AddressDto deleteAddress(Long id);
 
     void addAddressPage(Authentication authentication, Address address);
 }

@@ -37,7 +37,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void addAddress(Address address, Authentication authentication) {
+    public AddressDto addAddress(Address address, Authentication authentication) {
         Address newAddress = new Address();
         Long id = userService.findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userService.findById(id);
@@ -47,19 +47,18 @@ public class AddressServiceImpl implements AddressService {
         newAddress.setUser(optionalUser.get());
         addressRepository.save(newAddress);
         logger.info("Address added successfully to user - " + optionalUser.get().getEmail());
+        return new AddressDto(newAddress.getId(), newAddress.getCountry(), newAddress.getMunicipality(), newAddress.getCity());
     }
-
-
 
 
     @Override
     public List<AddressDto> getAddressesByUserId(Authentication authentication) {
         Long id = userService.findUserIdByAuthentication(authentication);
         List<Address> addresses = addressRepository.findAllByUserId(id);
-        if(!(addresses.size() > 0)){
+        if (!(addresses.size() > 0)) {
             throw new AddressNotFoundException("Address not found");
         }
-        List<AddressDto> addressDtos = addresses.stream().map(address-> {
+        List<AddressDto> addressDtos = addresses.stream().map(address -> {
             AddressDto addressDto = new AddressDto();
             addressDto.setId(address.getId());
             addressDto.setCountry(address.getCountry());
@@ -72,29 +71,39 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Address address, Long id) {
-
-
+    public AddressDto updateAddress(Address address, Long id, Authentication authentication) {
+        Long userId = userService.findUserIdByAuthentication(authentication);
+        Optional<User> optionalUser = userService.findById(userId);
+        List<Long> addressIds = optionalUser.get().getAddresses().stream().map(Address::getId).collect(Collectors.toList());
+        logger.info("Address ID - " + id);
+        logger.info("Address IDs - " + addressIds);
         Optional<Address> optionalAddress = addressRepository.findById(id);
-        if(!optionalAddress.isPresent()){
+        if (!optionalAddress.isPresent()) {
             throw new AddressNotFoundException("Address not found");
         }
+        // Check if the address ID to be updated belongs to the user
+        if (!addressIds.contains(id)) {
+            throw new AddressNotFoundException("Address not found or does not belong to the user");
+        }
+
         Address updatedAddress = optionalAddress.get();
         updatedAddress.setCity(address.getCity());
         updatedAddress.setCountry(address.getCountry());
         updatedAddress.setMunicipality(address.getMunicipality());
         addressRepository.save(updatedAddress);
-        logger.info("Address updated successfully to user - " + optionalAddress.get().getUser().getEmail() + "or page - " + optionalAddress.get().getPage().getId());
-        }
+        logger.info("Address updated successfully to user - " + optionalAddress.get().getUser().getEmail());
+        return new AddressDto(updatedAddress.getId(), updatedAddress.getCountry(), updatedAddress.getMunicipality(), updatedAddress.getCity());
+    }
 
     @Override
-    public void deleteAddress(Long id) {
+    public AddressDto deleteAddress(Long id) {
         Optional<Address> optionalAddress = addressRepository.findById(id);
-        if(!optionalAddress.isPresent()){
+        if (!optionalAddress.isPresent()) {
             throw new AddressNotFoundException("Address not found");
         }
         addressRepository.deleteById(id);
-        logger.info("Address deleted successfully to user - " + optionalAddress.get().getUser().getEmail() + " or page - " + optionalAddress.get().getPage().getId());
+        logger.info("Address deleted successfully to user - " + optionalAddress.get().getUser().getEmail());
+        return new AddressDto(optionalAddress.get().getId(), optionalAddress.get().getCountry(), optionalAddress.get().getMunicipality(), optionalAddress.get().getCity());
     }
 
     @Override

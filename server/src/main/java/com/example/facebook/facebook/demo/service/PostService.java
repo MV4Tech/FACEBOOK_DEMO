@@ -11,13 +11,13 @@ import java.util.Set;
 public interface PostService {
     Optional<Post> getPostById(Long postId);
 
-    void addPost(Post post, Authentication authentication);
+    PostDto addPost(Post post, Authentication authentication);
 
     Set<PostDto> getAllPostsByUserId(Authentication authentication);
 
-    void deletePost(Long postId);
+    PostDto deletePost(Long postId,Authentication authentication);
 
-    void editPost(Post post, Long postId);
+    PostDto editPost(Post post, Long postId, Authentication authentication);
 
     void addPostPage(Post post, Authentication authentication);
 

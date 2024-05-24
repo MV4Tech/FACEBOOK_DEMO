@@ -6,7 +6,10 @@ import com.example.facebook.facebook.demo.exception.UserNotFoundException;
 import com.example.facebook.facebook.demo.model.User;
 import com.example.facebook.facebook.demo.repository.UserRepository;
 import com.example.facebook.facebook.demo.service.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final String FOLDER_PATH = "D:\\facebook\\images";
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public Long findUserIdByAuthentication(Authentication authentication) {
@@ -74,14 +78,20 @@ public class UserServiceImpl implements UserService {
     // get all users
     @Override
     public List<User> getAllUsers() {
+        logger.info("fetching no problem ...");
         List<User> users = userRepository.findAll();
+        logger.info("users");
         if(users.isEmpty()){
+            logger.info("No users found!");
             throw new UserNotFoundException("No users found!");
         }
+        logger.info("users found");
+        logger.info(users.get(0).getFirstName());
         return users;
     }
 
     @Override
+    @JsonIgnore
     public User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()){
@@ -91,12 +101,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public User deleteUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()){
             throw new UserNotFoundException("No user found with id: "+id+"!");
         }
         userRepository.deleteById(id);
+        return user.get();
     }
 
     @Override
