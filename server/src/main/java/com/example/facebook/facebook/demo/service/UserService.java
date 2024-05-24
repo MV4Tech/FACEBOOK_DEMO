@@ -26,7 +26,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    void deleteUserById(Long id);
+    User deleteUserById(Long id);
 
     UserProfileDto setUserProfileInfo(UserProfileDto userProfileDto,Authentication authentication);
 

@@ -43,7 +43,7 @@ public class PostServiceImpl implements PostService {
 
     // add post method
     @Override
-    public void addPost(Post post, Authentication authentication) {
+    public PostDto addPost(Post post, Authentication authentication) {
         long userId = userService.findUserIdByAuthentication(authentication);
         User user = userService.getUserById(userId);
         Post newPost = Post.builder()
@@ -54,6 +54,15 @@ public class PostServiceImpl implements PostService {
                         .build();
         postRepository.save(newPost);
         logger.info("Post added successfully with id - " + post.getId() + " by user id - "+ userId);
+        return PostDto.builder()
+                .postId(newPost.getId())
+                .userId(newPost.getUser().getId())
+                .firstName(newPost.getUser().getFirstName())
+                .lastName(newPost.getUser().getLastName())
+                .head(newPost.getPostHead())
+                .description(newPost.getDescription())
+                .dateOfPosting(newPost.getDateOfPosting())
+                .build();
     }
 
 
@@ -109,18 +118,45 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Long postId) {
-         postRepository.delete(getPostById(postId).get());
+    public PostDto deletePost(Long postId, Authentication authentication) {
+
+        Post post = getPostById(postId).get();
+        if(!isPostOwner(authentication,postId)) {
+            throw new PostNotFoundException("Post with id - " + postId + " not found");
+        }
+
+         postRepository.delete(post);
             logger.info("Post deleted successfully with id - " + postId);
+            return PostDto.builder()
+                    .postId(post.getId())
+                    .userId(post.getUser().getId())
+                    .firstName(post.getUser().getFirstName())
+                    .lastName(post.getUser().getLastName())
+                    .head(post.getPostHead())
+                    .description(post.getDescription())
+                    .dateOfPosting(post.getDateOfPosting())
+                    .build();
     }
 
     @Override
-    public void editPost(Post post, Long postId) {
+    public PostDto editPost(Post post, Long postId, Authentication authentication) {
+        if(!isPostOwner(authentication,postId)) {
+            throw new PostNotFoundException("Post with id - " + postId + " not found");
+        }
         Post postToEdit = getPostById(postId).get();
         postToEdit.setPostHead(post.getPostHead());
         postToEdit.setDescription(post.getDescription());
         postRepository.save(postToEdit);
         logger.info("Post edited successfully with id - " + postId);
+        return PostDto.builder()
+                .postId(postToEdit.getId())
+                .userId(postToEdit.getUser().getId())
+                .firstName(postToEdit.getUser().getFirstName())
+                .lastName(postToEdit.getUser().getLastName())
+                .head(postToEdit.getPostHead())
+                .description(postToEdit.getDescription())
+                .dateOfPosting(postToEdit.getDateOfPosting())
+                .build();
     }
 
     @Override
@@ -138,5 +174,11 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByPageId(pageId);
     }
 
+    public Boolean isPostOwner(Authentication authentication, Long postId){
+        long userId = userService.findUserIdByAuthentication(authentication);
+        User user = userService.getUserById(userId);
+        List<Long> postIds = postRepository.findAllByUserId(userId).stream().map(Post::getId).collect(Collectors.toList());
+        return postIds.contains(postId);
+    }
 
 }

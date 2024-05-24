@@ -21,9 +21,9 @@ public class CompanyController {
 
     // set User company controller
     @PostMapping("/add-company")
-    public ResponseEntity<Void> addCompany(@RequestBody @Valid Company company, Authentication authentication){
-        companyService.addCompany(company, authentication);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<CompanyDto> addCompany(@RequestBody @Valid Company company, Authentication authentication){
+       CompanyDto companyDto = companyService.addCompany(company, authentication);
+        return ResponseEntity.ok(companyDto);
     }
 
     // get all companies from user controller
@@ -33,15 +33,15 @@ public class CompanyController {
     }
 
     @DeleteMapping("/delete-company/{id}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable Long id){
-        companyService.deleteCompany(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<CompanyDto> deleteCompany(@PathVariable Long id, Authentication authentication){
+        CompanyDto companyDto = companyService.deleteCompany(id, authentication);
+        return ResponseEntity.ok(companyDto);
     }
 
     @PutMapping("/update-company/{id}")
-    public ResponseEntity<Void> updateCompany(@RequestBody @Valid Company company,@PathVariable Long id){
-        companyService.updateCompany(company,id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<CompanyDto> updateCompany(@RequestBody @Valid Company company,@PathVariable Long id, Authentication authentication){
+       CompanyDto companyDto = companyService.updateCompany(company,id,authentication);
+        return ResponseEntity.ok(companyDto);
     }
 
 

@@ -181,7 +181,7 @@ const AppBar = () => {
 
           <div className="col d-none d-xl-flex justify-content-end">
             <Dropdown className="custom-dropdown">
-              <Dropdown.Toggle variant="success" id="dropdown-basic" >
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
                 <div
                   className="
                         rounded-circle
@@ -201,14 +201,15 @@ const AppBar = () => {
                 >
                   <FontAwesomeIcon icon={faFacebookMessenger} />
                 </div>
-              </Dropdown.Toggle >
+              </Dropdown.Toggle>
 
-              <Dropdown.Menu className = "order-0 shadow p-5 mx-1 overflow-auto">
+              <Dropdown.Menu className="order-0 shadow p-5 mx-1 overflow-auto">
                 {/* Messagges*/}
                 <Dropdown.Item className="p-5">
                   <div className="d-flex justify-content-between">
                     <h2>Message</h2>
-                    <div>{/* new message */}
+                    <div>
+                      {/* new message */}
                       <FontAwesomeIcon icon={faPenToSquare} />
                     </div>
                   </div>
@@ -221,7 +222,11 @@ const AppBar = () => {
             {/* notifikaciq */}
 
             <Dropdown className="custom-dropdown">
-              <Dropdown.Toggle className="" variant="success" id="dropdown-basic">
+              <Dropdown.Toggle
+                className=""
+                variant="success"
+                id="dropdown-basic"
+              >
                 <div
                   className="
                   

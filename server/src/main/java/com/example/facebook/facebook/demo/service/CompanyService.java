@@ -9,11 +9,11 @@ import java.util.List;
 public interface CompanyService {
     public void save(Company company);
 
-    void addCompany(Company company, Authentication authentication);
+    CompanyDto addCompany(Company company, Authentication authentication);
 
     List<CompanyDto> getCompaniesByUserId(Authentication authentication);
 
-    void deleteCompany(Long id);
+    CompanyDto deleteCompany(Long id, Authentication authentication);
 
-    void updateCompany(Company company, Long id);
+    CompanyDto updateCompany(Company company, Long id, Authentication authentication);
 }

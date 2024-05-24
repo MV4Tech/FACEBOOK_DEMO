@@ -31,7 +31,7 @@ public class EducationServiceImpl implements EducationService{
     }
 
     @Override
-    public void addEducation(Education education, Authentication authentication) {
+    public EducationDto addEducation(Education education, Authentication authentication) {
         Education newEducation = new Education();
         Long id = userService.findUserIdByAuthentication(authentication);
         Optional<User> optionalUser = userService.findById(id);
@@ -45,6 +45,7 @@ public class EducationServiceImpl implements EducationService{
         newEducation.setUser(optionalUser.get());
         educationRepository.save(newEducation);
         logger.info("Education added successfully to user - " + optionalUser.get().getEmail());
+        return new EducationDto(newEducation.getId(), newEducation.getName(), newEducation.getTypeOfSchool(), newEducation.getStartedDate(), newEducation.getGraduationDate());
     }
 
     @Override
@@ -68,18 +69,25 @@ public class EducationServiceImpl implements EducationService{
     }
 
     @Override
-    public void deleteEducation(Long id) {
+    public EducationDto deleteEducation(Long id, Authentication authentication) {
         Optional<Education> optionalEducation = educationRepository.findById(id);
+        if(!isEducationBelongToUser(authentication, id)){
+            throw new UserNotFoundException("Education does not belong to user");
+        }
         if(!optionalEducation.isPresent()){
             throw new UserNotFoundException("Education not found");
         }
         educationRepository.deleteById(id);
         logger.info("Education deleted successfully");
+        return new EducationDto(optionalEducation.get().getId(), optionalEducation.get().getName(), optionalEducation.get().getTypeOfSchool(), optionalEducation.get().getStartedDate(), optionalEducation.get().getGraduationDate());
     }
 
     @Override
-    public void updateEducation(Education education, Long id) {
+    public EducationDto updateEducation(Education education, Long id, Authentication authentication) {
         Optional<Education> optionalEducation = educationRepository.findById(id);
+        if(!isEducationBelongToUser(authentication, id)){
+            throw new UserNotFoundException("Education does not belong to user");
+        }
         if(!optionalEducation.isPresent()){
             throw new UserNotFoundException("Education not found");
         }
@@ -90,5 +98,15 @@ public class EducationServiceImpl implements EducationService{
         updatedEducation.setGraduationDate(education.getGraduationDate());
         educationRepository.save(updatedEducation);
         logger.info("Education updated successfully to user - " + optionalEducation.get().getUser().getEmail());
+        return new EducationDto(updatedEducation.getId(), updatedEducation.getName(), updatedEducation.getTypeOfSchool(), updatedEducation.getStartedDate(), updatedEducation.getGraduationDate());
+    }
+
+    public Boolean isEducationBelongToUser(Authentication authentication, Long educationId){
+        Long userId = userService.findUserIdByAuthentication(authentication);
+        Optional<User> optionalUser = userService.findById(userId);
+        List<Long> educationsIds = optionalUser.get().getEducations().stream()
+                .map(Education::getId)
+                .collect(java.util.stream.Collectors.toList());
+        return educationsIds.contains(educationId);
     }
 }

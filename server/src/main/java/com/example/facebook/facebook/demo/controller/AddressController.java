@@ -21,9 +21,9 @@ public class AddressController {
 
     // set User address controller
     @PostMapping("/add-address")
-    public ResponseEntity<Void> addAddress(@RequestBody @Valid Address address,Authentication authentication) {
-           addressService.addAddress(address, authentication);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<AddressDto> addAddress(@RequestBody @Valid Address address,Authentication authentication) {
+          AddressDto addressDto = addressService.addAddress(address, authentication);
+        return ResponseEntity.ok(addressDto);
     }
 
     // get all addresses from user controller
@@ -34,22 +34,23 @@ public class AddressController {
 
     // update address controller
     @PutMapping("/update-address/{id}")
-    public ResponseEntity<Void> updateAddress(@RequestBody @Valid Address address,@PathVariable Long id){
-        addressService.updateAddress(address,id);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<AddressDto> updateAddress(@RequestBody @Valid Address address,@PathVariable Long id, Authentication authentication){
+        AddressDto addressDto = addressService.updateAddress(address,id, authentication);
+        return ResponseEntity.ok(addressDto);
     }
 
     // delete address controller
     @DeleteMapping("/delete-address/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable Long id){
-        addressService.deleteAddress(id);
-        return  ResponseEntity.noContent().build();
+    public ResponseEntity<AddressDto> deleteAddress(@PathVariable Long id){
+        AddressDto addressDto = addressService.deleteAddress(id);
+        return ResponseEntity.ok(addressDto);
     }
 
 
 
 
     // set Page address controller
+    //TODO: add address to page POSTMAN WE
     @PostMapping("/add-address-page")
     public ResponseEntity<Void> addAddressPage(@RequestBody @Valid Address address, Authentication authentication){
         addressService.addAddressPage(authentication,address);
@@ -60,8 +61,8 @@ public class AddressController {
 
     // update Page address controller
     @PutMapping("/update-address-page/{id}")
-    public ResponseEntity<Void> updateAddressPage(@RequestBody @Valid Address address,@PathVariable Long id){
-        addressService.updateAddress(address,id);
+    public ResponseEntity<Void> updateAddressPage(@RequestBody @Valid Address address,@PathVariable Long id, Authentication authentication){
+        addressService.updateAddress(address,id, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

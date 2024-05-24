@@ -21,9 +21,9 @@ public class EducationController {
 
     // set User education controller
     @PostMapping("/add-education")
-    public ResponseEntity<Void> addEducation(@RequestBody @Valid Education education, Authentication authentication){
-        educationService.addEducation(education, authentication);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<EducationDto> addEducation(@RequestBody @Valid Education education, Authentication authentication){
+        EducationDto educationDto = educationService.addEducation(education, authentication);
+        return ResponseEntity.ok(educationDto);
     }
 
     @GetMapping("/get-educations")
@@ -32,15 +32,15 @@ public class EducationController {
     }
 
     @DeleteMapping("/delete-education/{id}")
-    public ResponseEntity<Void> deleteEducation(@PathVariable Long id){
-        educationService.deleteEducation(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<EducationDto> deleteEducation(@PathVariable Long id, Authentication authentication){
+       EducationDto educationDto = educationService.deleteEducation(id, authentication);
+        return ResponseEntity.ok(educationDto);
     }
 
     @PutMapping("/update-education/{id}")
-    public ResponseEntity<Void> updateEducation(@RequestBody @Valid Education education,@PathVariable Long id){
-        educationService.updateEducation(education,id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<EducationDto> updateEducation(@RequestBody @Valid Education education,@PathVariable Long id, Authentication authentication){
+        EducationDto educationDto = educationService.updateEducation(education,id, authentication);
+        return ResponseEntity.ok(educationDto);
     }
 
 }

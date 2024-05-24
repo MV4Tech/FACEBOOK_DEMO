@@ -64,12 +64,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Address> addresses;
 
     @Column
     @OneToMany(mappedBy="user",fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Education> educations;
 
 
@@ -84,6 +86,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Company> companies;
 
 
@@ -91,26 +94,31 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<UserPageRelation> userPageRelations;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
      private Set<Photo> photos;
 
     @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
      private Set<Video> videos;
 
     @Column
     @OneToMany(mappedBy = "receiver", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("receiver")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Notification> notifications;
 
     @Column
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("sender")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Notification> sentNotifications;
 
 
