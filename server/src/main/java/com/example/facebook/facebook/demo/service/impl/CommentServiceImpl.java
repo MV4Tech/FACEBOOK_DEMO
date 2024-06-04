@@ -43,6 +43,17 @@ public class CommentServiceImpl implements CommentService {
             comment.setDateOfMessaging(LocalDateTime.now());
             comment.setIsEdited(false);
             commentRepository.save(comment);
+            // check if receiver is user or page
+            if(post.getUser() == null){
+                Notification notification = Notification.builder()
+                        .sender(user)
+                        .receiver(post.getPage().getOwner())
+                        .message(user.getFirstName() + " " + user.getLastName() + " commented on your post " + post.getPostHead())
+                        .sentTime(comment.getDateOfMessaging())
+                        .build();
+                notificationService.sendNotification(notification,authentication);
+                return;
+            }
 
         Notification notification = Notification.builder()
                 .sender(user)

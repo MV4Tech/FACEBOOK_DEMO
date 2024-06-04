@@ -14,13 +14,13 @@ public interface PageService {
 
     void deletePage(Long id);
 
-    String setProfileImage(MultipartFile file, Long id) throws IOException;
+    String setProfileImage(MultipartFile file,Long pageId) throws IOException;
+//
+    byte[] displayProfileImage(long id) throws IOException;
 
-    byte[] displayProfileImage(long id);
-
-    String setCoverImage(MultipartFile file, long id) throws IOException;
-
-    byte[] displayCoverImage(long id);
+   String setCoverImage(MultipartFile file, long pageId) throws IOException;
+//
+    byte[] displayCoverImage(long pageId) throws IOException;
 
     Page getPageByOwnerId(Long id);
 }
