@@ -26,6 +26,7 @@ public class PageController {
     }
 
     // delete page controller
+    // we cant, and we don't want to delete our page
     @DeleteMapping("/delete-page/{id}")
     public ResponseEntity<Void> deletePage(@PathVariable Long id){
         pageService.deletePage(id);
@@ -33,32 +34,32 @@ public class PageController {
     }
 
     // add profile picture controller
-    @PostMapping("/add-profile-picture/{id}")
-    public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file, @PathVariable Long id) throws IOException {
-        String uploadMessage = pageService.setProfileImage(file,id);
+    @PostMapping("/add-profile-picture/{pageId}")
+    public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile file, @PathVariable("pageId") Long pageId) throws IOException {
+        String uploadMessage = pageService.setProfileImage(file,pageId);
 
         return ResponseEntity.status(HttpStatus.OK).body(uploadMessage);
     }
 
     // display profile picture controller
-    @GetMapping("/display-profile-picture/{id}")
-    public ResponseEntity<byte[]> displayProfileImage(@PathVariable("id") long id) {
-        byte[] imageBytes = pageService.displayProfileImage(id);
+    @GetMapping("/display-profile-picture/{pageId}")
+    public ResponseEntity<byte[]> displayProfileImage(@PathVariable("pageId") long pageId) throws IOException {
+        byte[] imageBytes = pageService.displayProfileImage(pageId);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 
     // add cover picture controller
-    @PostMapping("/add-cover-picture/{id}")
-    public ResponseEntity<?> addCoverImage(@RequestParam("image") MultipartFile file,@PathVariable long id) throws IOException {
-        String uploadMessage = pageService.setCoverImage(file,id);
+    @PostMapping("/add-cover-picture/{pageId}")
+    public ResponseEntity<?> addCoverImage(@RequestParam("image") MultipartFile file,@PathVariable long pageId) throws IOException {
+        String uploadMessage = pageService.setCoverImage(file,pageId);
 
         return ResponseEntity.status(HttpStatus.OK).body(uploadMessage);
     }
 
     // display cover picture controller
-    @GetMapping("/display-cover-picture/{id}")
-    public ResponseEntity<byte[]> displayCover(@PathVariable("id") long id) {
-        byte[] imageBytes = pageService.displayCoverImage(id);
+    @GetMapping("/display-cover-picture/{pageId}")
+    public ResponseEntity<byte[]> displayCover(@PathVariable("pageId") long pageId) throws IOException {
+        byte[] imageBytes = pageService.displayCoverImage(pageId);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 

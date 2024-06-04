@@ -45,6 +45,7 @@ public class FriendshipController {
         return ResponseEntity.ok(friendshipService.getAllFriendshipRequests(authentication));
     }
 
+    // get all friends
     @GetMapping("/all-friends")
     public ResponseEntity<List<FriendshipDto>> getAllFriendsByUserId(Authentication authentication){
         return ResponseEntity.ok(friendshipService.getAllFriendsByUserId(authentication));

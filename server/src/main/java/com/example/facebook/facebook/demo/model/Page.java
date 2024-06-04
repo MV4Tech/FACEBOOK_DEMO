@@ -31,13 +31,12 @@ public class Page {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @Lob
-    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
-    private byte[] profilePicture;
+    @Column(name = "profile_picture_path", nullable = false)
+    private String profilePicturePath;
 
-    @Lob
-    @Column(name = "cover_picture", columnDefinition = "LONGBLOB")
-    private byte[] coverPhoto;
+
+    @Column(name = "cover_picture_path", nullable = false)
+        private String coverPicturePath;
 
     @Digits(integer = 10, fraction = 0)
     @Column

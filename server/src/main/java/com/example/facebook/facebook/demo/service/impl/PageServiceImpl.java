@@ -15,7 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -25,7 +27,7 @@ public class PageServiceImpl implements PageService {
     private final PageRepository pageRepository;
     private final UserPageRelationService userPageRelationService;
     private static final Logger logger = LoggerFactory.getLogger(PageServiceImpl.class);
-
+    private final String FOLDER_PATH = "D:\\facebook\\images";
     @Override
     public Long findPageIdByAuthentication(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -72,36 +74,60 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public String setProfileImage(MultipartFile file, Long id) throws IOException {
+    public String setProfileImage(MultipartFile file, Long pageId) throws IOException {
 
-        byte[] bytes = file.getBytes();
-       Page page = getPageById(id);
-        page.setProfilePicture(bytes);
+        String filePaths = FOLDER_PATH + "\\" + file.getOriginalFilename();
+        file.transferTo(new File(filePaths));
+        Long id = getPageById(pageId).getId();
+
+        Optional<Page> optionalPage = pageRepository.findById(id);
+
+        Page page = optionalPage.get();
+        page.setProfilePicturePath(filePaths);
         pageRepository.save(page);
         return "Profile picture uploaded successfully!";
 
     }
 
     @Override
-    public byte[] displayProfileImage(long id) {
-        Page page = getPageById(id);
-        byte[] image = page.getProfilePicture();
+    public byte[] displayProfileImage(long pageId) throws IOException {
+
+        Long id = getPageById(pageId).getId();
+
+        Optional<Page> optionalPage = pageRepository.findById(id);
+
+        Page page = optionalPage.get();
+
+        String filePath = page.getProfilePicturePath();
+
+        byte[] image = Files.readAllBytes(new File(filePath).toPath());
         return image;
     }
 
     @Override
-    public String setCoverImage(MultipartFile file, long id) throws IOException {
-        byte[] bytes = file.getBytes();
-        Page page = getPageById(id);
-        page.setCoverPhoto(bytes);
+    public String setCoverImage(MultipartFile file, long pageId) throws IOException {
+        String filePaths = FOLDER_PATH + "\\" + file.getOriginalFilename();
+        file.transferTo(new File(filePaths));
+        Long id = getPageById(pageId).getId();
+
+        Optional<Page> optionalPage = pageRepository.findById(id);
+
+        Page page = optionalPage.get();
+        page.setCoverPicturePath(filePaths);
         pageRepository.save(page);
         return "Cover picture uploaded successfully!";
     }
 
     @Override
-    public byte[] displayCoverImage(long id) {
-        Page page = getPageById(id);
-        byte[] image = page.getCoverPhoto();
+    public byte[] displayCoverImage(long pageId) throws IOException {
+        Long id = getPageById(pageId).getId();
+
+        Optional<Page> optionalPage = pageRepository.findById(id);
+
+        Page page = optionalPage.get();
+
+        String filePath = page.getCoverPicturePath();
+        byte[] image = Files.readAllBytes(new File(filePath).toPath());
         return image;
     }
 

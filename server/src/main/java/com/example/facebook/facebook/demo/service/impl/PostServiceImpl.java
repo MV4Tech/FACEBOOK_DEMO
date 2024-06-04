@@ -163,7 +163,9 @@ public class PostServiceImpl implements PostService {
     public void addPostPage(Post post, Authentication authentication) {
 
         User pageOwner = (User) authentication.getPrincipal();
+        logger.info("Page owner found with id - " + pageOwner.getId());
         Page page = pageService.getPageByOwnerId(pageOwner.getId());
+        logger.info("Page found with id - " + page.getId());
         post.setPage(page);
         postRepository.save(post);
         logger.info("Post added successfully with id - " + post.getId() + " by page id - " + post.getPage().getId());
