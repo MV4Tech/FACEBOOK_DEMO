@@ -16,18 +16,17 @@ import Feed from './pages/Feed/Feed';
 const App = createBrowserRouter(
   createRoutesFromElements(
     <>
-        {/* <Route element={<AuthGuardWhenLogout />}> */}
+        <Route element={<AuthGuardWhenLogout />}>
           <Route path="/">
-            <Route index element={<Home />} />
+            <Route index element={<Login />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="feed" element={<Feed />} />
+        
           </Route>
-
-        {/* </Route> */}
-           {/* <Route element={<AuthGuardWhenLogin />}> */}
-          
-        {/* </Route> */}
+        </Route> 
+           <Route element={<AuthGuardWhenLogin />}> 
+           <Route path="feed" element={<Feed />} />
+        </Route> 
     </>
   )
 );

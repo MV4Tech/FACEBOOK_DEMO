@@ -3,7 +3,7 @@ import storageService from "../services/storage-service";
 
 const AuthGuardWhenLogout = () => {
     return (
-        !storageService.retrieveAccessToken() ? <Outlet/> : <Navigate to="/dashboard"/>
+        !storageService.retrieveAccessToken() ? <Outlet/> : <Navigate to="/feed"/>
     );
 };
 export default AuthGuardWhenLogout;
