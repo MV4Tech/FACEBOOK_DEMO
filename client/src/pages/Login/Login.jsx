@@ -34,7 +34,7 @@ const submit = async (e) => {
   try {
       await authService.makeLoginRequest(loginRequest);
      
-      navigate("/");
+      navigate("/feed");
   } catch (error) {
     console.log(error.response.data.errors);
      const errorMessage = error.response.data.errors[0];

@@ -37,7 +37,7 @@ public class SecurityConfiguration {
     * All the http requests will be filtered by this filter chain.
     *
      */
-    @Bean
+      @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())

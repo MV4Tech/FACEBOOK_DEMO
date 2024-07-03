@@ -5,7 +5,10 @@ import storageService from "./storage-service";
 
 class AuthService extends WebApiService {
   async makeLoginRequest(loginRequest) {
-    let response = await axios.post(SERVER_URL + "api/v1/auth/authenticate",loginRequest);
+    let response = await axios.post(
+      SERVER_URL + "api/v1/auth/authenticate",
+      loginRequest
+    );
 
     if (response.status != 200) {
       throw "Error: " + response.data.message;
@@ -37,13 +40,14 @@ class AuthService extends WebApiService {
 */
 
   async makeRegisterRequest(user) {
+    const response = await axios.post(
+      SERVER_URL + "api/v1/auth/register",
+      user
+    );
 
-      const response = await axios.post(SERVER_URL+"api/v1/auth/register",user);
-
-      if(response.status != 200){
-        throw "Error: "+ response.data;
-      }
-
+    if (response.status != 200) {
+      throw "Error: " + response.data;
+    }
   }
 
   async renewToken() {
@@ -64,18 +68,20 @@ class AuthService extends WebApiService {
     storageService.saveTokenExpiresDate(currentDate);
   }
 
-  logoutRequest(){
+  logoutRequest() {
+    const response = axios.post(
+      SERVER_URL + "api/v1/auth/logout",
+      {},
+      this.generateHeader()
+    );
 
-    const response = axios.post(SERVER_URL+"api/v1/auth/logout",{}, this.generateHeader());
-
-    if(response.status == 200){
-      console.log("Status: "+ response.status)
+    if (response.status == 200) {
+      console.log("Status: " + response.status);
     }
-    if(response.status != 200){
-      console.log("Status: "+ response.status)
+    if (response.status != 200) {
+      console.log("Status: " + response.status);
     }
     return response;
-
   }
 }
 
